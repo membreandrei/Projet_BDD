@@ -8,6 +8,33 @@ public class ProgrammeurBean {
     private float prime;
     private float salaire;
     private String pseudo;
+    private String adresse;
+    private String responsable;
+    private String hobby;
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
 
     public String getNom() {
         return nom;
@@ -59,13 +86,15 @@ public class ProgrammeurBean {
 
     @Override
     public String toString() {
-        return "ProgrammeurBean{" +
-                "nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", anNaissance=" + anNaissance +
-                ", prime=" + prime +
-                ", salaire=" + salaire +
-                ", pseudo='" + pseudo + '\'' +
-                '}';
+        return  "Nom : " + nom + '\n' +
+                "Prenom : " + prenom + '\n' +
+                "Année de Naissance : " + anNaissance + '\n' +
+                "Prime : " + prime + '\n' +
+                "Salaire : " + salaire + '\n' +
+                "Pseudo : " + pseudo + '\n' +
+                "Adresse : " + adresse + '\n' +
+                "Responsable : " + responsable + '\n' +
+                "Hobby : " + hobby + '\n' +
+                "\n";
     }
 }

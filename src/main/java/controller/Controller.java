@@ -1,6 +1,7 @@
 package controller;
 
 import model.ActionsBDD;
+import model.ProgrammeurBean;
 import view.BasePanel;
 import view.MenuView;
 import view.ResultatView;
@@ -33,8 +34,10 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.identificator.get("Afficher tous les programmeurs"))){
-
-            this.rv.editText(this.model.getProgrammeurs().toString());
+            String text = "";
+            for (ProgrammeurBean prog : this.model.getProgrammeurs())
+                text += prog.toString();
+            this.rv.editText(text);
         }
     }
 }

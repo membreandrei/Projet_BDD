@@ -45,7 +45,7 @@ public class ActionsBDD {
 
     public ResultSet getResultSet(Statement stmt) {
         try {
-            rs = stmt.executeQuery("SELECT NOM,PRENOM from PROGRAMMEUR");
+            rs = stmt.executeQuery("SELECT * from PROGRAMMEUR");
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,6 +72,14 @@ public class ActionsBDD {
             while (rs.next()) {
                 prog = new ProgrammeurBean();
                 prog.setPrenom(rs.getString("PRENOM"));
+                prog.setAnNaissance(Integer.parseInt(rs.getString("ANNAISSANCE")));
+                prog.setNom(rs.getString("NOM"));
+                prog.setPrime(Float.parseFloat(rs.getString("PRIME")));
+                prog.setPseudo(rs.getString("PSEUDO"));
+                prog.setSalaire(Float.parseFloat(rs.getString("SALAIRE")));
+                prog.setAdresse(rs.getString("ADRESSE"));
+                prog.setResponsable(rs.getString("RESPONSABLE"));
+                prog.setHobby(rs.getString("HOBBY"));
                 listeProg.add(prog);
             }
 

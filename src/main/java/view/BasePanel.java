@@ -54,9 +54,8 @@ public class BasePanel extends ViewPanel {
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
-        gbc.gridx = 2;
+        gbc.gridx = 1;
         gbc.gridy = 0;
         this.add(this.rv, gbc);
-        //setContentPane(basePanel);
     }
 }
