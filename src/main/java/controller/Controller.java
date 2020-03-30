@@ -1,15 +1,40 @@
 package controller;
 
-import model.*;
+import model.ActionsBDD;
+import view.BasePanel;
+import view.MenuView;
+import view.ResultatView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 public class Controller implements ActionListener {
+    private MenuView mv;
+    private ResultatView rv;
+    private HashMap<String, JButton> identificator;
+    private ActionsBDD model;
+
+    public Controller(BasePanel bp){
+        this.mv = bp.getMv();
+        this.rv = bp.getRv();
+        this.fillHashMap();
+        this.model = new ActionsBDD();
+    }
+
+    private void fillHashMap(){
+        this.identificator = new HashMap<String, JButton>();
+        for (JButton button : this.mv.getAllButtons()){
+            this.identificator.put(button.getText(), button);
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(this.identificator.get("Afficher tous les programmeurs"))){
 
+            this.rv.editText(this.model.getProgrammeurs().toString());
+        }
     }
-
 }

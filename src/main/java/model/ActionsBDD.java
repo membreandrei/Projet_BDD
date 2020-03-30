@@ -20,6 +20,10 @@ public class ActionsBDD {
     Statement stmt;
     ResultSet rs;
 
+
+    public ActionsBDD() {
+    }
+
     public Connection getConnection() {
         try {
             conn = DriverManager.getConnection(url, user, password);
@@ -37,6 +41,7 @@ public class ActionsBDD {
         }
         return stmt;
     }
+
 
     public ResultSet getResultSet(Statement stmt) {
         try {
@@ -75,6 +80,5 @@ public class ActionsBDD {
         }
         return listeProg;
     }
-
 }
 
