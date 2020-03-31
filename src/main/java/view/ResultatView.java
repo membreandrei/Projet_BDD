@@ -1,10 +1,11 @@
 package view;
 
+import javafx.scene.layout.Border;
 import model.ProgrammeurBean;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class ResultatView extends ViewPanel {
             data2[index][2] = prog.getNom().toUpperCase();
             data2[index][3] = prog.getPrenom();
         }
+
         JTable table = new JTable(data2, colNames){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -56,27 +58,22 @@ public class ResultatView extends ViewPanel {
             }
         };
 
-        sp = null;
-        sp = new JScrollPane(table);
-        sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030")));
-        sp.getViewport().setBackground(Color.decode("#424242"));
         table.setBackground(Color.decode("#424242"));
         table.setForeground(Color.white);
         table.setFocusable(false);
         table.getTableHeader().setBackground(Color.decode("#424242"));
         table.getTableHeader().setForeground(Color.white);
+        table.setBorder(new MatteBorder(0,1,1,1,Color.WHITE));
+        table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE,1));
+        table.setIntercellSpacing(new Dimension(10,0));
 
+        sp = new JScrollPane(table);
+        sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"),1));
+        sp.getViewport().setBackground(Color.decode("#424242"));
+        sp.setBackground(Color.decode("#424242"));
+        sp.setBorder(new EmptyBorder(10,10,10,10));
 
-        this.setLayout(new GridBagLayout());
-        GridBagLayout gbl = (GridBagLayout) this.getLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 0;
-        gbc.weighty = 0.5;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        sp.setSize(this.getSize());
-        this.add(sp, gbc);
+        this.add(sp);
     }
 
     private void deleteOne() {
