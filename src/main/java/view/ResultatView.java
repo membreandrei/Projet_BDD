@@ -6,8 +6,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.WeakHashMap;
+import java.util.TreeMap;
 
 public class ResultatView extends ViewPanel {
 
@@ -42,7 +41,7 @@ public class ResultatView extends ViewPanel {
         addComponent(sp);
     }
 
-    private void displayOne(WeakHashMap<Integer, ProgrammeurBean> informations) {
+    private void displayOne(TreeMap<Integer, ProgrammeurBean> informations) {
         String[] colNames = {"", "ID", "NOM", "PRENOM"};
         Object[][] data = new Object[informations.size()][4];
         int index = 0;
@@ -95,7 +94,7 @@ public class ResultatView extends ViewPanel {
 
     }
 
-    public void modifyPanel(Integer type, WeakHashMap<Integer, ProgrammeurBean> data) {
+    public void modifyPanel(Integer type, TreeMap<Integer, ProgrammeurBean> data) {
         this.removeAll();
         this.revalidate();
         this.repaint();

@@ -6,14 +6,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.WeakHashMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ActionsBDDImpl {
 
-    private WeakHashMap<Integer, ProgrammeurBean> listeProg = new WeakHashMap<Integer, ProgrammeurBean>();
+    private TreeMap<Integer, ProgrammeurBean> listeProg = new TreeMap<Integer, ProgrammeurBean>();
     private ProgrammeurBean prog;
     private ActionsBDD action = new ActionsBDD();
     private Connection conn;
@@ -42,7 +41,7 @@ public class ActionsBDDImpl {
         return prog;
     }
 
-    public WeakHashMap<Integer, ProgrammeurBean> getProgrammeurs() {
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurs() {
         this.listeProg.clear();
         try {
             this.conn = this.action.getConnection();
@@ -60,7 +59,7 @@ public class ActionsBDDImpl {
     }
 
     //TODO À déplacer dans ProgrammeurBean
-    public WeakHashMap<Integer, ProgrammeurBean> getListeProg() {
-        return listeProg;
+    public TreeMap<Integer, ProgrammeurBean> getListeProg() {
+        return this.listeProg;
     }
 }

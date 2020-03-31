@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 //TODO: Peut-être factoriser tout ça ?
 
-public class ProgrammeurView extends JPanel {
+public class ProgrammeurView extends JFrame {
 
     private ArrayList<JLabel> allLabels = new ArrayList<JLabel>();
     private ArrayList<JTextField> allTextFields = new ArrayList<JTextField>();
