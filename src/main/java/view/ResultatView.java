@@ -68,7 +68,6 @@ public class ResultatView extends ViewPanel {
         table.getTableHeader().setForeground(Color.white);
         table.setBorder(new MatteBorder(0,1,1,1,Color.WHITE));
         table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE,1));
-        table.setIntercellSpacing(new Dimension(10,0));
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         table.addMouseListener(fm.getBasePanel().getController());

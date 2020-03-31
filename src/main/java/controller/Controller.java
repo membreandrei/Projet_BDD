@@ -3,10 +3,7 @@ package controller;
 import model.ActionsBDD;
 import model.ActionsBDDImpl;
 import model.ProgrammeurBean;
-import view.BasePanel;
-import view.MenuView;
-import view.ProgrammeurView;
-import view.ResultatView;
+import view.*;
 
 import javax.swing.*;
 import javax.xml.transform.Result;
@@ -72,12 +69,10 @@ public class Controller implements ActionListener, MouseListener {
     public void mouseClicked(MouseEvent e) {
         JTable laTable = (JTable) e.getSource();
         Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
+        ProgrammeurBean prog = this.model.getListeProg().get(targetId);
+        ProgrammeurView pv = new ProgrammeurView(prog);
 
-        ProgrammeurView pv = new ProgrammeurView(this.model.getListeProg().get(targetId));
-        JOptionPane jop = new JOptionPane();
-        jop.setForeground(Color.BLACK);
-        jop.setBackground(Color.BLACK);
-        JOptionPane.showMessageDialog(null, pv);
+        FenetreMere fm = new FenetreMere(prog.getNom().toUpperCase() + " " + prog.getPrenom(), pv);
 
     }
 
