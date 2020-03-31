@@ -25,5 +25,7 @@ public class FenetreMere extends JFrame {
         this.setVisible(true);
     }
 
-
+    public BasePanel getBasePanel() {
+        return basePanel;
+    }
 }

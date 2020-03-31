@@ -13,7 +13,7 @@ public abstract class ViewPanel extends JPanel {
         button.addActionListener(controller);
     }
     protected void addListener(Controller controller, JTable table){
-        table.addMouseListener((MouseListener) controller);
+        table.addMouseListener(controller);
     }
 
     protected void addComponent(JComponent component) {

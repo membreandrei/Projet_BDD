@@ -1,15 +1,12 @@
 package view;
 
-import javafx.scene.layout.Border;
 import model.ProgrammeurBean;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.concurrent.Flow;
 
 public class ResultatView extends ViewPanel {
 
@@ -66,6 +63,11 @@ public class ResultatView extends ViewPanel {
         table.setBorder(new MatteBorder(0,1,1,1,Color.WHITE));
         table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE,1));
         table.setIntercellSpacing(new Dimension(10,0));
+
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        this.addListener(fm.getBasePanel().getController(), table);
+
+        //this.addListener(this.getParent());
 
         sp = new JScrollPane(table);
         sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"),1));

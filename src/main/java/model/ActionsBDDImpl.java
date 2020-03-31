@@ -57,4 +57,9 @@ public class ActionsBDDImpl {
         }
         return this.listeProg;
     }
+
+    //TODO À déplacer dans ProgrammeurBean
+    public ArrayList<ProgrammeurBean> getListeProg() {
+        return listeProg;
+    }
 }

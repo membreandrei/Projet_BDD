@@ -5,15 +5,18 @@ import model.ActionsBDDImpl;
 import model.ProgrammeurBean;
 import view.BasePanel;
 import view.MenuView;
+import view.ProgrammeurView;
 import view.ResultatView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Controller implements ActionListener {
+public class Controller implements ActionListener, MouseListener {
     private MenuView mv;
     private ResultatView rv;
     private HashMap<String, JButton> identificator;
@@ -60,5 +63,32 @@ public class Controller implements ActionListener {
         if (e.getSource().equals(this.identificator.get("Quitter le programme"))) {
             System.exit(0);
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println(e.getPoint());
+        System.out.println(e.getComponent().getClass().);
+        //new ProgrammeurView(this.model.getListeProg().get(e.));
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

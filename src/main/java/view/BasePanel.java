@@ -40,6 +40,10 @@ public class BasePanel extends ViewPanel {
         this.rv = rv;
     }
 
+    public Controller getController() {
+        return controller;
+    }
+
     private void createLayout() {
 
         //On créé d'abord la zone dédiée au menu
