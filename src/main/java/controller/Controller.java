@@ -6,6 +6,7 @@ import view.BasePanel;
 import view.MenuView;
 import view.ProgrammeurView;
 import view.ResultatView;
+import view.FenetreMere;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
