@@ -2,6 +2,7 @@ package model;
 
 public class ProgrammeurBean {
 
+    private Integer id;
     private String nom;
     private String prenom;
     private int anNaissance;
@@ -11,6 +12,14 @@ public class ProgrammeurBean {
     private String adresse;
     private String responsable;
     private String hobby;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getAdresse() {
         return adresse;
@@ -86,7 +95,8 @@ public class ProgrammeurBean {
 
     @Override
     public String toString() {
-        return  "Nom : " + nom + '\n' +
+        return  "Id : " + id + '\n' +
+                "Nom : " + nom + '\n' +
                 "Prenom : " + prenom + '\n' +
                 "Année de Naissance : " + anNaissance + '\n' +
                 "Prime : " + prime + '\n' +

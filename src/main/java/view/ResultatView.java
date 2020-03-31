@@ -1,7 +1,14 @@
 package view;
 
+import model.ProgrammeurBean;
+
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.concurrent.Flow;
 
 public class ResultatView extends ViewPanel {
 
@@ -11,19 +18,96 @@ public class ResultatView extends ViewPanel {
     public ResultatView() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createLineBorder(Color.decode("#303030")));
-        this.resultArea.setMargin(new Insets(10,10,10,10));
+        this.setBackground(Color.decode("#424242"));
+    }
+
+    public void editText(String text) {
+        this.resultArea.setText(text);
+        this.resultArea.setCaretPosition(0);
+    }
+
+    private void displayAll() {
+        this.resultArea.setText("");
+        this.resultArea.setMargin(new Insets(10, 10, 10, 10));
         this.resultArea.setBackground(Color.decode("#424242"));
         this.resultArea.setForeground(Color.white);
         this.resultArea.setLineWrap(true);
         this.resultArea.setEditable(false);
         sp = new JScrollPane(resultArea);
-        //sp.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
+        sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030")));
         addComponent(sp);
     }
 
-    public void editText(String text){
-        this.resultArea.setText(text);
-        this.resultArea.setCaretPosition(0);
+    private void displayOne(ArrayList<ProgrammeurBean> informations) {
+        String[] colNames = {"", "ID", "NOM", "PRENOM"};
+        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+        Object[][] data2 = new Object[informations.size()][4];
+        for (ProgrammeurBean prog : informations) {
+            Integer index = informations.indexOf(prog);
+            data2[index][0] = "//////";
+            data2[index][1] = prog.getId();
+            data2[index][2] = prog.getNom().toUpperCase();
+            data2[index][3] = prog.getPrenom();
+        }
+        JTable table = new JTable(data2, colNames){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        sp = null;
+        sp = new JScrollPane(table);
+        sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030")));
+        sp.getViewport().setBackground(Color.decode("#424242"));
+        table.setBackground(Color.decode("#424242"));
+        table.setForeground(Color.white);
+        table.setFocusable(false);
+        table.getTableHeader().setBackground(Color.decode("#424242"));
+        table.getTableHeader().setForeground(Color.white);
+
+
+        this.setLayout(new GridBagLayout());
+        GridBagLayout gbl = (GridBagLayout) this.getLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0;
+        gbc.weighty = 0.5;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        sp.setSize(this.getSize());
+        this.add(sp, gbc);
+    }
+
+    private void deleteOne() {
+
+    }
+
+    private void addOne() {
+
+    }
+
+    private void editWage() {
+
+    }
+
+    public void modifyPanel(Integer type, ArrayList<ProgrammeurBean> data) {
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
+        //System.out.println(data.get(0).getNom());
+        switch (type) {
+            case 0:
+                displayAll();
+                break;
+            case 1:
+                displayOne(data);
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+        }
     }
 
 }

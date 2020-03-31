@@ -10,6 +10,7 @@ import view.ResultatView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Controller implements ActionListener {
@@ -18,30 +19,45 @@ public class Controller implements ActionListener {
     private HashMap<String, JButton> identificator;
     private ActionsBDDImpl model;
 
-    public Controller(BasePanel bp){
+    public Controller(BasePanel bp) {
         this.mv = bp.getMv();
         this.rv = bp.getRv();
         this.fillHashMap();
         this.model = new ActionsBDDImpl();
     }
 
-    private void fillHashMap(){
+    private void fillHashMap() {
         this.identificator = new HashMap<String, JButton>();
-        for (JButton button : this.mv.getAllButtons()){
+        for (JButton button : this.mv.getAllButtons()) {
             this.identificator.put(button.getText(), button);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(this.identificator.get("Afficher tous les programmeurs"))){
+        if (e.getSource().equals(this.identificator.get("Afficher tous les programmeurs"))) {
+            ArrayList<ProgrammeurBean> data = this.model.getProgrammeurs();
+            this.rv.modifyPanel(0, data);
             String text = "";
             for (ProgrammeurBean prog : this.model.getProgrammeurs())
                 text += prog.toString() + "------------------------------------------------------------\n";
             text += " END ";
             this.rv.editText(text);
         }
-        if(e.getSource().equals(this.identificator.get("Quitter le programme"))){
+        if (e.getSource().equals(this.identificator.get("Afficher un programmeur"))){
+            ArrayList<ProgrammeurBean> data = this.model.getProgrammeurs();
+            this.rv.modifyPanel(1, data);
+        }
+        if (e.getSource().equals(this.identificator.get("Supprimer un programmeur"))){
+            //this.rv.modifyPanel(2, data);
+        }
+        if (e.getSource().equals(this.identificator.get("Ajouter un programmeur"))){
+            //this.rv.modifyPanel(3, data);
+        }
+        if (e.getSource().equals(this.identificator.get("Modifier le salaire"))){
+            //this.rv.modifyPanel(4, data);
+        }
+        if (e.getSource().equals(this.identificator.get("Quitter le programme"))) {
             System.exit(0);
         }
     }

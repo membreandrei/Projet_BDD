@@ -25,6 +25,7 @@ public class ActionsBDDImpl {
     public ProgrammeurBean initProgrameur(ResultSet rs){
         try {
             prog = new ProgrammeurBean();
+            prog.setId(rs.getInt("ID"));
             prog.setPrenom(rs.getString("PRENOM"));
             prog.setAnNaissance(Integer.parseInt(rs.getString("ANNAISSANCE")));
             prog.setNom(rs.getString("NOM"));
@@ -41,6 +42,7 @@ public class ActionsBDDImpl {
     }
 
     public ArrayList<ProgrammeurBean> getProgrammeurs() {
+        this.listeProg.clear();
         try {
             this.conn = this.action.getConnection();
             this.stmt = this.action.getPreparedStatement(this.conn, Constantes.ALLPROGS);
