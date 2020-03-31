@@ -1,6 +1,5 @@
 package controller;
 
-import model.ActionsBDD;
 import model.ActionsBDDImpl;
 import model.ProgrammeurBean;
 import view.BasePanel;
@@ -9,15 +8,12 @@ import view.ProgrammeurView;
 import view.ResultatView;
 
 import javax.swing.*;
-import javax.xml.transform.Result;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.WeakHashMap;
+import java.util.TreeMap;
 
 public class Controller implements ActionListener, MouseListener {
     private MenuView mv;
@@ -42,7 +38,7 @@ public class Controller implements ActionListener, MouseListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.identificator.get("Afficher tous les programmeurs"))) {
-            WeakHashMap<Integer, ProgrammeurBean> data = this.model.getProgrammeurs();
+            TreeMap<Integer, ProgrammeurBean> data = this.model.getProgrammeurs();
             this.rv.modifyPanel(0, data);
             String text = "";
             for (Integer key : data.keySet())
@@ -51,7 +47,7 @@ public class Controller implements ActionListener, MouseListener {
             this.rv.editText(text);
         }
         if (e.getSource().equals(this.identificator.get("Afficher un programmeur"))){
-            WeakHashMap<Integer, ProgrammeurBean> data = this.model.getProgrammeurs();
+            TreeMap<Integer, ProgrammeurBean> data = this.model.getProgrammeurs();
             this.rv.modifyPanel(1, data);
         }
         if (e.getSource().equals(this.identificator.get("Supprimer un programmeur"))){
@@ -74,10 +70,6 @@ public class Controller implements ActionListener, MouseListener {
         Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
 
         ProgrammeurView pv = new ProgrammeurView(this.model.getListeProg().get(targetId));
-        JOptionPane jop = new JOptionPane();
-        jop.setForeground(Color.BLACK);
-        jop.setBackground(Color.BLACK);
-        JOptionPane.showMessageDialog(null, pv);
 
     }
 
