@@ -41,5 +41,8 @@ public class Controller implements ActionListener {
             text += " END ";
             this.rv.editText(text);
         }
+        if(e.getSource().equals(this.identificator.get("Quitter le programme"))){
+            System.exit(0);
+        }
     }
 }

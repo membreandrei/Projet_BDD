@@ -16,7 +16,7 @@ public class MenuView extends ViewPanel {
     private ArrayList<JButton> allButtons = new ArrayList<JButton>();
 
     public MenuView() {
-        GridLayout g1 = new GridLayout(7,1);
+        GridLayout g1 = new GridLayout(7, 1);
         this.setLayout(g1);
         this.setBackground(Color.decode("#303030"));
         this.allButtons.add(new JButton("Afficher tous les programmeurs"));
@@ -31,6 +31,7 @@ public class MenuView extends ViewPanel {
         for (JButton button : this.allButtons) {
             button.setBackground(Color.decode("#3a3a3a"));
             button.setForeground(Color.white);
+            button.setFocusPainted(false);
             addComponent(button);
         }
     }

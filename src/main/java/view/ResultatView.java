@@ -17,14 +17,13 @@ public class ResultatView extends ViewPanel {
         this.resultArea.setLineWrap(true);
         this.resultArea.setEditable(false);
         sp = new JScrollPane(resultArea);
-        sp.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
+        //sp.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
         addComponent(sp);
     }
 
     public void editText(String text){
         this.resultArea.setText(text);
         this.resultArea.setCaretPosition(0);
-
     }
 
 }
