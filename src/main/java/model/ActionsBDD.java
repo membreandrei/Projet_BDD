@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.Constantes;
 
 public class ActionsBDD {
 
@@ -11,14 +12,10 @@ public class ActionsBDD {
     private String user = "adm";
     private String password = "adm";
 
-    // La liste dynamique
-    ArrayList<ProgrammeurBean> listeProg;
-
     // Le Java Bean
-    ProgrammeurBean prog;
-    Connection conn;
-    Statement stmt;
-    ResultSet rs;
+    private Connection conn;
+    private PreparedStatement  stmt;
+    private ResultSet rs;
 
 
     public ActionsBDD() {
@@ -26,67 +23,31 @@ public class ActionsBDD {
 
     public Connection getConnection() {
         try {
-            conn = DriverManager.getConnection(url, user, password);
+            this.conn = DriverManager.getConnection(url, user, password);
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return conn;
+        return this.conn;
     }
 
-    public Statement getStatement(Connection conn) {
+    public PreparedStatement getPreparedStatement(Connection conn, String requete) {
         try {
-            stmt = conn.createStatement();
+            this.stmt = conn.prepareStatement(requete);
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return stmt;
+        return this.stmt;
     }
 
 
-    public ResultSet getResultSet(Statement stmt) {
+    public ResultSet getResultSet(PreparedStatement stmt) {
         try {
-            rs = stmt.executeQuery("SELECT * from PROGRAMMEUR");
+            this.rs = stmt.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return rs;
+        return this.rs;
     }
 
-/*
-    public void afficherProgrammeurs(ArrayList<ProgrammeurBean> listeProg) {
-        for (ProgrammeurBean prog : listeProg) {
-            {
-                System.out.println(prog.toString());
-            }
-        }
-    }
-*/
-
-    public ArrayList<ProgrammeurBean> getProgrammeurs() {
-        try {
-            listeProg = new ArrayList<>();
-            conn = getConnection();
-            stmt = getStatement(conn);
-            rs = getResultSet(stmt);
-
-            while (rs.next()) {
-                prog = new ProgrammeurBean();
-                prog.setPrenom(rs.getString("PRENOM"));
-                prog.setAnNaissance(Integer.parseInt(rs.getString("ANNAISSANCE")));
-                prog.setNom(rs.getString("NOM"));
-                prog.setPrime(Float.parseFloat(rs.getString("PRIME")));
-                prog.setPseudo(rs.getString("PSEUDO"));
-                prog.setSalaire(Float.parseFloat(rs.getString("SALAIRE")));
-                prog.setAdresse(rs.getString("ADRESSE"));
-                prog.setResponsable(rs.getString("RESPONSABLE"));
-                prog.setHobby(rs.getString("HOBBY"));
-                listeProg.add(prog);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return listeProg;
-    }
 }
 

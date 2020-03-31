@@ -3,6 +3,8 @@ package view;
 import controller.Controller;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.View;
 import java.awt.*;
 import java.lang.reflect.Field;
@@ -23,10 +25,11 @@ public class MenuView extends ViewPanel {
         this.allButtons.add(new JButton("Ajouter un programmeur"));
         this.allButtons.add(new JButton("Modifier le salaire"));
         this.allButtons.add(new JButton("Quitter le programme"));
-        titre.setForeground(Color.white);
+        this.titre.setForeground(Color.white);
+        this.titre.setBorder(new CompoundBorder(this.titre.getBorder(), new EmptyBorder(0,90,0,0)));
         addComponent(titre);
         for (JButton button : this.allButtons) {
-            button.setBackground(Color.decode("#424242"));
+            button.setBackground(Color.decode("#3a3a3a"));
             button.setForeground(Color.white);
             addComponent(button);
         }
