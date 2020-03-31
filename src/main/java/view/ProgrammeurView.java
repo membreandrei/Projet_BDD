@@ -25,7 +25,6 @@ public class ProgrammeurView extends JPanel {
         this.allLabels.add(new JLabel("Responsable: "));
         this.allLabels.add(new JLabel("Hobby: "));
 
-        System.out.println(data);
         this.allTextFields.add(new JTextField(data.getId()+""));
         this.allTextFields.add(new JTextField(data.getNom()));
         this.allTextFields.add(new JTextField(data.getPrenom()));
@@ -46,7 +45,6 @@ public class ProgrammeurView extends JPanel {
             label.setForeground(Color.white);
             this.add(label);
             this.add(allTextFields.get(index));
-            System.out.println();
         }
 
 
