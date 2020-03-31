@@ -7,12 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ActionsBDDImpl {
 
-    private ArrayList<ProgrammeurBean> listeProg = new ArrayList<ProgrammeurBean>();
+    private WeakHashMap<Integer, ProgrammeurBean> listeProg = new WeakHashMap<Integer, ProgrammeurBean>();
     private ProgrammeurBean prog;
     private ActionsBDD action = new ActionsBDD();
     private Connection conn;
@@ -41,7 +42,7 @@ public class ActionsBDDImpl {
         return prog;
     }
 
-    public ArrayList<ProgrammeurBean> getProgrammeurs() {
+    public WeakHashMap<Integer, ProgrammeurBean> getProgrammeurs() {
         this.listeProg.clear();
         try {
             this.conn = this.action.getConnection();
@@ -49,7 +50,7 @@ public class ActionsBDDImpl {
             this.rs = this.action.getResultSet(this.stmt);
 
             while (this.rs.next()) {
-                this.listeProg.add(initProgrameur(this.rs));
+                this.listeProg.put(this.rs.getInt("ID"), initProgrameur(this.rs));
             }
 
         } catch (SQLException ex) {
@@ -59,7 +60,7 @@ public class ActionsBDDImpl {
     }
 
     //TODO À déplacer dans ProgrammeurBean
-    public ArrayList<ProgrammeurBean> getListeProg() {
+    public WeakHashMap<Integer, ProgrammeurBean> getListeProg() {
         return listeProg;
     }
 }

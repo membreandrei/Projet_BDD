@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 //TODO: Peut-être factoriser tout ça ?
 
-public class ProgrammeurView extends JOptionPane {
+public class ProgrammeurView extends JPanel {
 
     private ArrayList<JLabel> allLabels = new ArrayList<JLabel>();
     private ArrayList<JTextField> allTextFields = new ArrayList<JTextField>();
@@ -25,16 +25,17 @@ public class ProgrammeurView extends JOptionPane {
         this.allLabels.add(new JLabel("Responsable: "));
         this.allLabels.add(new JLabel("Hobby: "));
 
-        this.allTextFields.add(new JTextField());
-        this.allTextFields.add(new JTextField());
-        this.allTextFields.add(new JTextField());
-        this.allTextFields.add(new JTextField());
-        this.allTextFields.add(new JTextField());
-        this.allTextFields.add(new JTextField());
-        this.allTextFields.add(new JTextField());
-        this.allTextFields.add(new JTextField());
-        this.allTextFields.add(new JTextField());
-        this.allTextFields.add(new JTextField());
+        System.out.println(data);
+        this.allTextFields.add(new JTextField(data.getId()+""));
+        this.allTextFields.add(new JTextField(data.getNom()));
+        this.allTextFields.add(new JTextField(data.getPrenom()));
+        this.allTextFields.add(new JTextField(data.getAnNaissance()+""));
+        this.allTextFields.add(new JTextField(data.getPseudo()));
+        this.allTextFields.add(new JTextField(data.getSalaire()+""));
+        this.allTextFields.add(new JTextField(data.getPrime()+""));
+        this.allTextFields.add(new JTextField(data.getAdresse()));
+        this.allTextFields.add(new JTextField(data.getResponsable()));
+        this.allTextFields.add(new JTextField(data.getHobby()));
 
         this.setBackground(Color.decode("#303030"));
 
@@ -45,6 +46,7 @@ public class ProgrammeurView extends JOptionPane {
             label.setForeground(Color.white);
             this.add(label);
             this.add(allTextFields.get(index));
+            System.out.println();
         }
 
 
