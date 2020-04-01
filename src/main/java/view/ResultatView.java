@@ -3,6 +3,7 @@ package view;
 import model.ProgrammeurBean;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -42,6 +43,29 @@ public class ResultatView extends ViewPanel {
     }
 
     private void displayOne(TreeMap<Integer, ProgrammeurBean> informations) {
+
+        JPanel jp = new JPanel();
+        jp.setBackground(Color.decode("#424242"));
+        jp.setPreferredSize(new Dimension(jp.getSize().width,70));
+
+        JTextField searchText = new JTextField();
+        searchText.setFocusable(false);
+        searchText.setEditable(true);
+        System.out.println(searchText.isEditable());
+        searchText.setBackground(Color.decode("#3a3a3a"));
+        searchText.setForeground(Color.WHITE);
+        searchText.setPreferredSize(new Dimension(200,24));
+        searchText.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1),new EmptyBorder(5,5,5,5)));
+
+        JButton searchButton = new JButton("Rechercher");
+        searchButton.setFocusable(false);
+        searchButton.setBackground(Color.decode("#3a3a3a"));
+        searchButton.setForeground(Color.WHITE);
+        searchButton.setPreferredSize(new Dimension(110,24));
+
+        jp.add(searchText);
+        jp.add(searchButton);
+
         String[] colNames = {"", "ID", "NOM", "PRENOM"};
         Object[][] data = new Object[informations.size()][4];
         int index = 0;
@@ -71,14 +95,13 @@ public class ResultatView extends ViewPanel {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         table.addMouseListener(fm.getBasePanel().getController());
 
-        //this.addListener(this.getParent());
-
         sp = new JScrollPane(table);
         sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"),1));
         sp.getViewport().setBackground(Color.decode("#424242"));
         sp.setBackground(Color.decode("#424242"));
-        sp.setBorder(new EmptyBorder(10,10,10,10));
+        sp.setBorder(new EmptyBorder(1,10,10,10));
 
+        this.add(jp);
         this.add(sp);
     }
 

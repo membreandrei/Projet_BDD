@@ -3,6 +3,7 @@ package view;
 import model.ProgrammeurBean;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -53,7 +54,7 @@ public class ProgrammeurView extends JPanel {
             allTextFields.get(index).setFocusable(false);
             allTextFields.get(index).setBackground(Color.decode("#424242"));
             allTextFields.get(index).setForeground(Color.WHITE);
-            allTextFields.get(index).setMargin(new Insets(5, 5, 5, 5));
+            allTextFields.get(index).setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1),new EmptyBorder(5,5,5,5)));
             this.add(label);
             this.add(allTextFields.get(index));
         }
