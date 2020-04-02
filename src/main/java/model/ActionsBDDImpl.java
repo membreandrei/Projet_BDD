@@ -19,10 +19,10 @@ public class ActionsBDDImpl {
     private PreparedStatement stmt;
     private ResultSet rs;
 
-    public ActionsBDDImpl(){
+    public ActionsBDDImpl() {
     }
 
-    public ProgrammeurBean initProgrameur(ResultSet rs){
+    public ProgrammeurBean initProgrameur(ResultSet rs) {
         try {
             prog = new ProgrammeurBean();
             prog.setId(rs.getInt("ID"));
@@ -46,6 +46,74 @@ public class ActionsBDDImpl {
         try {
             this.conn = this.action.getConnection();
             this.stmt = this.action.getPreparedStatement(this.conn, Constantes.ALLPROGS);
+            this.rs = this.action.getResultSet(this.stmt);
+
+            while (this.rs.next()) {
+                this.listeProg.put(this.rs.getInt("ID"), initProgrameur(this.rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.listeProg;
+    }
+
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurById(int id) {
+        this.listeProg.clear();
+        try {
+            this.conn = this.action.getConnection();
+            this.stmt = this.action.getPreparedStatementInt(this.conn, Constantes.PROGBYID, id);
+            this.rs = this.action.getResultSet(this.stmt);
+
+            while (this.rs.next()) {
+                this.listeProg.put(this.rs.getInt("ID"), initProgrameur(this.rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.listeProg;
+    }
+
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByName(String name) {
+        this.listeProg.clear();
+        try {
+            this.conn = this.action.getConnection();
+            this.stmt = this.action.getPreparedStatementString(this.conn, Constantes.PROGBYNAME, name);
+            this.rs = this.action.getResultSet(this.stmt);
+
+            while (this.rs.next()) {
+                this.listeProg.put(this.rs.getInt("ID"), initProgrameur(this.rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.listeProg;
+    }
+
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByFirstName(String name) {
+        this.listeProg.clear();
+        try {
+            this.conn = this.action.getConnection();
+            this.stmt = this.action.getPreparedStatementString(this.conn, Constantes.PROGBYFIRSTNAME, name);
+            this.rs = this.action.getResultSet(this.stmt);
+
+            while (this.rs.next()) {
+                this.listeProg.put(this.rs.getInt("ID"), initProgrameur(this.rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.listeProg;
+    }
+
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByYear(int year) {
+        this.listeProg.clear();
+        try {
+            this.conn = this.action.getConnection();
+            this.stmt = this.action.getPreparedStatementInt(this.conn, Constantes.PROGBYYEAR, year);
             this.rs = this.action.getResultSet(this.stmt);
 
             while (this.rs.next()) {

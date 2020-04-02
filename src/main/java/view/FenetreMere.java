@@ -22,7 +22,7 @@ public class FenetreMere extends JFrame {
         this.basePanel.createListeners();
         this.setBackground(Color.decode("#303030"));
         this.setContentPane(this.basePanel);
-        this.setBounds(800, 350, 450, 300);
+        this.setBounds(500, 250, 0, 0);
         this.pack();
         this.setVisible(true);
     }
@@ -53,7 +53,7 @@ public class FenetreMere extends JFrame {
         jp.add(exit, BorderLayout.CENTER);
 
         this.add(jp, BorderLayout.PAGE_END);
-        this.setBounds(1050, 450, 450, 300);
+        this.setBounds(700, 350, 450, 300);
         this.pack();
         this.setVisible(true);
     }

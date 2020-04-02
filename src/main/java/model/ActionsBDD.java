@@ -39,6 +39,25 @@ public class ActionsBDD {
         return this.stmt;
     }
 
+    public PreparedStatement getPreparedStatementInt(Connection conn, String requete, int id) {
+        try {
+            this.stmt = conn.prepareStatement(requete);
+            this.stmt.setInt(1,id);
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.stmt;
+    }
+
+    public PreparedStatement getPreparedStatementString(Connection conn, String requete, String name) {
+        try {
+            this.stmt = conn.prepareStatement(requete);
+            this.stmt.setString(1,"%" + name + "%");
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.stmt;
+    }
 
     public ResultSet getResultSet(PreparedStatement stmt) {
         try {

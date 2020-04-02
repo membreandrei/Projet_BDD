@@ -7,6 +7,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.TreeMap;
 
 public class ResultatView extends ViewPanel {
@@ -14,6 +16,9 @@ public class ResultatView extends ViewPanel {
     private JTextArea resultArea = new JTextArea("");
     private JScrollPane sp;
     private JTable table;
+    private JButton searchButton = new JButton();
+    private JComboBox choice = new JComboBox();
+    JTextField searchText = new JTextField();
 
     public ResultatView() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -42,42 +47,58 @@ public class ResultatView extends ViewPanel {
         addComponent(sp);
     }
 
-    private void displayOne(TreeMap<Integer, ProgrammeurBean> informations) {
+    private void displayOne(TreeMap<Integer, ProgrammeurBean> informations, String valueComboBox) {
 
         JPanel jp = new JPanel();
         jp.setBackground(Color.decode("#424242"));
-        jp.setPreferredSize(new Dimension(jp.getSize().width,70));
+        jp.setPreferredSize(new Dimension(jp.getSize().width, 70));
 
-        JTextField searchText = new JTextField();
-        searchText.setFocusable(false);
-        searchText.setEditable(true);
-        System.out.println(searchText.isEditable());
-        searchText.setBackground(Color.decode("#3a3a3a"));
-        searchText.setForeground(Color.WHITE);
-        searchText.setPreferredSize(new Dimension(200,24));
-        searchText.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1),new EmptyBorder(5,5,5,5)));
+        this.searchText = new JTextField();
+        this.searchText.setBackground(Color.decode("#3a3a3a"));
+        this.searchText.setForeground(Color.WHITE);
+        this.searchText.setPreferredSize(new Dimension(200, 24));
+        this.searchText.setCaretColor(Color.WHITE);
+        this.searchText.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1), new EmptyBorder(5, 5, 5, 5)));
 
-        JButton searchButton = new JButton("Rechercher");
-        searchButton.setFocusable(false);
-        searchButton.setBackground(Color.decode("#3a3a3a"));
-        searchButton.setForeground(Color.WHITE);
-        searchButton.setPreferredSize(new Dimension(110,24));
+        this.searchButton = new JButton("Rechercher");
+        this.searchButton.setFocusable(false);
+        this.searchButton.setBackground(Color.decode("#3a3a3a"));
+        this.searchButton.setForeground(Color.WHITE);
+        this.searchButton.setPreferredSize(new Dimension(110, 24));
 
-        jp.add(searchText);
-        jp.add(searchButton);
+        String[] elements = new String[]{"Par ID", "Par Nom", "Par Prénom", "Par Année de naissance"};
+        this.choice = new JComboBox(elements);
+        this.choice.setBackground(Color.decode("#3a3a3a"));
+        this.choice.setForeground(Color.WHITE);
+        this.choice.setPreferredSize(new Dimension(180, 24));
+        this.choice.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
-        String[] colNames = {"", "ID", "NOM", "PRENOM"};
+        if (valueComboBox != null)
+            this.choice.setSelectedItem(valueComboBox);
+
+        for (int i = 0; i < this.choice.getComponentCount(); i++) {
+            if (this.choice.getComponent(i) instanceof JComponent) {
+                ((JComponent) this.choice.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
+            }
+        }
+
+
+        jp.add(this.searchText);
+        jp.add(this.searchButton);
+        jp.add(this.choice);
+
+        String[] colNames = {"ID", "NOM", "PRENOM", "ANNEE DE NAISSANCE"};
         Object[][] data = new Object[informations.size()][4];
         int index = 0;
         for (Integer key : informations.keySet()) {
-            data[index][0] = "//////";
-            data[index][1] = informations.get(key).getId();
-            data[index][2] = informations.get(key).getNom().toUpperCase();
-            data[index][3] = informations.get(key).getPrenom();
+            data[index][0] = informations.get(key).getId();
+            data[index][1] = informations.get(key).getNom().toUpperCase();
+            data[index][2] = informations.get(key).getPrenom();
+            data[index][3] = informations.get(key).getAnNaissance();
             index++;
         }
 
-        table = new JTable(data, colNames){
+        table = new JTable(data, colNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -89,20 +110,32 @@ public class ResultatView extends ViewPanel {
         table.setFocusable(false);
         table.getTableHeader().setBackground(Color.decode("#424242"));
         table.getTableHeader().setForeground(Color.white);
-        table.setBorder(new MatteBorder(0,1,1,1,Color.WHITE));
-        table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE,1));
+        table.setBorder(new MatteBorder(0, 1, 1, 1, Color.WHITE));
+        table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         table.addMouseListener(fm.getBasePanel().getController());
 
         sp = new JScrollPane(table);
-        sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"),1));
+        sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"), 1));
         sp.getViewport().setBackground(Color.decode("#424242"));
         sp.setBackground(Color.decode("#424242"));
-        sp.setBorder(new EmptyBorder(1,10,10,10));
+        sp.setBorder(new EmptyBorder(1, 10, 10, 10));
 
         this.add(jp);
         this.add(sp);
+
+        this.searchText.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                searchButton.doClick();
+
+            }
+        });
+
+        this.searchText.requestFocusInWindow();
+        addListener(fm.getBasePanel().getController(), this.searchButton);
     }
 
     private void deleteOne() {
@@ -117,7 +150,7 @@ public class ResultatView extends ViewPanel {
 
     }
 
-    public void modifyPanel(Integer type, TreeMap<Integer, ProgrammeurBean> data) {
+    public void modifyPanel(Integer type, TreeMap<Integer, ProgrammeurBean> data, String valueComboBox) {
         this.removeAll();
         this.revalidate();
         this.repaint();
@@ -127,7 +160,7 @@ public class ResultatView extends ViewPanel {
                 displayAll();
                 break;
             case 1:
-                displayOne(data);
+                displayOne(data, valueComboBox);
                 break;
             case 2:
             case 3:
@@ -136,4 +169,15 @@ public class ResultatView extends ViewPanel {
         }
     }
 
+    public JComboBox getChoice() {
+        return choice;
+    }
+
+    public JTextField getSearchText() {
+        return searchText;
+    }
+
+    public JButton getSearchButton() {
+        return searchButton;
+    }
 }
