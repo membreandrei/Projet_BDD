@@ -6,6 +6,9 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicArrowButton;
+import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,7 +59,7 @@ public class ResultatView extends ViewPanel {
         this.searchText = new JTextField();
         this.searchText.setBackground(Color.decode("#3a3a3a"));
         this.searchText.setForeground(Color.WHITE);
-        this.searchText.setPreferredSize(new Dimension(200, 24));
+        this.searchText.setPreferredSize(new Dimension(200, 20));
         this.searchText.setCaretColor(Color.WHITE);
         this.searchText.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1), new EmptyBorder(5, 5, 5, 5)));
 
@@ -64,14 +67,24 @@ public class ResultatView extends ViewPanel {
         this.searchButton.setFocusable(false);
         this.searchButton.setBackground(Color.decode("#3a3a3a"));
         this.searchButton.setForeground(Color.WHITE);
-        this.searchButton.setPreferredSize(new Dimension(110, 24));
+        this.searchButton.setPreferredSize(new Dimension(110, 20));
 
         String[] elements = new String[]{"Par ID", "Par Nom", "Par Prénom", "Par Année de naissance"};
         this.choice = new JComboBox(elements);
         this.choice.setBackground(Color.decode("#3a3a3a"));
         this.choice.setForeground(Color.WHITE);
-        this.choice.setPreferredSize(new Dimension(180, 24));
         this.choice.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        this.choice.setFocusable(false);
+        this.choice.setUI(new BasicComboBoxUI(){
+            @Override
+            protected JButton createArrowButton() {
+                BasicArrowButton result = new BasicArrowButton(BasicArrowButton.SOUTH);
+                result.setFocusable(false);
+                result.setEnabled(false);
+                result.setBackground(Color.decode("#3a3a3a")); //---button's color
+                return result;
+            }
+        });
 
         if (valueComboBox != null)
             this.choice.setSelectedItem(valueComboBox);
@@ -81,7 +94,6 @@ public class ResultatView extends ViewPanel {
                 ((JComponent) this.choice.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
             }
         }
-
 
         jp.add(this.searchText);
         jp.add(this.searchButton);
@@ -105,22 +117,22 @@ public class ResultatView extends ViewPanel {
             }
         };
 
-        table.setBackground(Color.decode("#424242"));
-        table.setForeground(Color.white);
-        table.setFocusable(false);
-        table.getTableHeader().setBackground(Color.decode("#424242"));
-        table.getTableHeader().setForeground(Color.white);
-        table.setBorder(new MatteBorder(0, 1, 1, 1, Color.WHITE));
-        table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        this.table.setBackground(Color.decode("#424242"));
+        this.table.setForeground(Color.white);
+        this.table.setFocusable(false);
+        this.table.getTableHeader().setBackground(Color.decode("#424242"));
+        this.table.getTableHeader().setForeground(Color.white);
+        this. table.setBorder(new MatteBorder(0, 1, 1, 1, Color.WHITE));
+        this.table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
-        table.addMouseListener(fm.getBasePanel().getController());
+        this.table.addMouseListener(fm.getBasePanel().getController());
 
-        sp = new JScrollPane(table);
-        sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"), 1));
-        sp.getViewport().setBackground(Color.decode("#424242"));
-        sp.setBackground(Color.decode("#424242"));
-        sp.setBorder(new EmptyBorder(1, 10, 10, 10));
+        this.sp = new JScrollPane(table);
+        this.sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"), 1));
+        this. sp.getViewport().setBackground(Color.decode("#424242"));
+        this.sp.setBackground(Color.decode("#424242"));
+        this.sp.setBorder(new EmptyBorder(1, 10, 10, 10));
 
         this.add(jp);
         this.add(sp);

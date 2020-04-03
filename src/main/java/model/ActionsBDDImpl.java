@@ -20,6 +20,7 @@ public class ActionsBDDImpl {
     private ResultSet rs;
 
     public ActionsBDDImpl() {
+        this.conn = this.action.getConnection();
     }
 
     public ProgrammeurBean initProgrameur(ResultSet rs) {
@@ -41,11 +42,10 @@ public class ActionsBDDImpl {
         return prog;
     }
 
-    public TreeMap<Integer, ProgrammeurBean> getProgrammeurs() {
+    public TreeMap<Integer, ProgrammeurBean> doRequete(PreparedStatement statement) {
         this.listeProg.clear();
         try {
-            this.conn = this.action.getConnection();
-            this.stmt = this.action.getPreparedStatement(this.conn, Constantes.ALLPROGS);
+            this.stmt = statement;
             this.rs = this.action.getResultSet(this.stmt);
 
             while (this.rs.next()) {
@@ -55,75 +55,35 @@ public class ActionsBDDImpl {
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return this.listeProg;
+    }
+
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurs() {
+
+        return doRequete(this.action.getPreparedStatement(this.conn, Constantes.ALLPROGS));
+
     }
 
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurById(int id) {
-        this.listeProg.clear();
-        try {
-            this.conn = this.action.getConnection();
-            this.stmt = this.action.getPreparedStatementInt(this.conn, Constantes.PROGBYID, id);
-            this.rs = this.action.getResultSet(this.stmt);
 
-            while (this.rs.next()) {
-                this.listeProg.put(this.rs.getInt("ID"), initProgrameur(this.rs));
-            }
+        return doRequete(this.action.getPreparedStatementInt(this.conn, Constantes.PROGBYID, id));
 
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return this.listeProg;
     }
 
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurByName(String name) {
-        this.listeProg.clear();
-        try {
-            this.conn = this.action.getConnection();
-            this.stmt = this.action.getPreparedStatementString(this.conn, Constantes.PROGBYNAME, name);
-            this.rs = this.action.getResultSet(this.stmt);
 
-            while (this.rs.next()) {
-                this.listeProg.put(this.rs.getInt("ID"), initProgrameur(this.rs));
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return this.listeProg;
+        return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYNAME, name));
     }
 
-    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByFirstName(String name) {
-        this.listeProg.clear();
-        try {
-            this.conn = this.action.getConnection();
-            this.stmt = this.action.getPreparedStatementString(this.conn, Constantes.PROGBYFIRSTNAME, name);
-            this.rs = this.action.getResultSet(this.stmt);
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByFirstName(String firstName) {
 
-            while (this.rs.next()) {
-                this.listeProg.put(this.rs.getInt("ID"), initProgrameur(this.rs));
-            }
+        return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYFIRSTNAME, firstName));
 
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return this.listeProg;
     }
 
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurByYear(int year) {
-        this.listeProg.clear();
-        try {
-            this.conn = this.action.getConnection();
-            this.stmt = this.action.getPreparedStatementInt(this.conn, Constantes.PROGBYYEAR, year);
-            this.rs = this.action.getResultSet(this.stmt);
-
-            while (this.rs.next()) {
-                this.listeProg.put(this.rs.getInt("ID"), initProgrameur(this.rs));
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return this.listeProg;
+        return doRequete(this.action.getPreparedStatementInt(this.conn, Constantes.PROGBYYEAR, year));
     }
 
     //TODO À déplacer dans ProgrammeurBean

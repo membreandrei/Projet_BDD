@@ -80,14 +80,19 @@ public class Controller implements ActionListener, MouseListener {
 
             switch ((String) this.rv.getChoice().getSelectedItem()) {
                 case "Par ID":
-                    if (!this.rv.getSearchText().getText().matches("[0-9]+")) {
+                    if (!this.rv.getSearchText().getText().matches("^[0-9]+$|^$")) {
                         jo.showMessageDialog(null, "Pas un nombre entier retaper");
 
                         data = this.model.getProgrammeurs();
                         this.rv.modifyPanel(1, data, "Par ID");
                     } else {
-                        data = this.model.getProgrammeurById(Integer.parseInt(this.rv.getSearchText().getText()));
-                        this.rv.modifyPanel(1, data, "Par ID");
+                        if (this.rv.getSearchText().getText().equals("")) {
+                            data = this.model.getProgrammeurs();
+                            this.rv.modifyPanel(1, data, "Par ID");
+                        } else {
+                            data = this.model.getProgrammeurById(Integer.parseInt(this.rv.getSearchText().getText()));
+                            this.rv.modifyPanel(1, data, "Par ID");
+                        }
                     }
 
                     break;
@@ -107,14 +112,19 @@ public class Controller implements ActionListener, MouseListener {
                     break;
 
                 case "Par Année de naissance":
-                    if (!this.rv.getSearchText().getText().matches("[0-9]+")) {
+                    if (!this.rv.getSearchText().getText().matches("^[0-9]+$|^$")) {
                         jo.showMessageDialog(null, "Pas un nombre entier retaper");
 
                         data = this.model.getProgrammeurs();
                         this.rv.modifyPanel(1, data, "Par Année de naissance");
                     } else {
-                        data = this.model.getProgrammeurByYear(Integer.parseInt(this.rv.getSearchText().getText()));
-                        this.rv.modifyPanel(1, data, "Par Année de naissance");
+                        if (this.rv.getSearchText().getText().equals("")) {
+                            data = this.model.getProgrammeurs();
+                            this.rv.modifyPanel(1, data, "Par Année de naissance");
+                        } else {
+                            data = this.model.getProgrammeurByYear(Integer.parseInt(this.rv.getSearchText().getText()));
+                            this.rv.modifyPanel(1, data, "Par Année de naissance");
+                        }
                     }
 
                     break;
