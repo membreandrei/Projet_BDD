@@ -90,7 +90,13 @@ public class ActionsBDDImpl {
         return this.listeProg;
     }
 
- 
+    public void DeleteProg(int id){
+        doRequete(this.action.getPreparedStatementInt(this.conn, Constantes.DELPROG, id));
+    }
+    
+    public void EditSalary(ProgrammeurBean prog){
+        doRequete(this.action.getPreparedStatementModifySalary(this.conn, Constantes.CHANGESALARY, prog));
+    }
     public void CreateProg(ProgrammeurBean prog){
         doRequete(this.action.getPreparedStatementInsert(this.conn, Constantes.CREATEPROG, prog));
     }
