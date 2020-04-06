@@ -78,6 +78,16 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
+    
+    public PreparedStatement getPreparedStatementModifySalary(Connection conn, String requete, ProgrammeurBean prog) {
+        try{
+            this.stmt.setFloat(1, prog.getSalaire());
+            this.stmt.setInt(2, prog.getId());
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.stmt;
+    }
 
     
     public ResultSet getResultSet(PreparedStatement stmt) {
