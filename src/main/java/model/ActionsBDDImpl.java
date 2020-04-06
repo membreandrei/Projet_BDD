@@ -58,6 +58,14 @@ public class ActionsBDDImpl {
         return this.listeProg;
     }
 
+    public int doRequeteUpdate(PreparedStatement statement) {
+        this.listeProg.clear();
+        this.stmt = statement;
+        int changesCount = this.action.getResultSetModify(this.stmt);
+
+        return changesCount;
+    }
+
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurs() {
 
         return doRequete(this.action.getPreparedStatement(this.conn, Constantes.ALLPROGS));
@@ -90,14 +98,14 @@ public class ActionsBDDImpl {
         return this.listeProg;
     }
 
-    public void DeleteProg(int id){
-        doRequete(this.action.getPreparedStatementInt(this.conn, Constantes.DELPROG, id));
+    public void deleteProg(int id){
+        doRequeteUpdate(this.action.getPreparedStatementInt(this.conn, Constantes.DELPROG, id));
     }
     
-    public void EditSalary(ProgrammeurBean prog){
-        doRequete(this.action.getPreparedStatementModifySalary(this.conn, Constantes.CHANGESALARY, prog));
+    public void editSalary(ProgrammeurBean prog){
+        doRequeteUpdate(this.action.getPreparedStatementModifySalary(this.conn, Constantes.CHANGESALARY, prog));
     }
-    public void CreateProg(ProgrammeurBean prog){
-        doRequete(this.action.getPreparedStatementInsert(this.conn, Constantes.CREATEPROG, prog));
+    public void createProg(ProgrammeurBean prog){
+        doRequeteUpdate(this.action.getPreparedStatementInsert(this.conn, Constantes.CREATEPROG, prog));
     }
 }

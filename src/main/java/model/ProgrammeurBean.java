@@ -1,6 +1,8 @@
 package model;
 
-public class ProgrammeurBean {
+import java.io.Serializable;
+
+public class ProgrammeurBean implements Serializable {
 
     private Integer id;
     private String nom;

@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class FenetreMere extends JFrame {
 
-    private BasePanel basePanel = new BasePanel();
+    private static BasePanel basePanel = new BasePanel();
 
     public FenetreMere(String title) throws HeadlessException {
 
@@ -50,10 +50,7 @@ public class FenetreMere extends JFrame {
                 dispose();
             }
         };
-
-        ajout.addActionListener(al);
         exit.addActionListener(al);
-
 
         JPanel jp = new JPanel();
         ajout.setFocusable(false);
@@ -77,8 +74,8 @@ public class FenetreMere extends JFrame {
         this.add(jp, BorderLayout.PAGE_END);
         this.setBounds(700, 350, 450, 300);
         this.pack();
+        view.actionButtonAdd(this.getBasePanel().getController(), ajout);
         this.setVisible(true);
-
 
     }
 

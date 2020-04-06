@@ -19,6 +19,7 @@ public class Controller implements ActionListener, MouseListener {
     private ResultatView rv;
     private HashMap<String, JButton> identificator;
     private ActionsBDDImpl model;
+    private ProgrammeurView pv;
 
     public Controller(BasePanel bp) {
         this.mv = bp.getMv();
@@ -56,6 +57,13 @@ public class Controller implements ActionListener, MouseListener {
         if (e.getSource().equals(this.identificator.get("Ajouter un programmeur"))) {
             this.openModal();
         }
+
+        if(e.getActionCommand().equals("ajout")){
+            this.model.createProg(createProg());
+            FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
+            fm.dispose();
+        }
+
         if (e.getSource().equals(this.identificator.get("Modifier le salaire"))) {
             //this.rv.modifyPanel(4, data);
         }
@@ -129,10 +137,32 @@ public class Controller implements ActionListener, MouseListener {
         }
     }
 
+    private ProgrammeurBean createProg(){
+
+        ProgrammeurBean prog = new ProgrammeurBean();
+
+        prog.setNom(this.pv.getAllTextFields().get("nom").getText());
+        prog.setPrenom(this.pv.getAllTextFields().get("prénom").getText());
+        prog.setPseudo(this.pv.getAllTextFields().get("pseudo").getText());
+        prog.setAdresse(this.pv.getAllTextFields().get("adresse").getText());
+        prog.setAnNaissance(Integer.parseInt(this.pv.getAllTextFields().get("naissance").getText()));
+        prog.setResponsable(this.pv.getAllTextFields().get("responsable").getText());
+        prog.setHobby(this.pv.getAllTextFields().get("hobby").getText());
+        prog.setSalaire(Float.parseFloat(this.pv.getAllTextFields().get("salaire").getText()));
+        prog.setPrime(Float.parseFloat(this.pv.getAllTextFields().get("prime").getText()));
+
+        return prog;
+    }
+
+    public void setPv(ProgrammeurView pv) {
+        this.pv = pv;
+    }
+
     private void openModal(){
         //ProgrammeurView pv = new ProgrammeurView(null);
         new FenetreMere("Ajout", new ProgrammeurView(), true);
     }
+
     private void openModal(ProgrammeurBean pb){
         ProgrammeurView pv = new ProgrammeurView(pb);
         new FenetreMere(pb.getNom().toUpperCase() + " " + pb.getPrenom(), pv);

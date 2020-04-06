@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import model.ProgrammeurBean;
 
 import javax.swing.*;
@@ -7,13 +8,14 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //TODO: Peut-être factoriser tout ça ?
 
-public class ProgrammeurView extends JPanel {
+public class ProgrammeurView extends ViewPanel {
 
     private ArrayList<JLabel> allLabels = new ArrayList<JLabel>();
-    private ArrayList<JTextField> allTextFields = new ArrayList<JTextField>();
+    private HashMap<String, JTextField> allTextFields = new HashMap<>();
 
 
     public ProgrammeurView() {
@@ -38,9 +40,12 @@ public class ProgrammeurView extends JPanel {
         this.allLabels.add(new JLabel("Responsable: "));
         this.allLabels.add(new JLabel("Hobby: "));
 
+        String key;
+
         for (int i = 0; i < this.allLabels.size(); i++) {
-            this.allTextFields.add(new JTextField());
-            this.allTextFields.get(i).setCaretColor(Color.white);
+            key = this.allLabels.get(i).getText().replace(": ", "").toLowerCase();
+            this.allTextFields.put(key, new JTextField());
+            this.allTextFields.get(key).setCaretColor(Color.white);
         }
 
         this.setBackground(Color.decode("#303030"));
@@ -48,8 +53,8 @@ public class ProgrammeurView extends JPanel {
         this.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         for (JLabel label : allLabels) {
-            Integer index = allLabels.indexOf(label);
-            JTextField jtf = this.allTextFields.get(index);
+            key = label.getText().replace(": ", "").toLowerCase();
+            JTextField jtf = this.allTextFields.get(key);
 
             label.setBackground(Color.decode("#3a3a3a"));
             label.setForeground(Color.white);
@@ -59,25 +64,35 @@ public class ProgrammeurView extends JPanel {
                 jtf.setEditable(false);
                 jtf.setFocusable(false);
             }
+
             jtf.setBackground(Color.decode("#424242"));
             jtf.setForeground(Color.WHITE);
             jtf.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1), new EmptyBorder(5, 5, 5, 5)));
             this.add(label);
             this.add(jtf);
         }
+
     }
 
     private void populateProgrammeurView(ProgrammeurBean data) {
-        this.allTextFields.get(0).setText(data.getId() + "");
-        this.allTextFields.get(1).setText(data.getPseudo() + "");
-        this.allTextFields.get(2).setText(data.getNom() + "");
-        this.allTextFields.get(3).setText(data.getPrenom() + "");
-        this.allTextFields.get(4).setText(data.getAnNaissance() + "");
-        this.allTextFields.get(5).setText(data.getSalaire() + "");
-        this.allTextFields.get(6).setText(data.getPrime() + "");
-        this.allTextFields.get(7).setText(data.getAdresse() + "");
-        this.allTextFields.get(8).setText(data.getResponsable() + "");
-        this.allTextFields.get(9).setText(data.getHobby() + "");
+        this.allTextFields.get("id").setText(data.getId() + "");
+        this.allTextFields.get("pseudo").setText(data.getPseudo() + "");
+        this.allTextFields.get("nom").setText(data.getNom() + "");
+        this.allTextFields.get("prénom").setText(data.getPrenom() + "");
+        this.allTextFields.get("naissance").setText(data.getAnNaissance() + "");
+        this.allTextFields.get("salaire").setText(data.getSalaire() + "");
+        this.allTextFields.get("prime").setText(data.getPrime() + "");
+        this.allTextFields.get("adresse").setText(data.getAdresse() + "");
+        this.allTextFields.get("responsable").setText(data.getResponsable() + "");
+        this.allTextFields.get("hobby").setText(data.getHobby() + "");
     }
 
+    public HashMap<String, JTextField> getAllTextFields() {
+        return this.allTextFields;
+    }
+
+    public void actionButtonAdd(Controller controller, JButton add) {
+        addListener(controller, add);
+        controller.setPv(this);
+    }
 }

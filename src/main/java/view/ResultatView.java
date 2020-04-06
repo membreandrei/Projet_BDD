@@ -20,7 +20,7 @@ public class ResultatView extends ViewPanel {
     private JTable table;
     private JButton searchButton = new JButton();
     private JComboBox choice = new JComboBox();
-    JTextField searchText = new JTextField();
+    private JTextField searchText = new JTextField();
 
     public ResultatView() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -190,4 +190,5 @@ public class ResultatView extends ViewPanel {
     public JButton getSearchButton() {
         return searchButton;
     }
+
 }
