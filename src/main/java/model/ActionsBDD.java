@@ -20,7 +20,7 @@ public class ActionsBDD {
 
     public ActionsBDD() {
     }
-
+// Connexion à la base de données
     public Connection getConnection() {
         try {
             this.conn = DriverManager.getConnection(url, user, password);
@@ -29,7 +29,7 @@ public class ActionsBDD {
         }
         return this.conn;
     }
-
+// Methode pour construire dynamiquement une requete préparée standard.
     public PreparedStatement getPreparedStatement(Connection conn, String requete) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -38,7 +38,7 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-
+// Methode pour construire dynamiquement une requete préparée prenant un int en argument
     public PreparedStatement getPreparedStatementInt(Connection conn, String requete, int id) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -48,7 +48,7 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-
+//Methode pour construire dynamiquement une requete préparée prenant juste une string en arg
     public PreparedStatement getPreparedStatementString(Connection conn, String requete, String name) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -58,7 +58,7 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-    
+//Methode pour la construction d'une requete d'insert à partir de la structure d'un developpeur     
     public PreparedStatement getPreparedStatementInsert(Connection conn, String requete, ProgrammeurBean prog) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -78,7 +78,7 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-    
+  // Méthode pour préparer la requête de modification du salaire  
     public PreparedStatement getPreparedStatementModifySalary(Connection conn, String requete, ProgrammeurBean prog) {
         try{
             this.stmt.setFloat(1, prog.getSalaire());
@@ -89,7 +89,7 @@ public class ActionsBDD {
         return this.stmt;
     }
 
-    
+    //Méthode pour exécuter et récupérer le résultat d'une requête renvoyant un resultset
     public ResultSet getResultSet(PreparedStatement stmt) {
         try {
             this.rs = stmt.executeQuery();
@@ -98,7 +98,7 @@ public class ActionsBDD {
         }
         return this.rs;
     }
-    
+    //Méthode pour exécuter une requête en récupérant le nb de row affecté par la requête
     public int getResultSetModify(PreparedStatement stmt) {
         Integer i = null;
         try {
