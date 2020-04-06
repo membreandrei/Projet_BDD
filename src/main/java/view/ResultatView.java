@@ -7,7 +7,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicArrowButton;
-import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -122,7 +121,7 @@ public class ResultatView extends ViewPanel {
         this.table.setFocusable(false);
         this.table.getTableHeader().setBackground(Color.decode("#424242"));
         this.table.getTableHeader().setForeground(Color.white);
-        this. table.setBorder(new MatteBorder(0, 1, 1, 1, Color.WHITE));
+        this.table.setBorder(new MatteBorder(0, 1, 1, 1, Color.WHITE));
         this.table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
@@ -166,7 +165,6 @@ public class ResultatView extends ViewPanel {
         this.removeAll();
         this.revalidate();
         this.repaint();
-        //System.out.println(data.get(0).getNom());
         switch (type) {
             case 0:
                 displayAll();
