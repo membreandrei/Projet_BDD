@@ -58,7 +58,28 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
+    
+    public PreparedStatement getPreparedStatementInsert(Connection conn, String requete, ProgrammeurBean prog) {
+        try {
+            this.stmt = conn.prepareStatement(requete);
+            this.stmt.setString(1,prog.getNom());
+            this.stmt.setString(2,prog.getPrenom());
+            this.stmt.setString(3,prog.getAdresse());
+            this.stmt.setString(4,prog.getPseudo());
+            this.stmt.setString(5, prog.getResponsable());
+            this.stmt.setString(6, prog.getHobby());
+            this.stmt.setInt(7, prog.getAnNaissance());
+            this.stmt.setFloat(8, prog.getSalaire());
+            this.stmt.setFloat(8, prog.getPrime());
+                       
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.stmt;
+    }
 
+    
     public ResultSet getResultSet(PreparedStatement stmt) {
         try {
             this.rs = stmt.executeQuery();
@@ -67,6 +88,15 @@ public class ActionsBDD {
         }
         return this.rs;
     }
-
+    
+    public int getResultSetModify(PreparedStatement stmt) {
+        Integer i = null;
+        try {
+           i = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return i;
+    }
 }
 

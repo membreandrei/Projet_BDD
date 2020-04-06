@@ -22,7 +22,6 @@ public class ActionsBDDImpl {
     public ActionsBDDImpl() {
         this.conn = this.action.getConnection();
     }
-
     public ProgrammeurBean initProgrameur(ResultSet rs) {
         try {
             prog = new ProgrammeurBean();
@@ -89,5 +88,10 @@ public class ActionsBDDImpl {
     //TODO À déplacer dans ProgrammeurBean
     public TreeMap<Integer, ProgrammeurBean> getListeProg() {
         return this.listeProg;
+    }
+
+ 
+    public void CreateProg(ProgrammeurBean prog){
+        doRequete(this.action.getPreparedStatementInsert(this.conn, Constantes.CREATEPROG, prog));
     }
 }
