@@ -34,10 +34,6 @@ public class ResultatView extends ViewPanel {
         this.resultArea.setCaretPosition(0);
     }
 
-    public JTable getTable() {
-        return table;
-    }
-
     private void displayAll() {
         this.resultArea.setText("");
         this.resultArea.setMargin(new Insets(10, 10, 10, 10));
@@ -122,7 +118,7 @@ public class ResultatView extends ViewPanel {
         this.table.setFocusable(false);
         this.table.getTableHeader().setBackground(Color.decode("#424242"));
         this.table.getTableHeader().setForeground(Color.white);
-        this. table.setBorder(new MatteBorder(0, 1, 1, 1, Color.WHITE));
+        this.table.setBorder(new MatteBorder(0, 1, 1, 1, Color.WHITE));
         this.table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
@@ -130,7 +126,7 @@ public class ResultatView extends ViewPanel {
 
         this.sp = new JScrollPane(table);
         this.sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"), 1));
-        this. sp.getViewport().setBackground(Color.decode("#424242"));
+        this.sp.getViewport().setBackground(Color.decode("#424242"));
         this.sp.setBackground(Color.decode("#424242"));
         this.sp.setBorder(new EmptyBorder(1, 10, 10, 10));
 
@@ -179,6 +175,10 @@ public class ResultatView extends ViewPanel {
             case 4:
             case 5:
         }
+    }
+
+    public JTable getTable() {
+        return table;
     }
 
     public JComboBox getChoice() {

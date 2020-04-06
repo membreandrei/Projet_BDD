@@ -71,8 +71,6 @@ public class ActionsBDD {
             this.stmt.setInt(7, prog.getAnNaissance());
             this.stmt.setFloat(8, prog.getSalaire());
             this.stmt.setFloat(8, prog.getPrime());
-                       
-            
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
