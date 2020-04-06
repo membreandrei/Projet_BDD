@@ -60,7 +60,7 @@ public class ResultatView extends ViewPanel {
         this.searchText.setForeground(Color.WHITE);
         this.searchText.setPreferredSize(new Dimension(200, 20));
         this.searchText.setCaretColor(Color.WHITE);
-        this.searchText.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1), new EmptyBorder(5, 5, 5, 5)));
+        this.searchText.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1), new EmptyBorder(0, 5, 0, 5)));
 
         this.searchButton = new JButton("Rechercher");
         this.searchButton.setFocusable(false);

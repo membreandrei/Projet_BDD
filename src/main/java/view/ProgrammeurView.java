@@ -40,6 +40,7 @@ public class ProgrammeurView extends JPanel {
 
         for (int i = 0; i < this.allLabels.size(); i++) {
             this.allTextFields.add(new JTextField());
+            this.allTextFields.get(i).setCaretColor(Color.white);
         }
 
         this.setBackground(Color.decode("#303030"));
