@@ -2,11 +2,7 @@ package controller;
 
 import model.ActionsBDDImpl;
 import model.ProgrammeurBean;
-import view.BasePanel;
-import view.MenuView;
-import view.ProgrammeurView;
-import view.ResultatView;
-import view.FenetreMere;
+import view.*;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -58,7 +54,7 @@ public class Controller implements ActionListener, MouseListener {
             //this.rv.modifyPanel(2, data);
         }
         if (e.getSource().equals(this.identificator.get("Ajouter un programmeur"))) {
-            //this.rv.modifyPanel(3, data);
+            this.openModal();
         }
         if (e.getSource().equals(this.identificator.get("Modifier le salaire"))) {
             //this.rv.modifyPanel(4, data);
@@ -133,15 +129,21 @@ public class Controller implements ActionListener, MouseListener {
         }
     }
 
+    private void openModal(){
+        //ProgrammeurView pv = new ProgrammeurView(null);
+        new FenetreMere("Ajout", new ProgrammeurView(), true);
+    }
+    private void openModal(ProgrammeurBean pb){
+        ProgrammeurView pv = new ProgrammeurView(pb);
+        new FenetreMere(pb.getNom().toUpperCase() + " " + pb.getPrenom(), pv);
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         JTable laTable = (JTable) e.getSource();
         Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
         ProgrammeurBean prog = this.model.getListeProg().get(targetId);
-        ProgrammeurView pv = new ProgrammeurView(prog);
-
-        FenetreMere fm = new FenetreMere(prog.getNom().toUpperCase() + " " + prog.getPrenom(), pv);
-
+        openModal(prog);
     }
 
     @Override

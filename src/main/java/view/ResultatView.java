@@ -7,7 +7,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicArrowButton;
-import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -162,7 +161,6 @@ public class ResultatView extends ViewPanel {
         this.removeAll();
         this.revalidate();
         this.repaint();
-        //System.out.println(data.get(0).getNom());
         switch (type) {
             case 0:
                 displayAll();
