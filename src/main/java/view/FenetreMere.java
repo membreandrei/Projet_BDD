@@ -27,6 +27,62 @@ public class FenetreMere extends JFrame {
         this.setVisible(true);
     }
 
+
+    public FenetreMere(String title, ProgrammeurView view, Boolean add){
+        //On créé la fenêtre mère
+        super(title);
+
+        //On définit la taille de la fenêtre
+        this.setPreferredSize(new Dimension(600, 300));
+        this.setBackground(Color.decode("#303030"));
+        this.setLayout(new BorderLayout());
+        this.add(view, BorderLayout.CENTER);
+
+        JButton ajout = new JButton("Ajouter");
+        ajout.setActionCommand("ajout");
+        JButton exit = new JButton("Annuler");
+        exit.setActionCommand("close");
+
+        ActionListener al = e -> {
+            System.out.println(e.getActionCommand());
+            if(e.getActionCommand().equals("ajout")){
+                dispose();
+            } else{
+                dispose();
+            }
+        };
+
+        ajout.addActionListener(al);
+        exit.addActionListener(al);
+
+
+        JPanel jp = new JPanel();
+        ajout.setFocusable(false);
+            exit.setFocusable(false);
+
+        jp.setBackground(Color.decode("#303030"));
+
+        ajout.setBackground(Color.decode("#3a3a3a"));
+            exit.setBackground(Color.decode("#3a3a3a"));
+        ajout.setForeground(Color.white);
+            exit.setForeground(Color.white);
+
+        ajout.setMargin(new Insets(5,20,5,20));
+
+        exit.setMargin(new Insets(5,20,5,20));
+
+        jp.add(ajout, BorderLayout.CENTER);
+        jp.add(Box.createHorizontalStrut(20));
+        jp.add(exit, BorderLayout.CENTER);
+
+        this.add(jp, BorderLayout.PAGE_END);
+        this.setBounds(700, 350, 450, 300);
+        this.pack();
+        this.setVisible(true);
+
+
+    }
+
     public FenetreMere(String title, ProgrammeurView view) {
         //On créé la fenêtre mère
         super(title);
