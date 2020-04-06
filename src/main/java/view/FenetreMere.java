@@ -44,7 +44,6 @@ public class FenetreMere extends JFrame {
         exit.setActionCommand("close");
 
         ActionListener al = e -> {
-            System.out.println(e.getActionCommand());
             if(e.getActionCommand().equals("ajout")){
                 dispose();
             } else{
