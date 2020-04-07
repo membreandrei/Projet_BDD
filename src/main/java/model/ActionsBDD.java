@@ -1,10 +1,8 @@
 package model;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.Constantes;
 
 public class ActionsBDD {
 
@@ -42,7 +40,7 @@ public class ActionsBDD {
     public PreparedStatement getPreparedStatementInt(Connection conn, String requete, int id) {
         try {
             this.stmt = conn.prepareStatement(requete);
-            this.stmt.setInt(1,id);
+            this.stmt.setInt(1, id);
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }

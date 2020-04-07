@@ -2,10 +2,10 @@ package controller;
 
 import model.ActionsBDDImpl;
 import model.ProgrammeurBean;
+import org.sonatype.inject.Nullable;
 import view.*;
 
 import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,7 +55,7 @@ public class Controller implements ActionListener, MouseListener {
             //this.rv.modifyPanel(2, data);
         }
         if (e.getSource().equals(this.identificator.get("Ajouter un programmeur"))) {
-            this.openModal();
+            this.openModal(null, "add");
         }
 
         if(e.getActionCommand().equals("ajout")){
@@ -71,69 +71,7 @@ public class Controller implements ActionListener, MouseListener {
             System.exit(0);
         }
         if (e.getSource().equals(this.rv.getSearchButton())) {
-
-            JOptionPane jo = new JOptionPane();
-            jo.setBackground(Color.BLUE);
-            UIManager.put("OptionPane.background", Color.decode("#3a3a3a"));
-            UIManager.put("Panel.background", Color.decode("#3a3a3a"));
-            UIManager.put("OptionPane.messageForeground", Color.WHITE);
-            UIManager.put("Button.background", Color.decode("#424242"));
-            UIManager.put("Button.foreground", Color.WHITE);
-            UIManager.put("Button.focusable", false);
-            UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
-
-            switch ((String) this.rv.getChoice().getSelectedItem()) {
-                case "Par ID":
-                    if (!this.rv.getSearchText().getText().matches("^[0-9]+$|^$")) {
-                        jo.showMessageDialog(null, "Pas un nombre entier retaper");
-
-                        data = this.model.getProgrammeurs();
-                        this.rv.modifyPanel(1, data, "Par ID");
-                    } else {
-                        if (this.rv.getSearchText().getText().equals("")) {
-                            data = this.model.getProgrammeurs();
-                            this.rv.modifyPanel(1, data, "Par ID");
-                        } else {
-                            data = this.model.getProgrammeurById(Integer.parseInt(this.rv.getSearchText().getText()));
-                            this.rv.modifyPanel(1, data, "Par ID");
-                        }
-                    }
-
-                    break;
-
-                case "Par Nom":
-
-                    data = this.model.getProgrammeurByName(this.rv.getSearchText().getText());
-                    this.rv.modifyPanel(1, data, "Par Nom");
-
-                    break;
-
-                case "Par Prénom":
-
-                    data = this.model.getProgrammeurByFirstName(this.rv.getSearchText().getText());
-                    this.rv.modifyPanel(1, data, "Par Prénom");
-
-                    break;
-
-                case "Par Année de naissance":
-                    if (!this.rv.getSearchText().getText().matches("^[0-9]+$|^$")) {
-                        jo.showMessageDialog(null, "Pas un nombre entier retaper");
-
-                        data = this.model.getProgrammeurs();
-                        this.rv.modifyPanel(1, data, "Par Année de naissance");
-                    } else {
-                        if (this.rv.getSearchText().getText().equals("")) {
-                            data = this.model.getProgrammeurs();
-                            this.rv.modifyPanel(1, data, "Par Année de naissance");
-                        } else {
-                            data = this.model.getProgrammeurByYear(Integer.parseInt(this.rv.getSearchText().getText()));
-                            this.rv.modifyPanel(1, data, "Par Année de naissance");
-                        }
-                    }
-
-                    break;
-
-            }
+            this.rv.recherche();
         }
     }
 
@@ -158,14 +96,33 @@ public class Controller implements ActionListener, MouseListener {
         this.pv = pv;
     }
 
-    private void openModal(){
-        //ProgrammeurView pv = new ProgrammeurView(null);
-        new FenetreMere("Ajout", new ProgrammeurView(), true);
+    private void openModal(@Nullable ProgrammeurBean pb, String type){
+        String title = null;
+        ProgrammeurView pv = null;
+        if(pb == null){
+            title = "Ajout";
+            pv = new ProgrammeurView();
+        } else{
+            title = pb.getNom().toUpperCase() + " " + pb.getPrenom();
+            pv = new ProgrammeurView(pb);
+        }
+        new FenetreMere(title, pv, type);
     }
 
-    private void openModal(ProgrammeurBean pb){
-        ProgrammeurView pv = new ProgrammeurView(pb);
-        new FenetreMere(pb.getNom().toUpperCase() + " " + pb.getPrenom(), pv);
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurs(){
+        return this.model.getProgrammeurs();
+    }
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurById(int id) {
+        return this.model.getProgrammeurById(id);
+    }
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByName(String name) {
+        return this.model.getProgrammeurByName(name);
+    }
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByFirstName(String firstName) {
+        return this.model.getProgrammeurByFirstName(firstName);
+    }
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByYear(Integer year) {
+        return this.model.getProgrammeurByYear(year);
     }
 
     @Override
@@ -173,7 +130,7 @@ public class Controller implements ActionListener, MouseListener {
         JTable laTable = (JTable) e.getSource();
         Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
         ProgrammeurBean prog = this.model.getListeProg().get(targetId);
-        openModal(prog);
+        openModal(prog, "display");
     }
 
     @Override

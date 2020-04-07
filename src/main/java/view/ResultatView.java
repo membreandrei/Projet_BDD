@@ -1,11 +1,13 @@
 package view;
 
+import controller.Controller;
 import model.ProgrammeurBean;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
@@ -70,7 +72,7 @@ public class ResultatView extends ViewPanel {
         this.choice.setForeground(Color.WHITE);
         this.choice.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         this.choice.setFocusable(false);
-        this.choice.setUI(new BasicComboBoxUI(){
+        this.choice.setUI(new BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
                 BasicArrowButton result = new BasicArrowButton(BasicArrowButton.SOUTH);
@@ -94,14 +96,16 @@ public class ResultatView extends ViewPanel {
         jp.add(this.searchButton);
         jp.add(this.choice);
 
-        String[] colNames = {"ID", "NOM", "PRENOM", "ANNEE DE NAISSANCE"};
-        Object[][] data = new Object[informations.size()][4];
+        String[] colNames = {"ID", "NOM", "PRENOM", "ANNEE DE NAISSANCE", "SALAIRE", "PSEUDO"};
+        Object[][] data = new Object[informations.size()][6];
         int index = 0;
         for (Integer key : informations.keySet()) {
             data[index][0] = informations.get(key).getId();
             data[index][1] = informations.get(key).getNom().toUpperCase();
             data[index][2] = informations.get(key).getPrenom();
             data[index][3] = informations.get(key).getAnNaissance();
+            data[index][4] = informations.get(key).getSalaire();
+            data[index][5] = informations.get(key).getPseudo();
             index++;
         }
 
@@ -174,6 +178,75 @@ public class ResultatView extends ViewPanel {
             case 5:
         }
     }
+
+
+    public void recherche() {
+        JOptionPane jo = new JOptionPane();
+        jo.setBackground(Color.BLUE);
+        UIManager.put("OptionPane.background", Color.decode("#3a3a3a"));
+        UIManager.put("Panel.background", Color.decode("#3a3a3a"));
+        UIManager.put("OptionPane.messageForeground", Color.WHITE);
+        UIManager.put("Button.background", Color.decode("#424242"));
+        UIManager.put("Button.foreground", Color.WHITE);
+        UIManager.put("Button.focusable", false);
+        UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
+
+        TreeMap<Integer, ProgrammeurBean> data = null;
+        String choice = (String) this.getChoice().getSelectedItem();
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        Controller controller = fm.getBasePanel().getController();
+
+        if (validateInput(choice)) {
+            switch (choice) {
+                case "Par ID":
+                    data = rechercheId(controller, data, jo);
+                    break;
+
+                case "Par Nom":
+                    data = controller.getProgrammeurByName(this.getSearchText().getText());
+                    break;
+
+                case "Par Prénom":
+                    data = controller.getProgrammeurByFirstName(this.getSearchText().getText());
+                    break;
+
+                case "Par Année de naissance":
+                    rechercheYear(controller, data, jo);
+                    break;
+            }
+        } else {
+            jo.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
+            data = controller.getProgrammeurs();
+        }
+        this.modifyPanel(1, data, choice);
+    }
+
+    private Boolean validateInput(String choice) {
+        if (choice.equals("Par ID") || choice.equals("Par Année de naissance")) {
+            return (this.getSearchText().getText().matches("^[0-9]+$|^$"));
+        } else {
+            return (this.getSearchText().getText().matches("^[a-zA-Z]+$|^$"));
+        }
+    }
+
+    private TreeMap<Integer, ProgrammeurBean> rechercheId(Controller controller, TreeMap<Integer, ProgrammeurBean> data, JOptionPane jo) {
+        if (this.getSearchText().getText().equals("")) {
+            data = controller.getProgrammeurs();
+        } else {
+            data = controller.getProgrammeurById(Integer.parseInt(this.getSearchText().getText()));
+        }
+        return data;
+    }
+
+    private TreeMap<Integer, ProgrammeurBean> rechercheYear(Controller controller, TreeMap<Integer, ProgrammeurBean> data, JOptionPane jo) {
+        if (this.getSearchText().getText().equals("")) {
+            data = controller.getProgrammeurs();
+        } else {
+            data = controller.getProgrammeurByYear(Integer.parseInt(this.getSearchText().getText()));
+        }
+        return data;
+    }
+
 
     public JTable getTable() {
         return table;

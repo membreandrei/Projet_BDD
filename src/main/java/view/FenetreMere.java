@@ -1,8 +1,9 @@
 package view;
 
+import utils.StyleHelper;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FenetreMere extends JFrame {
@@ -28,86 +29,57 @@ public class FenetreMere extends JFrame {
     }
 
 
-    public FenetreMere(String title, ProgrammeurView view, Boolean add){
+    public FenetreMere(String title, ProgrammeurView view, String type){
         //On créé la fenêtre mère
         super(title);
 
         //On définit la taille de la fenêtre
         this.setPreferredSize(new Dimension(600, 300));
-        this.setBackground(Color.decode("#303030"));
+        StyleHelper.setStyle(this);
         this.setLayout(new BorderLayout());
         this.add(view, BorderLayout.CENTER);
 
-        JButton ajout = new JButton("Ajouter");
-        ajout.setActionCommand("ajout");
+        JPanel jp = new JPanel();
+        jp.setBackground(Color.decode("#303030"));
+
         JButton exit = new JButton("Annuler");
         exit.setActionCommand("close");
+        exit.setMargin(new Insets(5,20,5,20));
+        StyleHelper.setStyle(exit);
 
         ActionListener al = e -> {
-            if(e.getActionCommand().equals("ajout")){
-                dispose();
-            } else{
-                dispose();
-            }
+            dispose();
         };
         exit.addActionListener(al);
 
-        JPanel jp = new JPanel();
-        ajout.setFocusable(false);
-            exit.setFocusable(false);
+        if(type.equals("add")) {
+            this.fenetreAjout(jp, view);
+        }
 
-        jp.setBackground(Color.decode("#303030"));
+        jp.add(exit, BorderLayout.CENTER);
 
-        ajout.setBackground(Color.decode("#3a3a3a"));
-            exit.setBackground(Color.decode("#3a3a3a"));
-        ajout.setForeground(Color.white);
-            exit.setForeground(Color.white);
+        this.add(jp, BorderLayout.PAGE_END);
+        this.setBounds(700, 350, 450, 300);
+        this.pack();
+        this.setVisible(true);
+    }
 
+
+    private void fenetreAjout(JPanel jp, ProgrammeurView view){
+
+        JButton ajout = new JButton("Ajouter");
+        ajout.setActionCommand("ajout");
+        StyleHelper.setStyle(ajout);
         ajout.setMargin(new Insets(5,20,5,20));
-
-        exit.setMargin(new Insets(5,20,5,20));
 
         jp.add(ajout, BorderLayout.CENTER);
         jp.add(Box.createHorizontalStrut(20));
-        jp.add(exit, BorderLayout.CENTER);
 
-        this.add(jp, BorderLayout.PAGE_END);
-        this.setBounds(700, 350, 450, 300);
-        this.pack();
         view.actionButtonAdd(this.getBasePanel().getController(), ajout);
-        this.setVisible(true);
-
     }
 
-    public FenetreMere(String title, ProgrammeurView view) {
-        //On créé la fenêtre mère
-        super(title);
+    private void fenetreDisplay(JPanel jp, ProgrammeurView view){
 
-        //On définit la taille de la fenêtre
-        this.setPreferredSize(new Dimension(600, 300));
-        this.setBackground(Color.decode("#303030"));
-        this.setLayout(new BorderLayout());
-        this.add(view, BorderLayout.CENTER);
-        JButton exit = new JButton("OK");
-
-        exit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
-
-        JPanel jp = new JPanel();
-        exit.setFocusable(false);
-        jp.setBackground(Color.decode("#303030"));
-        exit.setBackground(Color.decode("#3a3a3a"));
-        exit.setForeground(Color.white);
-        exit.setMargin(new Insets(5,20,5,20));
-        jp.add(exit, BorderLayout.CENTER);
-
-        this.add(jp, BorderLayout.PAGE_END);
-        this.setBounds(700, 350, 450, 300);
-        this.pack();
-        this.setVisible(true);
     }
 
     public BasePanel getBasePanel() {

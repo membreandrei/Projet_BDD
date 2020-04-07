@@ -8,8 +8,8 @@ public class ProgrammeurBean implements Serializable {
     private String nom;
     private String prenom;
     private int anNaissance;
-    private float prime;
     private float salaire;
+    private float prime;
     private String pseudo;
     private String adresse;
     private String responsable;
