@@ -27,9 +27,16 @@ public class ProgrammeurView extends ViewPanel {
         this.populateProgrammeurView(data);
     }
 
+    //TODO deplacer pseudo quand ajout prog
     private void initProgrammeurView(Boolean isEmpty) {
 
-        this.allLabels.add(new JLabel("ID: "));
+        if (!isEmpty) {
+            this.setLayout(new GridLayout(6, 4));
+            this.allLabels.add(new JLabel("ID: "));
+        } else {
+            this.setLayout(new GridLayout(5, 4));
+        }
+
         this.allLabels.add(new JLabel("Pseudo: "));
         this.allLabels.add(new JLabel("Nom: "));
         this.allLabels.add(new JLabel("Prénom: "));
@@ -49,7 +56,6 @@ public class ProgrammeurView extends ViewPanel {
         }
 
         this.setBackground(Color.decode("#303030"));
-        this.setLayout(new GridLayout(6, 4));
         this.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         for (JLabel label : allLabels) {

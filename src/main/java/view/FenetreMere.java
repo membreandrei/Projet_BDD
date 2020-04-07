@@ -25,6 +25,7 @@ public class FenetreMere extends JFrame {
         this.setContentPane(this.basePanel);
         this.setBounds(500, 250, 0, 0);
         this.pack();
+        StyleHelper.setStyleJOptionPane();
         this.setVisible(true);
     }
 

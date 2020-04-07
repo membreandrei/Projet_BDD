@@ -2,6 +2,7 @@ package controller;
 
 import model.ActionsBDDImpl;
 import model.ProgrammeurBean;
+import org.apache.maven.shared.utils.StringUtils;
 import org.sonatype.inject.Nullable;
 import view.*;
 
@@ -58,10 +59,15 @@ public class Controller implements ActionListener, MouseListener {
             this.openModal(null, "add");
         }
 
-        if(e.getActionCommand().equals("ajout")){
-            this.model.createProg(createProg());
-            FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
-            fm.dispose();
+        if (e.getActionCommand().equals("ajout")) {
+            if (!validate()) {
+                JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des nombres dans salaire, prime, année de naissance");
+            } else {
+
+                this.model.createProg(createProg());
+                FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
+                fm.dispose();
+            }
         }
 
         if (e.getSource().equals(this.identificator.get("Modifier le salaire"))) {
@@ -75,8 +81,7 @@ public class Controller implements ActionListener, MouseListener {
         }
     }
 
-    private ProgrammeurBean createProg(){
-
+    private ProgrammeurBean createProg() {
         ProgrammeurBean prog = new ProgrammeurBean();
 
         prog.setNom(this.pv.getAllTextFields().get("nom").getText());
@@ -92,35 +97,56 @@ public class Controller implements ActionListener, MouseListener {
         return prog;
     }
 
+    private boolean validate() {
+
+        if (!StringUtils.isNumeric(this.pv.getAllTextFields().get("naissance").getText())) {
+            return false;
+        }
+
+        if (!this.pv.getAllTextFields().get("prime").getText().matches("[-+]?[0-9]*\\,|.?[0-9]+")) {
+            return false;
+        }
+
+        if (!this.pv.getAllTextFields().get("salaire").getText().matches("[-+]?[0-9]*\\,|.?[0-9]+")) {
+            return false;
+        }
+
+        return true;
+    }
+
     public void setPv(ProgrammeurView pv) {
         this.pv = pv;
     }
 
-    private void openModal(@Nullable ProgrammeurBean pb, String type){
+    private void openModal(@Nullable ProgrammeurBean pb, String type) {
         String title = null;
         ProgrammeurView pv = null;
-        if(pb == null){
+        if (pb == null) {
             title = "Ajout";
             pv = new ProgrammeurView();
-        } else{
+        } else {
             title = pb.getNom().toUpperCase() + " " + pb.getPrenom();
             pv = new ProgrammeurView(pb);
         }
         new FenetreMere(title, pv, type);
     }
 
-    public TreeMap<Integer, ProgrammeurBean> getProgrammeurs(){
+    public TreeMap<Integer, ProgrammeurBean> getProgrammeurs() {
         return this.model.getProgrammeurs();
     }
+
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurById(int id) {
         return this.model.getProgrammeurById(id);
     }
+
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurByName(String name) {
         return this.model.getProgrammeurByName(name);
     }
+
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurByFirstName(String firstName) {
         return this.model.getProgrammeurByFirstName(firstName);
     }
+
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurByYear(Integer year) {
         return this.model.getProgrammeurByYear(year);
     }

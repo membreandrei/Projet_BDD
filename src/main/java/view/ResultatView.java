@@ -2,6 +2,7 @@ package view;
 
 import controller.Controller;
 import model.ProgrammeurBean;
+import utils.StyleHelper;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -47,6 +48,7 @@ public class ResultatView extends ViewPanel {
         addComponent(sp);
     }
 
+    //TODO factoriser cette merde
     private void displayOne(TreeMap<Integer, ProgrammeurBean> informations, String valueComboBox) {
 
         JPanel jp = new JPanel();
@@ -181,16 +183,6 @@ public class ResultatView extends ViewPanel {
 
 
     public void recherche() {
-        JOptionPane jo = new JOptionPane();
-        jo.setBackground(Color.BLUE);
-        UIManager.put("OptionPane.background", Color.decode("#3a3a3a"));
-        UIManager.put("Panel.background", Color.decode("#3a3a3a"));
-        UIManager.put("OptionPane.messageForeground", Color.WHITE);
-        UIManager.put("Button.background", Color.decode("#424242"));
-        UIManager.put("Button.foreground", Color.WHITE);
-        UIManager.put("Button.focusable", false);
-        UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
-
         TreeMap<Integer, ProgrammeurBean> data = null;
         String choice = (String) this.getChoice().getSelectedItem();
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
@@ -199,7 +191,8 @@ public class ResultatView extends ViewPanel {
         if (validateInput(choice)) {
             switch (choice) {
                 case "Par ID":
-                    data = rechercheId(controller, data, jo);
+                    data = rechercheId(controller, data);
+
                     break;
 
                 case "Par Nom":
@@ -211,11 +204,11 @@ public class ResultatView extends ViewPanel {
                     break;
 
                 case "Par Année de naissance":
-                    rechercheYear(controller, data, jo);
+                    data = rechercheYear(controller, data);
                     break;
             }
         } else {
-            jo.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
+            JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
             data = controller.getProgrammeurs();
         }
         this.modifyPanel(1, data, choice);
@@ -229,7 +222,7 @@ public class ResultatView extends ViewPanel {
         }
     }
 
-    private TreeMap<Integer, ProgrammeurBean> rechercheId(Controller controller, TreeMap<Integer, ProgrammeurBean> data, JOptionPane jo) {
+    private TreeMap<Integer, ProgrammeurBean> rechercheId(Controller controller, TreeMap<Integer, ProgrammeurBean> data) {
         if (this.getSearchText().getText().equals("")) {
             data = controller.getProgrammeurs();
         } else {
@@ -238,7 +231,7 @@ public class ResultatView extends ViewPanel {
         return data;
     }
 
-    private TreeMap<Integer, ProgrammeurBean> rechercheYear(Controller controller, TreeMap<Integer, ProgrammeurBean> data, JOptionPane jo) {
+    private TreeMap<Integer, ProgrammeurBean> rechercheYear(Controller controller, TreeMap<Integer, ProgrammeurBean> data) {
         if (this.getSearchText().getText().equals("")) {
             data = controller.getProgrammeurs();
         } else {
