@@ -61,7 +61,7 @@ public class ActionsBDDImpl {
         return this.listeProg;
     }
 
-
+    //Méthode d'exécution d'une requête préparée avec modification dans la base de donnée
     public int doRequeteUpdate(PreparedStatement statement) {
         this.listeProg.clear();
         this.stmt = statement;

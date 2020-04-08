@@ -2,28 +2,43 @@ package utils;
 
 public final class Constantes {
 
-    //Récupérer tous les programmeurs
+    //Rï¿½cupï¿½rer tous les programmeurs
     public final static String ALLPROGS = "SELECT * from PROGRAMMEUR";
 
-    //Récupérer un programmeurs par ID (ID étant UNIQUE, pas besoin de LIMIT)
+    //Rï¿½cupï¿½rer un programmeurs par ID (ID ï¿½tant UNIQUE, pas besoin de LIMIT)
     public final static String PROGBYID = "SELECT * from PROGRAMMEUR where ID = ?";
 
-    //Récupérer les programmeurs par nom
+    //Rï¿½cupï¿½rer les programmeurs par nom
     public final static String PROGBYNAME = "SELECT * from PROGRAMMEUR where NOM like ?";
 
-    //Récupérer les programmeurs par prénom
+    //Rï¿½cupï¿½rer les programmeurs par prï¿½nom
     public final static String PROGBYFIRSTNAME = "SELECT * from PROGRAMMEUR where PRENOM like ?";
 
-    //Récupérer les programmeurs par année de naissance
+    //Rï¿½cupï¿½rer les programmeurs par annï¿½e de naissance
     public final static String PROGBYYEAR = "SELECT * from PROGRAMMEUR where ANNAISSANCE LIKE ?";
 
-    //Supprimer un programeur à partir de son ID
+    //Supprimer un programeur ï¿½ partir de son ID
     public final static String DELPROG = "DELETE FROM PROGRAMMEUR WHERE ID=?";
 
-    //Changer le salaire d'un programmeur à partir de son ID
+    //Changer le salaire d'un programmeur ï¿½ partir de son ID
     public final static String CHANGESALARY = "UPDATE PROGRAMMEUR SET SALAIRE=? WHERE ID=?";
 
-    //Créer un programmeur
+    //Crï¿½er un programmeur
     public final static String CREATEPROG = "INSERT INTO PROGRAMMEUR(NOM,PRENOM,ADRESSE,PSEUDO,RESPONSABLE,HOBBY,ANNAISSANCE,SALAIRE,PRIME) VALUES(?,?,?,?,?,?,?,?,?)";
+
+    //Serveur
+    public final static String SERVEUR = "54.154.23.110";
+
+    //Nom BDD
+    public final static String BDD = "APTN61_BD";
+
+    //Url
+    public final static String URL = "jdbc:mysql://" + SERVEUR + "/" + BDD;
+
+    //User
+    public final static String USER = "adm";
+
+    //Mdp
+    public final static String PASSWORD = "adm";
 
 }

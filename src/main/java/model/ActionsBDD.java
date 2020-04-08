@@ -1,14 +1,12 @@
 package model;
 
+import utils.Constantes;
+
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ActionsBDD {
-
-    private String url = "jdbc:mysql://54.154.23.110/APTN61_BD";
-    private String user = "adm";
-    private String password = "adm";
 
     // Le Java Bean
     private Connection conn;
@@ -18,16 +16,16 @@ public class ActionsBDD {
 
     public ActionsBDD() {
     }
-// Connexion à la base de données
+// Connexion ï¿½ la base de donnï¿½es
     public Connection getConnection() {
         try {
-            this.conn = DriverManager.getConnection(url, user, password);
+            this.conn = DriverManager.getConnection(Constantes.URL, Constantes.USER, Constantes.PASSWORD);
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         return this.conn;
     }
-// Methode pour construire dynamiquement une requete préparée standard.
+// Methode pour construire dynamiquement une requete prï¿½parï¿½e standard.
     public PreparedStatement getPreparedStatement(Connection conn, String requete) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -36,7 +34,7 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-// Methode pour construire dynamiquement une requete préparée prenant un int en argument
+// Methode pour construire dynamiquement une requete prï¿½parï¿½e prenant un int en argument
     public PreparedStatement getPreparedStatementInt(Connection conn, String requete, int id) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -46,7 +44,7 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-//Methode pour construire dynamiquement une requete préparée prenant juste une string en arg
+//Methode pour construire dynamiquement une requete prï¿½parï¿½e prenant juste une string en arg
     public PreparedStatement getPreparedStatementString(Connection conn, String requete, String name) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -56,7 +54,7 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-//Methode pour la construction d'une requete d'insert à partir de la structure d'un developpeur     
+//Methode pour la construction d'une requete d'insert ï¿½ partir de la structure d'un developpeur     
     public PreparedStatement getPreparedStatementInsert(Connection conn, String requete, ProgrammeurBean prog) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -74,7 +72,7 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-  // Méthode pour préparer la requête de modification du salaire  
+  // Mï¿½thode pour prï¿½parer la requï¿½te de modification du salaire  
     public PreparedStatement getPreparedStatementModifySalary(Connection conn, String requete, ProgrammeurBean prog) {
         try{
             this.stmt.setFloat(1, prog.getSalaire());
@@ -85,7 +83,7 @@ public class ActionsBDD {
         return this.stmt;
     }
 
-    //Méthode pour exécuter et récupérer le résultat d'une requête renvoyant un resultset
+    //Mï¿½thode pour exï¿½cuter et rï¿½cupï¿½rer le rï¿½sultat d'une requï¿½te renvoyant un resultset
     public ResultSet getResultSet(PreparedStatement stmt) {
         try {
             this.rs = stmt.executeQuery();
@@ -94,7 +92,7 @@ public class ActionsBDD {
         }
         return this.rs;
     }
-    //Méthode pour exécuter une requête en récupérant le nb de row affecté par la requête
+    //Mï¿½thode pour exï¿½cuter une requï¿½te en rï¿½cupï¿½rant le nb de row affectï¿½ par la requï¿½te
     public int getResultSetModify(PreparedStatement stmt) {
         Integer i = null;
         try {

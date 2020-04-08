@@ -48,96 +48,14 @@ public class ResultatView extends ViewPanel {
         addComponent(sp);
     }
 
-    //TODO factoriser cette merde
     private void displayOne(TreeMap<Integer, ProgrammeurBean> informations, String valueComboBox) {
 
-        JPanel jp = new JPanel();
-        jp.setBackground(Color.decode("#424242"));
-        jp.setPreferredSize(new Dimension(jp.getSize().width, 70));
-
-        this.searchText = new JTextField();
-        this.searchText.setBackground(Color.decode("#3a3a3a"));
-        this.searchText.setForeground(Color.WHITE);
-        this.searchText.setPreferredSize(new Dimension(200, 20));
-        this.searchText.setCaretColor(Color.WHITE);
-        this.searchText.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1), new EmptyBorder(0, 5, 0, 5)));
-
-        this.searchButton = new JButton("Rechercher");
-        this.searchButton.setFocusable(false);
-        this.searchButton.setBackground(Color.decode("#3a3a3a"));
-        this.searchButton.setForeground(Color.WHITE);
-        this.searchButton.setPreferredSize(new Dimension(110, 20));
-
-        String[] elements = new String[]{"Par ID", "Par Nom", "Par Prénom", "Par Année de naissance"};
-        this.choice = new JComboBox(elements);
-        this.choice.setBackground(Color.decode("#3a3a3a"));
-        this.choice.setForeground(Color.WHITE);
-        this.choice.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-        this.choice.setFocusable(false);
-        this.choice.setUI(new BasicComboBoxUI() {
-            @Override
-            protected JButton createArrowButton() {
-                BasicArrowButton result = new BasicArrowButton(BasicArrowButton.SOUTH);
-                result.setFocusable(false);
-                result.setEnabled(false);
-                result.setBackground(Color.decode("#3a3a3a")); //---button's color
-                return result;
-            }
-        });
-
-        if (valueComboBox != null)
-            this.choice.setSelectedItem(valueComboBox);
-
-        for (int i = 0; i < this.choice.getComponentCount(); i++) {
-            if (this.choice.getComponent(i) instanceof JComponent) {
-                ((JComponent) this.choice.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
-            }
-        }
-
-        jp.add(this.searchText);
-        jp.add(this.searchButton);
-        jp.add(this.choice);
-
-        String[] colNames = {"ID", "NOM", "PRENOM", "ANNEE DE NAISSANCE", "SALAIRE", "PSEUDO"};
-        Object[][] data = new Object[informations.size()][6];
-        int index = 0;
-        for (Integer key : informations.keySet()) {
-            data[index][0] = informations.get(key).getId();
-            data[index][1] = informations.get(key).getNom().toUpperCase();
-            data[index][2] = informations.get(key).getPrenom();
-            data[index][3] = informations.get(key).getAnNaissance();
-            data[index][4] = informations.get(key).getSalaire();
-            data[index][5] = informations.get(key).getPseudo();
-            index++;
-        }
-
-        table = new JTable(data, colNames) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-
-        this.table.setBackground(Color.decode("#424242"));
-        this.table.setForeground(Color.white);
-        this.table.setFocusable(false);
-        this.table.getTableHeader().setBackground(Color.decode("#424242"));
-        this.table.getTableHeader().setForeground(Color.white);
-        this.table.setBorder(new MatteBorder(0, 1, 1, 1, Color.WHITE));
-        this.table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
-        this.table.addMouseListener(fm.getBasePanel().getController());
 
-        this.sp = new JScrollPane(table);
-        this.sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"), 1));
-        this.sp.getViewport().setBackground(Color.decode("#424242"));
-        this.sp.setBackground(Color.decode("#424242"));
-        this.sp.setBorder(new EmptyBorder(1, 10, 10, 10));
+        this.setPaneTableau(informations, fm);
 
-        this.add(jp);
+        this.add(this.setPanelRecherche(valueComboBox));
         this.add(sp);
-
         this.searchText.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -175,12 +93,124 @@ public class ResultatView extends ViewPanel {
                 displayOne(data, valueComboBox);
                 break;
             case 2:
+
+                break;
             case 3:
             case 4:
             case 5:
         }
     }
 
+    private void setTable(String[] colNames, Object[][] data) {
+        table = new JTable(data, colNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        this.table.setBackground(Color.decode("#424242"));
+        this.table.setForeground(Color.white);
+        this.table.setFocusable(false);
+        this.table.getTableHeader().setBackground(Color.decode("#424242"));
+        this.table.getTableHeader().setForeground(Color.white);
+        this.table.setBorder(new MatteBorder(0, 1, 1, 1, Color.WHITE));
+        this.table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+    }
+
+    private void setSp() {
+        this.sp = new JScrollPane(table);
+        this.sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"), 1));
+        this.sp.getViewport().setBackground(Color.decode("#424242"));
+        this.sp.setBackground(Color.decode("#424242"));
+        this.sp.setBorder(new EmptyBorder(1, 10, 10, 10));
+    }
+
+    private void setPaneTableau(TreeMap<Integer, ProgrammeurBean> informations, FenetreMere fm) {
+
+        String[] colNames = {"ID", "NOM", "PRENOM", "ANNEE DE NAISSANCE", "SALAIRE", "PSEUDO"};
+        Object[][] data = new Object[informations.size()][6];
+        int index = 0;
+        for (Integer key : informations.keySet()) {
+            data[index][0] = informations.get(key).getId();
+            data[index][1] = informations.get(key).getNom().toUpperCase();
+            data[index][2] = informations.get(key).getPrenom();
+            data[index][3] = informations.get(key).getAnNaissance();
+            data[index][4] = informations.get(key).getSalaire();
+            data[index][5] = informations.get(key).getPseudo();
+            index++;
+        }
+
+        this.setTable(colNames, data);
+
+        this.table.addMouseListener(fm.getBasePanel().getController());
+
+        this.setSp();
+
+    }
+
+    private void setSearchText() {
+        this.searchText = new JTextField();
+        this.searchText.setBackground(Color.decode("#3a3a3a"));
+        this.searchText.setForeground(Color.WHITE);
+        this.searchText.setPreferredSize(new Dimension(200, 20));
+        this.searchText.setCaretColor(Color.WHITE);
+        this.searchText.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1), new EmptyBorder(0, 5, 0, 5)));
+    }
+
+    private void setSearchButton() {
+        this.searchButton = new JButton("Rechercher");
+        this.searchButton.setFocusable(false);
+        this.searchButton.setBackground(Color.decode("#3a3a3a"));
+        this.searchButton.setForeground(Color.WHITE);
+        this.searchButton.setPreferredSize(new Dimension(110, 20));
+    }
+
+    private void setChoice() {
+        String[] elements = new String[]{"Par ID", "Par Nom", "Par Prénom", "Par Année de naissance"};
+        this.choice = new JComboBox(elements);
+        this.choice.setBackground(Color.decode("#3a3a3a"));
+        this.choice.setForeground(Color.WHITE);
+        this.choice.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        this.choice.setFocusable(false);
+        this.choice.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                BasicArrowButton result = new BasicArrowButton(BasicArrowButton.SOUTH);
+                result.setFocusable(false);
+                result.setEnabled(false);
+                result.setBackground(Color.decode("#3a3a3a")); //---button's color
+                return result;
+            }
+        });
+    }
+
+    private JPanel setPanelRecherche(String valueComboBox) {
+        JPanel jp = new JPanel();
+        jp.setBackground(Color.decode("#424242"));
+        jp.setPreferredSize(new Dimension(jp.getSize().width, 70));
+
+        this.setSearchText();
+
+        this.setSearchButton();
+
+        this.setChoice();
+
+        if (valueComboBox != null)
+            this.choice.setSelectedItem(valueComboBox);
+
+        for (int i = 0; i < this.choice.getComponentCount(); i++) {
+            if (this.choice.getComponent(i) instanceof JComponent) {
+                ((JComponent) this.choice.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
+            }
+        }
+
+        jp.add(this.searchText);
+        jp.add(this.searchButton);
+        jp.add(this.choice);
+
+        return jp;
+    }
 
     public void recherche() {
         TreeMap<Integer, ProgrammeurBean> data = null;
