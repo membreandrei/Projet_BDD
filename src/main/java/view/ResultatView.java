@@ -2,6 +2,7 @@ package view;
 
 import controller.Controller;
 import model.ProgrammeurBean;
+import org.sonatype.inject.Nullable;
 import utils.StyleHelper;
 
 import javax.swing.*;
@@ -52,9 +53,9 @@ public class ResultatView extends ViewPanel {
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
 
-        this.setPaneTableau(informations, fm);
+        this.setPaneTableau(informations, fm, false);
 
-        this.add(this.setPanelRecherche(valueComboBox));
+        this.add(this.setPanelRecherche(valueComboBox, false));
         this.add(sp);
         this.searchText.addActionListener(new ActionListener() {
 
@@ -73,12 +74,28 @@ public class ResultatView extends ViewPanel {
 
     }
 
-    private void addOne() {
+    private void editWage() {
 
     }
 
-    private void editWage() {
+    private void modifyProg(TreeMap<Integer, ProgrammeurBean> informations) {
 
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        setPaneTableau(informations, fm, true);
+        this.add(this.setPanelRecherche(null, true));
+        this.add(sp);
+
+        this.searchText.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                searchButton.doClick();
+
+            }
+        });
+
+        this.searchText.requestFocusInWindow();
+        addListener(fm.getBasePanel().getController(), this.searchButton);
     }
 
     public void modifyPanel(Integer type, TreeMap<Integer, ProgrammeurBean> data, String valueComboBox) {
@@ -93,7 +110,7 @@ public class ResultatView extends ViewPanel {
                 displayOne(data, valueComboBox);
                 break;
             case 2:
-
+                modifyProg(data);
                 break;
             case 3:
             case 4:
@@ -101,13 +118,26 @@ public class ResultatView extends ViewPanel {
         }
     }
 
-    private void setTable(String[] colNames, Object[][] data) {
-        table = new JTable(data, colNames) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
+    private void setTable(String[] colNames, Object[][] data, boolean modify) {
+
+        if (!modify){
+            this.table = new JTable(data, colNames) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+        } else {
+            this.table = new JTable(data, colNames) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    if (table.getColumnModel().getColumnIndex("ID") == column)
+                        return false;
+                    else
+                        return true;
+                }
+            };
+        }
 
         this.table.setBackground(Color.decode("#424242"));
         this.table.setForeground(Color.white);
@@ -126,7 +156,7 @@ public class ResultatView extends ViewPanel {
         this.sp.setBorder(new EmptyBorder(1, 10, 10, 10));
     }
 
-    private void setPaneTableau(TreeMap<Integer, ProgrammeurBean> informations, FenetreMere fm) {
+    private void setPaneTableau(TreeMap<Integer, ProgrammeurBean> informations, FenetreMere fm, boolean modify) {
 
         String[] colNames = {"ID", "NOM", "PRENOM", "ANNEE DE NAISSANCE", "SALAIRE", "PSEUDO"};
         Object[][] data = new Object[informations.size()][6];
@@ -141,7 +171,7 @@ public class ResultatView extends ViewPanel {
             index++;
         }
 
-        this.setTable(colNames, data);
+        this.setTable(colNames, data, modify);
 
         this.table.addMouseListener(fm.getBasePanel().getController());
 
@@ -158,12 +188,15 @@ public class ResultatView extends ViewPanel {
         this.searchText.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.GRAY, 1), new EmptyBorder(0, 5, 0, 5)));
     }
 
-    private void setSearchButton() {
-        this.searchButton = new JButton("Rechercher");
+    private void setSearchButton(String title) {
+        this.searchButton = new JButton(title);
         this.searchButton.setFocusable(false);
         this.searchButton.setBackground(Color.decode("#3a3a3a"));
         this.searchButton.setForeground(Color.WHITE);
-        this.searchButton.setPreferredSize(new Dimension(110, 20));
+        if (title.equals("Rechercher"))
+            this.searchButton.setPreferredSize(new Dimension(110, 20));
+        else
+            this.searchButton.setPreferredSize(new Dimension(150, 20));
     }
 
     private void setChoice() {
@@ -185,29 +218,33 @@ public class ResultatView extends ViewPanel {
         });
     }
 
-    private JPanel setPanelRecherche(String valueComboBox) {
+    private JPanel setPanelRecherche(String valueComboBox, boolean modify) {
         JPanel jp = new JPanel();
         jp.setBackground(Color.decode("#424242"));
         jp.setPreferredSize(new Dimension(jp.getSize().width, 70));
 
         this.setSearchText();
-
-        this.setSearchButton();
-
-        this.setChoice();
-
-        if (valueComboBox != null)
-            this.choice.setSelectedItem(valueComboBox);
-
-        for (int i = 0; i < this.choice.getComponentCount(); i++) {
-            if (this.choice.getComponent(i) instanceof JComponent) {
-                ((JComponent) this.choice.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
-            }
+        if (!modify) {
+            this.setSearchButton("Rechercher");
+        } else {
+            this.setSearchButton("Rechercher par ID");
         }
-
         jp.add(this.searchText);
         jp.add(this.searchButton);
-        jp.add(this.choice);
+
+        if (!modify) {
+            this.setChoice();
+
+            if (valueComboBox != null)
+                this.choice.setSelectedItem(valueComboBox);
+
+            for (int i = 0; i < this.choice.getComponentCount(); i++) {
+                if (this.choice.getComponent(i) instanceof JComponent) {
+                    ((JComponent) this.choice.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
+                }
+            }
+            jp.add(this.choice);
+        }
 
         return jp;
     }
@@ -218,30 +255,39 @@ public class ResultatView extends ViewPanel {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         Controller controller = fm.getBasePanel().getController();
 
-        if (validateInput(choice)) {
-            switch (choice) {
-                case "Par ID":
-                    data = rechercheId(controller, data);
+        if (this.searchButton.getText().equals("Rechercher")) {
+            if (validateInput(choice)) {
+                switch (choice) {
+                    case "Par ID":
+                        data = rechercheId(controller, data);
 
-                    break;
+                        break;
 
-                case "Par Nom":
-                    data = controller.getProgrammeurByName(this.getSearchText().getText());
-                    break;
+                    case "Par Nom":
+                        data = controller.getProgrammeurByName(this.getSearchText().getText());
+                        break;
 
-                case "Par Prénom":
-                    data = controller.getProgrammeurByFirstName(this.getSearchText().getText());
-                    break;
+                    case "Par Prénom":
+                        data = controller.getProgrammeurByFirstName(this.getSearchText().getText());
+                        break;
 
-                case "Par Année de naissance":
-                    data = rechercheYear(controller, data);
-                    break;
+                    case "Par Année de naissance":
+                        data = rechercheYear(controller, data);
+                        break;
+                }
+            } else {
+
             }
+            this.modifyPanel(1, data, choice);
         } else {
-            JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
-            data = controller.getProgrammeurs();
+            if (validateInput("Par ID")) {
+                data = rechercheId(controller, data);
+            } else {
+                JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
+                data = controller.getProgrammeurs();
+            }
+            this.modifyPanel(2, data, null);
         }
-        this.modifyPanel(1, data, choice);
     }
 
     private Boolean validateInput(String choice) {

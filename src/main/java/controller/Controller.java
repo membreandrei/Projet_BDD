@@ -71,7 +71,8 @@ public class Controller implements ActionListener, MouseListener {
         }
 
         if (e.getSource().equals(this.identificator.get("Modifier le salaire"))) {
-            //this.rv.modifyPanel(4, data);
+            data = this.model.getProgrammeurs();
+            this.rv.modifyPanel(2, data, null);
         }
         if (e.getSource().equals(this.identificator.get("Quitter le programme"))) {
             System.exit(0);
@@ -153,10 +154,12 @@ public class Controller implements ActionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        JTable laTable = (JTable) e.getSource();
-        Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
-        ProgrammeurBean prog = this.model.getListeProg().get(targetId);
-        openModal(prog, "display");
+        if (e.getClickCount() == 2) {
+            JTable laTable = (JTable) e.getSource();
+            Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
+            ProgrammeurBean prog = this.model.getListeProg().get(targetId);
+            openModal(prog, "display");
+        }
     }
 
     @Override
