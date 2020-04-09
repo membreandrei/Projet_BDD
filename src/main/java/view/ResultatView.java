@@ -37,7 +37,8 @@ public class ResultatView extends ViewPanel {
         this.resultArea.setCaretPosition(0);
     }
 
-    private void displayAll() {
+    private void displayAll(TreeMap<Integer, ProgrammeurBean> informations) {
+        /* Ancien code
         this.resultArea.setText("");
         this.resultArea.setMargin(new Insets(10, 10, 10, 10));
         this.resultArea.setBackground(Color.decode("#424242"));
@@ -46,7 +47,11 @@ public class ResultatView extends ViewPanel {
         this.resultArea.setEditable(false);
         sp = new JScrollPane(resultArea);
         sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030")));
-        addComponent(sp);
+        addComponent(sp);*/
+
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        this.setPaneTableau(informations, fm, false);
+        this.add(sp);
     }
 
     private void displayOne(TreeMap<Integer, ProgrammeurBean> informations, String valueComboBox) {
@@ -82,6 +87,7 @@ public class ResultatView extends ViewPanel {
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         setPaneTableau(informations, fm, true);
+        ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(1);
         this.add(this.setPanelRecherche(null, true));
         this.add(sp);
 
@@ -104,7 +110,7 @@ public class ResultatView extends ViewPanel {
         this.repaint();
         switch (type) {
             case 0:
-                displayAll();
+                displayAll(data);
                 break;
             case 1:
                 displayOne(data, valueComboBox);
@@ -153,7 +159,7 @@ public class ResultatView extends ViewPanel {
         this.sp.setBorder(BorderFactory.createLineBorder(Color.decode("#303030"), 1));
         this.sp.getViewport().setBackground(Color.decode("#424242"));
         this.sp.setBackground(Color.decode("#424242"));
-        this.sp.setBorder(new EmptyBorder(1, 10, 10, 10));
+        this.sp.setBorder(new EmptyBorder(5, 10, 10, 10));
     }
 
     private void setPaneTableau(TreeMap<Integer, ProgrammeurBean> informations, FenetreMere fm, boolean modify) {

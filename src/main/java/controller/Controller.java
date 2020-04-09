@@ -42,11 +42,12 @@ public class Controller implements ActionListener, MouseListener {
         if (e.getSource().equals(this.identificator.get("Afficher tous les programmeurs"))) {
             data = this.model.getProgrammeurs();
             this.rv.modifyPanel(0, data, null);
+            /* Ancien code
             String text = "";
             for (Integer key : data.keySet())
                 text += data.get(key).toString() + "------------------------------------------------------------\n";
             text += " END ";
-            this.rv.editText(text);
+            this.rv.editText(text);*/
         }
         if (e.getSource().equals(this.identificator.get("Afficher un programmeur"))) {
             data = this.model.getProgrammeurs();
@@ -56,7 +57,7 @@ public class Controller implements ActionListener, MouseListener {
             //this.rv.modifyPanel(2, data);
         }
         if (e.getSource().equals(this.identificator.get("Ajouter un programmeur"))) {
-            this.openModal(null, "add");
+            this.openModal(null, "add", true);
         }
 
         if (e.getActionCommand().equals("ajout")) {
@@ -119,7 +120,7 @@ public class Controller implements ActionListener, MouseListener {
         this.pv = pv;
     }
 
-    private void openModal(@Nullable ProgrammeurBean pb, String type) {
+    private void openModal(@Nullable ProgrammeurBean pb, String type, boolean notModify) {
         String title = null;
         ProgrammeurView pv = null;
         if (pb == null) {
@@ -127,7 +128,7 @@ public class Controller implements ActionListener, MouseListener {
             pv = new ProgrammeurView();
         } else {
             title = pb.getNom().toUpperCase() + " " + pb.getPrenom();
-            pv = new ProgrammeurView(pb);
+            pv = new ProgrammeurView(pb, notModify);
         }
         new FenetreMere(title, pv, type);
     }
@@ -154,11 +155,17 @@ public class Controller implements ActionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        JTable laTable = (JTable) e.getSource();
         if (e.getClickCount() == 2) {
-            JTable laTable = (JTable) e.getSource();
             Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
             ProgrammeurBean prog = this.model.getListeProg().get(targetId);
-            openModal(prog, "display");
+            openModal(prog, "display",true);
+        }
+
+        if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 2) {
+            Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
+            ProgrammeurBean prog = this.model.getListeProg().get(targetId);
+            openModal(prog, "display", false);
         }
     }
 
