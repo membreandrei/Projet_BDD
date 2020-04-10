@@ -15,6 +15,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class ResultatView extends ViewPanel {
@@ -23,6 +24,7 @@ public class ResultatView extends ViewPanel {
     private JScrollPane sp;
     private JTable table;
     private JButton searchButton = new JButton();
+    private JButton deleteButton = new JButton();
     private JComboBox choice = new JComboBox();
     private JTextField searchText = new JTextField();
 
@@ -59,7 +61,7 @@ public class ResultatView extends ViewPanel {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
 
         this.setPaneTableau(informations, fm, false);
-
+        ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
         this.add(this.setPanelRecherche(valueComboBox, false));
         this.add(sp);
         this.searchText.addActionListener(new ActionListener() {
@@ -104,6 +106,29 @@ public class ResultatView extends ViewPanel {
         addListener(fm.getBasePanel().getController(), this.searchButton);
     }
 
+    private void deleteProg(TreeMap<Integer, ProgrammeurBean> informations) {
+
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        setPaneTableau(informations, fm, false);
+        ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
+        this.add(this.setPanelRecherche(null, true));
+        this.add(sp);
+        this.add(this.setDeleteButton());
+
+        this.searchText.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                searchButton.doClick();
+
+            }
+        });
+
+        this.searchText.requestFocusInWindow();
+        addListener(fm.getBasePanel().getController(), this.searchButton);
+        addListener(fm.getBasePanel().getController(), this.deleteButton);
+    }
+
     public void modifyPanel(Integer type, TreeMap<Integer, ProgrammeurBean> data, String valueComboBox) {
         this.removeAll();
         this.revalidate();
@@ -119,6 +144,8 @@ public class ResultatView extends ViewPanel {
                 modifyProg(data);
                 break;
             case 3:
+                deleteProg(data);
+                break;
             case 4:
             case 5:
         }
@@ -126,7 +153,7 @@ public class ResultatView extends ViewPanel {
 
     private void setTable(String[] colNames, Object[][] data, boolean modify) {
 
-        if (!modify){
+        if (!modify) {
             this.table = new JTable(data, colNames) {
                 @Override
                 public boolean isCellEditable(int row, int column) {
@@ -222,6 +249,19 @@ public class ResultatView extends ViewPanel {
                 return result;
             }
         });
+    }
+
+    private JPanel setDeleteButton() {
+        JPanel jp = new JPanel();
+        jp.setBackground(Color.decode("#424242"));
+        jp.setPreferredSize(new Dimension(jp.getSize().width, 200));
+        this.deleteButton = new JButton("Supprimer");
+        this.deleteButton.setFocusable(false);
+        this.deleteButton.setBackground(Color.decode("#3a3a3a"));
+        this.deleteButton.setForeground(Color.WHITE);
+        this.deleteButton.setPreferredSize(new Dimension(110, 20));
+        jp.add(deleteButton);
+        return jp;
     }
 
     private JPanel setPanelRecherche(String valueComboBox, boolean modify) {
@@ -322,9 +362,21 @@ public class ResultatView extends ViewPanel {
         return data;
     }
 
+    public ArrayList<Integer> getIdRowSelected() {
+        ArrayList<Integer> listeId = new ArrayList<Integer>();
+        for (int i = 0; i < this.table.getSelectedRows().length; i++) {
+            Object targetId = this.table.getValueAt(this.table.getSelectedRows()[i], this.table.getColumnModel().getColumnIndex("ID"));
+            listeId.add((int) targetId);
+        }
+        return listeId;
+    }
 
     public JTable getTable() {
         return table;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
     }
 
     public JComboBox getChoice() {

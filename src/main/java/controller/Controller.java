@@ -54,7 +54,8 @@ public class Controller implements ActionListener, MouseListener {
             this.rv.modifyPanel(1, data, null);
         }
         if (e.getSource().equals(this.identificator.get("Supprimer un programmeur"))) {
-            //this.rv.modifyPanel(2, data);
+            data = this.model.getProgrammeurs();
+            this.rv.modifyPanel(3, data, null);
         }
         if (e.getSource().equals(this.identificator.get("Ajouter un programmeur"))) {
             this.openModal(null, "add", true);
@@ -80,6 +81,13 @@ public class Controller implements ActionListener, MouseListener {
         }
         if (e.getSource().equals(this.rv.getSearchButton())) {
             this.rv.recherche();
+        }
+        if (e.getSource().equals(this.rv.getDeleteButton())) {
+            for (int id :  this.rv.getIdRowSelected()){
+                this.model.deleteProg(id);
+            }
+            data = this.model.getProgrammeurs();
+            this.rv.modifyPanel(3, data, null);
         }
     }
 
@@ -156,16 +164,20 @@ public class Controller implements ActionListener, MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         JTable laTable = (JTable) e.getSource();
-        if (e.getClickCount() == 2) {
-            Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
-            ProgrammeurBean prog = this.model.getListeProg().get(targetId);
-            openModal(prog, "display",true);
-        }
 
-        if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 2) {
-            Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
-            ProgrammeurBean prog = this.model.getListeProg().get(targetId);
-            openModal(prog, "display", false);
+        if (e.getClickCount() == 2) {
+
+            if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 1) {
+                Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
+                ProgrammeurBean prog = this.model.getListeProg().get(targetId);
+                openModal(prog, "display", true);
+            }
+            if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 0) {
+
+                Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
+                ProgrammeurBean prog = this.model.getListeProg().get(targetId);
+                openModal(prog, "display", false);
+            }
         }
     }
 
