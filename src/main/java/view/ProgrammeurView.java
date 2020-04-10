@@ -22,13 +22,13 @@ public class ProgrammeurView extends ViewPanel {
         this.initProgrammeurView(true, false);
     }
 
-    public ProgrammeurView(ProgrammeurBean data, boolean notModify) {
-        this.initProgrammeurView(false, notModify);
+    public ProgrammeurView(ProgrammeurBean data, boolean modify) {
+        this.initProgrammeurView(false, modify);
         this.populateProgrammeurView(data);
     }
 
     //TODO deplacer pseudo quand ajout prog
-    private void initProgrammeurView(Boolean isEmpty, boolean notModify) {
+    private void initProgrammeurView(Boolean isEmpty, boolean modify) {
 
         if (!isEmpty) {
             this.setLayout(new GridLayout(6, 4));
@@ -53,7 +53,7 @@ public class ProgrammeurView extends ViewPanel {
             key = this.allLabels.get(i).getText().replace(": ", "").toLowerCase();
             this.allTextFields.put(key, new JTextField());
             this.allTextFields.get(key).setCaretColor(Color.white);
-            if (notModify) {
+            if (modify) {
                 this.allTextFields.get("id").setEditable(false);
                 this.allTextFields.get("id").setFocusable(false);
             }
@@ -70,7 +70,7 @@ public class ProgrammeurView extends ViewPanel {
             label.setForeground(Color.white);
             label.setBorder(new EmptyBorder(0, 25, 0, 0));
 
-            if (!isEmpty && !notModify) {
+            if (!isEmpty && !modify) {
                 jtf.setEditable(false);
                 jtf.setFocusable(false);
             }

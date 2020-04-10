@@ -2,14 +2,11 @@ package view;
 
 import controller.Controller;
 import model.ProgrammeurBean;
-import org.sonatype.inject.Nullable;
-import utils.StyleHelper;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
@@ -52,7 +49,7 @@ public class ResultatView extends ViewPanel {
         addComponent(sp);*/
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
-        this.setPaneTableau(informations, fm, false);
+        this.setPaneTableau(informations, fm);
         this.add(sp);
     }
 
@@ -60,16 +57,13 @@ public class ResultatView extends ViewPanel {
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
 
-        this.setPaneTableau(informations, fm, false);
+        this.setPaneTableau(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
         this.add(this.setPanelRecherche(valueComboBox, false));
         this.add(sp);
         this.searchText.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
-
                 searchButton.doClick();
-
             }
         });
 
@@ -88,17 +82,14 @@ public class ResultatView extends ViewPanel {
     private void modifyProg(TreeMap<Integer, ProgrammeurBean> informations) {
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
-        setPaneTableau(informations, fm, true);
+        setPaneTableau(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(1);
         this.add(this.setPanelRecherche(null, true));
         this.add(sp);
 
         this.searchText.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
-
                 searchButton.doClick();
-
             }
         });
 
@@ -109,16 +100,14 @@ public class ResultatView extends ViewPanel {
     private void deleteProg(TreeMap<Integer, ProgrammeurBean> informations) {
 
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
-        setPaneTableau(informations, fm, false);
+        setPaneTableau(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
         this.add(this.setPanelRecherche(null, true));
         this.add(sp);
         this.add(this.setDeleteButton());
 
         this.searchText.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
-
                 searchButton.doClick();
 
             }
@@ -151,26 +140,14 @@ public class ResultatView extends ViewPanel {
         }
     }
 
-    private void setTable(String[] colNames, Object[][] data, boolean modify) {
+    private void setTable(String[] colNames, Object[][] data) {
 
-        if (!modify) {
-            this.table = new JTable(data, colNames) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
-        } else {
-            this.table = new JTable(data, colNames) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    if (table.getColumnModel().getColumnIndex("ID") == column)
-                        return false;
-                    else
-                        return true;
-                }
-            };
-        }
+        this.table = new JTable(data, colNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         this.table.setBackground(Color.decode("#424242"));
         this.table.setForeground(Color.white);
@@ -189,7 +166,7 @@ public class ResultatView extends ViewPanel {
         this.sp.setBorder(new EmptyBorder(5, 10, 10, 10));
     }
 
-    private void setPaneTableau(TreeMap<Integer, ProgrammeurBean> informations, FenetreMere fm, boolean modify) {
+    private void setPaneTableau(TreeMap<Integer, ProgrammeurBean> informations, FenetreMere fm) {
 
         String[] colNames = {"ID", "NOM", "PRENOM", "ANNEE DE NAISSANCE", "SALAIRE", "PSEUDO"};
         Object[][] data = new Object[informations.size()][6];
@@ -204,8 +181,7 @@ public class ResultatView extends ViewPanel {
             index++;
         }
 
-        this.setTable(colNames, data, modify);
-
+        this.setTable(colNames, data);
         this.table.addMouseListener(fm.getBasePanel().getController());
 
         this.setSp();
@@ -254,7 +230,7 @@ public class ResultatView extends ViewPanel {
     private JPanel setDeleteButton() {
         JPanel jp = new JPanel();
         jp.setBackground(Color.decode("#424242"));
-        jp.setPreferredSize(new Dimension(jp.getSize().width, 200));
+        jp.setPreferredSize(new Dimension(jp.getSize().width, 75));
         this.deleteButton = new JButton("Supprimer");
         this.deleteButton.setFocusable(false);
         this.deleteButton.setBackground(Color.decode("#3a3a3a"));
@@ -306,7 +282,6 @@ public class ResultatView extends ViewPanel {
                 switch (choice) {
                     case "Par ID":
                         data = rechercheId(controller, data);
-
                         break;
 
                     case "Par Nom":
@@ -321,8 +296,6 @@ public class ResultatView extends ViewPanel {
                         data = rechercheYear(controller, data);
                         break;
                 }
-            } else {
-
             }
             this.modifyPanel(1, data, choice);
         } else {
@@ -338,9 +311,9 @@ public class ResultatView extends ViewPanel {
 
     private Boolean validateInput(String choice) {
         if (choice.equals("Par ID") || choice.equals("Par Année de naissance")) {
-            return (this.getSearchText().getText().matches("^[0-9]+$|^$"));
+            return (this.getSearchText().getText().matches("^([0-9]*\\p{L}*\\p{javaWhitespace}*)*+$|^$"));
         } else {
-            return (this.getSearchText().getText().matches("^[a-zA-Z]+$|^$"));
+            return (this.getSearchText().getText().matches("^([a-zA-Z]*\\p{L}*\\p{javaWhitespace}*)*+$|^$"));
         }
     }
 
@@ -348,7 +321,12 @@ public class ResultatView extends ViewPanel {
         if (this.getSearchText().getText().equals("")) {
             data = controller.getProgrammeurs();
         } else {
-            data = controller.getProgrammeurById(Integer.parseInt(this.getSearchText().getText()));
+            try{
+                data = controller.getProgrammeurById(Integer.parseInt(this.getSearchText().getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Non");
+                data = controller.getProgrammeurs();
+            }
         }
         return data;
     }

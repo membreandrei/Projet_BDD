@@ -55,6 +55,8 @@ public class FenetreMere extends JFrame {
 
         if(type.equals("add")) {
             this.fenetreAjout(jp, view);
+        } else if(type.equals("edit")){
+            this.fenetreEdit(jp, view);
         }
 
         jp.add(exit, BorderLayout.CENTER);
@@ -66,8 +68,20 @@ public class FenetreMere extends JFrame {
     }
 
 
-    private void fenetreAjout(JPanel jp, ProgrammeurView view){
+    private void fenetreEdit(JPanel jp, ProgrammeurView view){
+        JButton ajout = new JButton("Enregistrer");
+        ajout.setActionCommand("enregistrer");
+        StyleHelper.setStyle(ajout);
+        ajout.setMargin(new Insets(5,20,5,20));
 
+        jp.add(ajout, BorderLayout.CENTER);
+        jp.add(Box.createHorizontalStrut(20));
+
+        view.actionButtonAdd(this.getBasePanel().getController(), ajout);
+    }
+
+
+    private void fenetreAjout(JPanel jp, ProgrammeurView view){
         JButton ajout = new JButton("Ajouter");
         ajout.setActionCommand("ajout");
         StyleHelper.setStyle(ajout);

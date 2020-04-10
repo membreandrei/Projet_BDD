@@ -72,9 +72,7 @@ public class ActionsBDDImpl {
 
     //Exécution de la requête retournant tous les programmeurs
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurs() {
-
         return doRequete(this.action.getPreparedStatement(this.conn, Constantes.ALLPROGS));
-
     }
 
     //Exécution de la requête retournant un programmeur grace à son id
@@ -108,8 +106,8 @@ public class ActionsBDDImpl {
     }
 
     //Exécution de la requête permettant de changer le salaire via l'id
-    public void editSalary(ProgrammeurBean prog) {
-        doRequeteUpdate(this.action.getPreparedStatementModifySalary(this.conn, Constantes.CHANGESALARY, prog));
+    public void editProg(ProgrammeurBean prog) {
+        doRequeteUpdate(this.action.getPreparedStatementModifyProg(this.conn, Constantes.EDITPROG, prog));
     }
 
     //Exécution de la requête permettant de créer un nouveau programmeur

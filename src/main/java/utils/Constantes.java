@@ -21,7 +21,18 @@ public final class Constantes {
     public final static String DELPROG = "DELETE FROM PROGRAMMEUR WHERE ID=?";
 
     //Changer le salaire d'un programmeur � partir de son ID
-    public final static String CHANGESALARY = "UPDATE PROGRAMMEUR SET SALAIRE=? WHERE ID=?";
+    public final static String EDITPROG = "" +
+            "UPDATE PROGRAMMEUR " +
+            "SET NOM=?," +
+            "    PRENOM=?," +
+            "    ADRESSE=?," +
+            "    PSEUDO=?," +
+            "    RESPONSABLE=?," +
+            "    HOBBY=?," +
+            "    ANNAISSANCE=?," +
+            "    SALAIRE=?," +
+            "    PRIME=? " +
+            "WHERE ID=?";
 
     //Cr�er un programmeur
     public final static String CREATEPROG = "INSERT INTO PROGRAMMEUR(NOM,PRENOM,ADRESSE,PSEUDO,RESPONSABLE,HOBBY,ANNAISSANCE,SALAIRE,PRIME) VALUES(?,?,?,?,?,?,?,?,?)";

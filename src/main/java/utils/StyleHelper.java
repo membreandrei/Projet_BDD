@@ -28,7 +28,7 @@ public final class StyleHelper {
     public static void setStyleJOptionPane(){
         UIManager.put("OptionPane.background", Color.decode("#3a3a3a"));
         UIManager.put("Panel.background", Color.decode("#3a3a3a"));
-        UIManager.put("OptionPane.messageForeground", Color.WHITE);
+        UIManager.put("OptionPane.messageForeground", Color.decode("#fade55"));
         UIManager.put("Button.background", Color.decode("#424242"));
         UIManager.put("Button.foreground", Color.WHITE);
         UIManager.put("Button.focusable", false);

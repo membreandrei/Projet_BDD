@@ -10,13 +10,14 @@ public class ActionsBDD {
 
     // Le Java Bean
     private Connection conn;
-    private PreparedStatement  stmt;
+    private PreparedStatement stmt;
     private ResultSet rs;
 
 
     public ActionsBDD() {
     }
-// Connexion � la base de donn�es
+
+    // Connexion � la base de donn�es
     public Connection getConnection() {
         try {
             this.conn = DriverManager.getConnection(Constantes.URL, Constantes.USER, Constantes.PASSWORD);
@@ -25,7 +26,8 @@ public class ActionsBDD {
         }
         return this.conn;
     }
-// Methode pour construire dynamiquement une requete pr�par�e standard.
+
+    // Methode pour construire dynamiquement une requete pr�par�e standard.
     public PreparedStatement getPreparedStatement(Connection conn, String requete) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -34,7 +36,8 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-// Methode pour construire dynamiquement une requete pr�par�e prenant un int en argument
+
+    // Methode pour construire dynamiquement une requete pr�par�e prenant un int en argument
     public PreparedStatement getPreparedStatementInt(Connection conn, String requete, int id) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -44,24 +47,26 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-//Methode pour construire dynamiquement une requete pr�par�e prenant juste une string en arg
+
+    //Methode pour construire dynamiquement une requete pr�par�e prenant juste une string en arg
     public PreparedStatement getPreparedStatementString(Connection conn, String requete, String name) {
         try {
             this.stmt = conn.prepareStatement(requete);
-            this.stmt.setString(1,"%" + name + "%");
+            this.stmt.setString(1, "%" + name + "%");
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
         return this.stmt;
     }
-//Methode pour la construction d'une requete d'insert � partir de la structure d'un developpeur     
+
+    //Methode pour la construction d'une requete d'insert � partir de la structure d'un developpeur
     public PreparedStatement getPreparedStatementInsert(Connection conn, String requete, ProgrammeurBean prog) {
         try {
             this.stmt = conn.prepareStatement(requete);
-            this.stmt.setString(1,prog.getNom());
-            this.stmt.setString(2,prog.getPrenom());
-            this.stmt.setString(3,prog.getAdresse());
-            this.stmt.setString(4,prog.getPseudo());
+            this.stmt.setString(1, prog.getNom());
+            this.stmt.setString(2, prog.getPrenom());
+            this.stmt.setString(3, prog.getAdresse());
+            this.stmt.setString(4, prog.getPseudo());
             this.stmt.setString(5, prog.getResponsable());
             this.stmt.setString(6, prog.getHobby());
             this.stmt.setInt(7, prog.getAnNaissance());
@@ -72,11 +77,21 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-  // M�thode pour pr�parer la requ�te de modification du salaire  
-    public PreparedStatement getPreparedStatementModifySalary(Connection conn, String requete, ProgrammeurBean prog) {
-        try{
-            this.stmt.setFloat(1, prog.getSalaire());
-            this.stmt.setInt(2, prog.getId());
+
+    // M�thode pour pr�parer la requ�te de modification du salaire
+    public PreparedStatement getPreparedStatementModifyProg(Connection conn, String requete, ProgrammeurBean prog) {
+        try {
+            this.stmt = conn.prepareStatement(requete);
+            this.stmt.setString(1, prog.getNom());
+            this.stmt.setString(2, prog.getPrenom());
+            this.stmt.setString(3, prog.getAdresse());
+            this.stmt.setString(4, prog.getPseudo());
+            this.stmt.setString(5, prog.getResponsable());
+            this.stmt.setString(6, prog.getHobby());
+            this.stmt.setInt(7, prog.getAnNaissance());
+            this.stmt.setFloat(8, prog.getSalaire());
+            this.stmt.setFloat(9, prog.getPrime());
+            this.stmt.setInt(10, prog.getId());
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -92,11 +107,12 @@ public class ActionsBDD {
         }
         return this.rs;
     }
+
     //M�thode pour ex�cuter une requ�te en r�cup�rant le nb de row affect� par la requ�te
     public int getResultSetModify(PreparedStatement stmt) {
         Integer i = null;
         try {
-           i = stmt.executeUpdate();
+            i = stmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
