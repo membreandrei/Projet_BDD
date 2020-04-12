@@ -99,10 +99,10 @@ public class Controller implements ActionListener, MouseListener {
 
     private void deleteProg(){
         Object[] options = { "Supprimer", "Annuler" };
-        Object answer = JOptionPane.showOptionDialog(null, "Êtes-vous sûr de votre choix ?", "Alerte Suppression",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+        int answer = JOptionPane.showOptionDialog(null, "Êtes-vous sûr de votre choix ?", "Alerte Suppression",
+                JOptionPane.YES_OPTION, JOptionPane.NO_OPTION,
                 null, options, options[0]);
-        if(answer.equals("Supprimer")){
+        if(answer == JOptionPane.YES_OPTION){
             for (int id : this.rv.getIdRowSelected()) {
                 this.model.deleteProg(id);
             }
