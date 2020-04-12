@@ -22,6 +22,7 @@ public class ResultatView extends ViewPanel {
     private JTable table;
     private JButton searchButton = new JButton();
     private JButton deleteButton = new JButton();
+    private JButton insertButton = new JButton();
     private JComboBox choice = new JComboBox();
     private JTextField searchText = new JTextField();
 
@@ -104,7 +105,7 @@ public class ResultatView extends ViewPanel {
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
         this.add(this.setPanelRecherche(null, true));
         this.add(sp);
-        this.add(this.setDeleteButton());
+        this.add(this.setPanelDeleteAjout(false));
 
         this.searchText.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -116,6 +117,27 @@ public class ResultatView extends ViewPanel {
         this.searchText.requestFocusInWindow();
         addListener(fm.getBasePanel().getController(), this.searchButton);
         addListener(fm.getBasePanel().getController(), this.deleteButton);
+    }
+
+    private void allMenu(TreeMap<Integer, ProgrammeurBean> informations, String valueComboBox){
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+
+        this.setPaneTableau(informations, fm);
+        ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(1);
+        this.add(this.setPanelRecherche(valueComboBox, false));
+        this.add(sp);
+        this.add(this.setPanelDeleteAjout(true));
+
+        this.searchText.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                searchButton.doClick();
+            }
+        });
+
+        this.searchText.requestFocusInWindow();
+        addListener(fm.getBasePanel().getController(), this.searchButton);
+        addListener(fm.getBasePanel().getController(), this.deleteButton);
+        addListener(fm.getBasePanel().getController(), this.insertButton);
     }
 
     public void modifyPanel(Integer type, TreeMap<Integer, ProgrammeurBean> data, String valueComboBox) {
@@ -136,7 +158,8 @@ public class ResultatView extends ViewPanel {
                 deleteProg(data);
                 break;
             case 4:
-            case 5:
+                allMenu(data, valueComboBox);
+                break;
         }
     }
 
@@ -227,16 +250,32 @@ public class ResultatView extends ViewPanel {
         });
     }
 
-    private JPanel setDeleteButton() {
-        JPanel jp = new JPanel();
-        jp.setBackground(Color.decode("#424242"));
-        jp.setPreferredSize(new Dimension(jp.getSize().width, 75));
+    private void setDeleteButton() {
         this.deleteButton = new JButton("Supprimer");
         this.deleteButton.setFocusable(false);
         this.deleteButton.setBackground(Color.decode("#3a3a3a"));
         this.deleteButton.setForeground(Color.WHITE);
         this.deleteButton.setPreferredSize(new Dimension(110, 20));
+    }
+
+    private void setInsertButton(){
+        this.insertButton = new JButton("Ajouter");
+        this.insertButton.setFocusable(false);
+        this.insertButton.setBackground(Color.decode("#3a3a3a"));
+        this.insertButton.setForeground(Color.WHITE);
+        this.insertButton.setPreferredSize(new Dimension(110, 20));
+    }
+
+    private JPanel setPanelDeleteAjout(boolean ajout){
+        JPanel jp = new JPanel();
+        jp.setBackground(Color.decode("#424242"));
+        jp.setPreferredSize(new Dimension(jp.getSize().width, 75));
+        setDeleteButton();
+
         jp.add(deleteButton);
+        if (ajout)
+            setInsertButton();
+            jp.add(insertButton);
         return jp;
     }
 
@@ -271,7 +310,7 @@ public class ResultatView extends ViewPanel {
         return jp;
     }
 
-    public void recherche() {
+    public void recherche(int type) {
         TreeMap<Integer, ProgrammeurBean> data = null;
         String choice = (String) this.getChoice().getSelectedItem();
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
@@ -297,7 +336,7 @@ public class ResultatView extends ViewPanel {
                         break;
                 }
             }
-            this.modifyPanel(1, data, choice);
+            this.modifyPanel(type, data, choice);
         } else {
             if (validateInput("Par ID")) {
                 data = rechercheId(controller, data);
@@ -305,7 +344,7 @@ public class ResultatView extends ViewPanel {
                 JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
                 data = controller.getProgrammeurs();
             }
-            this.modifyPanel(2, data, null);
+            this.modifyPanel(type, data, null);
         }
     }
 
@@ -359,6 +398,10 @@ public class ResultatView extends ViewPanel {
 
     public JComboBox getChoice() {
         return choice;
+    }
+
+    public JButton getInsertButton() {
+        return insertButton;
     }
 
     public JTextField getSearchText() {

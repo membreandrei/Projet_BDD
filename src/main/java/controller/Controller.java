@@ -41,7 +41,7 @@ public class Controller implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
         TreeMap<Integer, ProgrammeurBean> data = new TreeMap<>();
         if (e.getSource().equals(this.rv.getSearchButton())) {
-            this.rv.recherche();
+            this.rv.recherche(this.typeRv);
         } else {
             if (e.getSource().equals(this.identificator.get("Afficher tous les programmeurs"))) {
                 data = this.model.getProgrammeurs();
@@ -64,7 +64,7 @@ public class Controller implements ActionListener, MouseListener {
                 if (!validate()) {
                     JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des nombres dans salaire, prime, année de naissance");
                 } else {
-                    if (this.model.createProg(createProg(true)) == 0){
+                    if (this.model.createProg(createProg(true)) == 0) {
                         JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des données valides");
                         return;
                     }
@@ -88,6 +88,10 @@ public class Controller implements ActionListener, MouseListener {
                 data = this.model.getProgrammeurs();
                 this.typeRv = 2;
             }
+            if (e.getSource().equals(this.identificator.get("Tout les Menus"))) {
+                data = this.model.getProgrammeurs();
+                this.typeRv = 4;
+            }
             if (e.getSource().equals(this.identificator.get("Quitter le programme"))) {
                 System.exit(0);
             }
@@ -95,23 +99,25 @@ public class Controller implements ActionListener, MouseListener {
                 deleteProg();
                 data = this.model.getProgrammeurs();
             }
+            if (e.getSource().equals(this.rv.getInsertButton())) {
+                data = this.model.getProgrammeurs();
+                this.openModal(null, "add", true);
+            }
             this.rv.modifyPanel(this.typeRv, data, null);
         }
     }
 
-
-    private void deleteProg(){
-        Object[] options = { "Supprimer", "Annuler" };
+    private void deleteProg() {
+        Object[] options = {"Supprimer", "Annuler"};
         int answer = JOptionPane.showOptionDialog(null, "Êtes-vous sûr de votre choix ?", "Alerte Suppression",
                 JOptionPane.YES_OPTION, JOptionPane.NO_OPTION,
                 null, options, options[0]);
-        if(answer == JOptionPane.YES_OPTION){
+        if (answer == JOptionPane.YES_OPTION) {
             for (int id : this.rv.getIdRowSelected()) {
                 this.model.deleteProg(id);
             }
         }
     }
-
 
     private ProgrammeurBean createProg(boolean ajout) {
         ProgrammeurBean prog = new ProgrammeurBean();
@@ -125,7 +131,7 @@ public class Controller implements ActionListener, MouseListener {
         prog.setHobby(this.pv.getAllTextFields().get("hobby").getText());
         prog.setSalaire(Float.parseFloat(this.pv.getAllTextFields().get("salaire").getText().replaceAll(",", ".")));
         prog.setPrime(Float.parseFloat(this.pv.getAllTextFields().get("prime").getText().replaceAll(",", ".")));
-        if(!ajout){
+        if (!ajout) {
             prog.setId(Integer.parseInt((this.pv.getAllTextFields().get("id").getText())));
         }
 
@@ -140,7 +146,7 @@ public class Controller implements ActionListener, MouseListener {
         if (!this.pv.getAllTextFields().get("prime").getText().matches("[-+]?[0-9]*[.|,]?[0-9]+")) {
             return false;
         }
-        if (!this.pv.getAllTextFields().get("salaire").getText().matches("[-+]?[0-9]*[.|,]?[0-9]+")){
+        if (!this.pv.getAllTextFields().get("salaire").getText().matches("[-+]?[0-9]*[.|,]?[0-9]+")) {
             return false;
         }
 

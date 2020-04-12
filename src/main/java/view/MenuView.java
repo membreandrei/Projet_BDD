@@ -16,7 +16,7 @@ public class MenuView extends ViewPanel {
     private ArrayList<JButton> allButtons = new ArrayList<JButton>();
 
     public MenuView() {
-        GridLayout g1 = new GridLayout(7, 1);
+        GridLayout g1 = new GridLayout(8, 1);
         this.setLayout(g1);
         this.setBackground(Color.decode("#303030"));
         this.allButtons.add(new JButton("Afficher tous les programmeurs"));
@@ -24,6 +24,7 @@ public class MenuView extends ViewPanel {
         this.allButtons.add(new JButton("Supprimer un programmeur"));
         this.allButtons.add(new JButton("Ajouter un programmeur"));
         this.allButtons.add(new JButton("Modifier le salaire"));
+        this.allButtons.add(new JButton("Tout les Menus"));
         this.allButtons.add(new JButton("Quitter le programme"));
         this.titre.setForeground(Color.white);
         this.titre.setBorder(new CompoundBorder(this.titre.getBorder(), new EmptyBorder(0,90,0,0)));
