@@ -111,7 +111,7 @@ public class ActionsBDDImpl {
     }
 
     //Exécution de la requête permettant de créer un nouveau programmeur
-    public void createProg(ProgrammeurBean prog) {
-        doRequeteUpdate(this.action.getPreparedStatementInsert(this.conn, Constantes.CREATEPROG, prog));
+    public int createProg(ProgrammeurBean prog) {
+        return doRequeteUpdate(this.action.getPreparedStatementInsert(this.conn, Constantes.CREATEPROG, prog));
     }
 }

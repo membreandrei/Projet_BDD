@@ -61,17 +61,20 @@ public class Controller implements ActionListener, MouseListener {
             }
 
             if (e.getActionCommand().equals("ajout")) {
-                if (validate()) {
+                if (!validate()) {
                     JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des nombres dans salaire, prime, année de naissance");
                 } else {
-                    this.model.createProg(createProg(true));
+                    if (this.model.createProg(createProg(true)) == 0){
+                        JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des données valides");
+                        return;
+                    }
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
                     fm.dispose();
                     data = this.model.getProgrammeurs();
                 }
             }
             if (e.getActionCommand().equals("enregistrer")) {
-                if (validate()) {
+                if (!validate()) {
                     JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des nombres dans salaire, prime, année de naissance");
                 } else {
                     this.model.editProg(createProg(false));
@@ -120,8 +123,8 @@ public class Controller implements ActionListener, MouseListener {
         prog.setAnNaissance(Integer.parseInt(this.pv.getAllTextFields().get("naissance").getText()));
         prog.setResponsable(this.pv.getAllTextFields().get("responsable").getText());
         prog.setHobby(this.pv.getAllTextFields().get("hobby").getText());
-        prog.setSalaire(Float.parseFloat(this.pv.getAllTextFields().get("salaire").getText()));
-        prog.setPrime(Float.parseFloat(this.pv.getAllTextFields().get("prime").getText()));
+        prog.setSalaire(Float.parseFloat(this.pv.getAllTextFields().get("salaire").getText().replaceAll(",", ".")));
+        prog.setPrime(Float.parseFloat(this.pv.getAllTextFields().get("prime").getText().replaceAll(",", ".")));
         if(!ajout){
             prog.setId(Integer.parseInt((this.pv.getAllTextFields().get("id").getText())));
         }
@@ -132,12 +135,16 @@ public class Controller implements ActionListener, MouseListener {
     private boolean validate() {
 
         if (!StringUtils.isNumeric(this.pv.getAllTextFields().get("naissance").getText())) {
-            return true;
+            return false;
         }
         if (!this.pv.getAllTextFields().get("prime").getText().matches("[-+]?[0-9]*[.|,]?[0-9]+")) {
-            return true;
+            return false;
         }
-        return !this.pv.getAllTextFields().get("salaire").getText().matches("[-+]?[0-9]*[.|,]?[0-9]+");
+        if (!this.pv.getAllTextFields().get("salaire").getText().matches("[-+]?[0-9]*[.|,]?[0-9]+")){
+            return false;
+        }
+
+        return true;
     }
 
     public void setPv(ProgrammeurView pv) {

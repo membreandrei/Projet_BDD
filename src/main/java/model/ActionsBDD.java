@@ -1,5 +1,6 @@
 package model;
 
+import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import utils.Constantes;
 
 import java.sql.*;
@@ -113,6 +114,8 @@ public class ActionsBDD {
         Integer i = null;
         try {
             i = stmt.executeUpdate();
+        } catch (MysqlDataTruncation ex){
+            return 0;
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
