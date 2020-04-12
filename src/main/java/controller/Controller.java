@@ -64,7 +64,7 @@ public class Controller implements ActionListener, MouseListener {
                 if (validate()) {
                     JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des nombres dans salaire, prime, année de naissance");
                 } else {
-                    this.model.createProg(createProg());
+                    this.model.createProg(createProg(true));
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
                     fm.dispose();
                     data = this.model.getProgrammeurs();
@@ -74,7 +74,7 @@ public class Controller implements ActionListener, MouseListener {
                 if (validate()) {
                     JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des nombres dans salaire, prime, année de naissance");
                 } else {
-                    this.model.editProg(createProg());
+                    this.model.editProg(createProg(false));
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
                     fm.dispose();
                     data = this.model.getProgrammeurs();
@@ -110,7 +110,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
 
-    private ProgrammeurBean createProg() {
+    private ProgrammeurBean createProg(boolean ajout) {
         ProgrammeurBean prog = new ProgrammeurBean();
 
         prog.setNom(this.pv.getAllTextFields().get("nom").getText());
@@ -122,7 +122,7 @@ public class Controller implements ActionListener, MouseListener {
         prog.setHobby(this.pv.getAllTextFields().get("hobby").getText());
         prog.setSalaire(Float.parseFloat(this.pv.getAllTextFields().get("salaire").getText()));
         prog.setPrime(Float.parseFloat(this.pv.getAllTextFields().get("prime").getText()));
-        if(this.pv.getAllTextFields().get("prime").getText() != null){
+        if(!ajout){
             prog.setId(Integer.parseInt((this.pv.getAllTextFields().get("id").getText())));
         }
 
