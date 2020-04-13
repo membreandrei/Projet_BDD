@@ -24,8 +24,8 @@ public class ProgrammeurView extends ViewPanel {
     }
 
     /**
-     * Construit le ProgrammeurView quand des donn√©es sont pr√©sentes
-     * C'est-√†-dire, quand on affiche les d√©tails d'un programmeur d√©j√† existant
+     * Construit le ProgrammeurView quand des donnÈes sont prÈsentes
+     * C'est-‡-dire, quand on affiche les dÈtails d'un programmeur dÈj‡ existant
      * @param data
      * @param modify
      */
@@ -35,7 +35,7 @@ public class ProgrammeurView extends ViewPanel {
     }
 
     /**
-     * Initialise le ProgrammeurView en fonction des param√®tres re√ßus
+     * Initialise le ProgrammeurView en fonction des paramËtres reÁus
      * @param isEmpty
      * @param modify
      */
@@ -50,7 +50,7 @@ public class ProgrammeurView extends ViewPanel {
 
         this.allLabels.add(new JLabel("Pseudo: "));
         this.allLabels.add(new JLabel("Nom: "));
-        this.allLabels.add(new JLabel("Pr√©nom: "));
+        this.allLabels.add(new JLabel("PrÈnom: "));
         this.allLabels.add(new JLabel("Naissance: "));
         this.allLabels.add(new JLabel("Salaire: "));
         this.allLabels.add(new JLabel("Prime: "));
@@ -96,14 +96,14 @@ public class ProgrammeurView extends ViewPanel {
     }
 
     /**
-     * Remplit le ProgrammeurView avec les donn√©es du programmeur ProgrammeurBean data choisi
+     * Remplit le ProgrammeurView avec les donnÈes du programmeur ProgrammeurBean data choisi
      * @param data
      */
     private void populateProgrammeurView(ProgrammeurBean data) {
         this.allTextFields.get("id").setText(data.getId() + "");
         this.allTextFields.get("pseudo").setText(data.getPseudo() + "");
         this.allTextFields.get("nom").setText(data.getNom() + "");
-        this.allTextFields.get("pr√©nom").setText(data.getPrenom() + "");
+        this.allTextFields.get("prÈnom").setText(data.getPrenom() + "");
         this.allTextFields.get("naissance").setText(data.getAnNaissance() + "");
         this.allTextFields.get("salaire").setText(data.getSalaire() + "");
         this.allTextFields.get("prime").setText(data.getPrime() + "");
@@ -117,7 +117,7 @@ public class ProgrammeurView extends ViewPanel {
     }
 
     /**
-     * Ajoute un contr√¥leur au bouton d'ajout
+     * Ajoute un contrÙleur au bouton d'ajout
      * @param controller
      * @param add
      */

@@ -30,7 +30,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * CrÃ©Ã© le panel pour l'affichage de tous les programmeurs
+     * Créé le panel pour l'affichage de tous les programmeurs
      *
      * @param informations
      */
@@ -42,7 +42,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * CrÃ©Ã© le panel pour l'affichage prÃ©cis lors d'un clic sur la liste de tous les programmeurs
+     * Créé le panel pour l'affichage précis lors d'un clic sur la liste de tous les programmeurs
      *
      * @param informations
      * @param valueComboBox
@@ -62,7 +62,7 @@ public class ResultatView extends ViewPanel {
 
 
     /**
-     * Lors d'un double clic sur un programmeur dans le tableau, ouvre une fenÃªtre permettant de modifier les donnÃ©es de ce dernier
+     * Lors d'un double clic sur un programmeur dans le tableau, ouvre une fenêtre permettant de modifier les données de ce dernier
      *
      * @param informations
      */
@@ -80,7 +80,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Efface le(s) programmeur(s) sÃ©lectionnÃ©(s) dans le tableau
+     * Efface le(s) programmeur(s) sélectionné(s) dans le tableau
      *
      * @param informations
      */
@@ -100,7 +100,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Permet tous les menus Ã  la fois: Ajout/Modification/Suppression/Recherche
+     * Permet tous les menus à la fois: Ajout/Modification/Suppression/Recherche
      *
      * @param informations
      * @param valueComboBox
@@ -123,7 +123,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * GÃ¨re le type de panel Ã  ajouter en fonction du bouton cliquÃ© du menu (dans MenuView)
+     * Gère le type de panel à ajouter en fonction du bouton cliqué du menu (dans MenuView)
      *
      * @param type
      * @param data
@@ -153,7 +153,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * CrÃ©Ã© la table contenant les programmeurs
+     * Créé la table contenant les programmeurs
      *
      * @param colNames
      * @param data
@@ -176,7 +176,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * DÃ©finit le scrollPanel liÃ© au panel de vue
+     * Définit le scrollPanel lié au panel de vue
      */
     private void setSp() {
         this.sp = new JScrollPane(table);
@@ -187,7 +187,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * DÃ©finit le header du tableau contenant les programmeurs, et ajoute le MouseListener Ã  celle-ci
+     * Définit le header du tableau contenant les programmeurs, et ajoute le MouseListener à celle-ci
      *
      * @param informations
      * @param fm
@@ -212,7 +212,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * DÃ©finit le style du champ de recherche des programmeurs
+     * Définit le style du champ de recherche des programmeurs
      */
     private void setSearchText() {
         this.searchText = new JTextField();
@@ -224,7 +224,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * MÃªme chose qu'au-dessus, mais pour le bouton de lancement de la recherche
+     * Même chose qu'au-dessus, mais pour le bouton de lancement de la recherche
      *
      * @param title
      */
@@ -240,10 +240,10 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * DÃ©finit le choix du type de recherche (par liste dÃ©roulante)
+     * Définit le choix du type de recherche (par liste déroulante)
      */
     private void setChoice() {
-        String[] elements = new String[]{"Par ID", "Par Nom", "Par PrÃ©nom", "Par AnnÃ©e de naissance"};
+        String[] elements = new String[]{"Par ID", "Par Nom", "Par Prénom", "Par Année de naissance"};
         this.choice = new JComboBox(elements);
         this.choice.setBackground(Color.decode("#3a3a3a"));
         this.choice.setForeground(Color.WHITE);
@@ -262,7 +262,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * DÃ©finit le bouton de suppression d'un ou plusieurs programmeurs
+     * Définit le bouton de suppression d'un ou plusieurs programmeurs
      */
     private void setDeleteButton() {
         this.deleteButton = new JButton("Supprimer");
@@ -273,7 +273,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * DÃ©finit le bouton d'ajout d'un programmeur
+     * Définit le bouton d'ajout d'un programmeur
      */
     private void setInsertButton() {
         this.insertButton = new JButton("Ajouter");
@@ -284,8 +284,8 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * DÃ©finit le panel comprenant Ã  la fois l'ajout et la suppression d'un programmeur
-     * (si ajout=true, alors seulement le bouton d'ajout sera prÃ©sent)
+     * Définit le panel comprenant à la fois l'ajout et la suppression d'un programmeur
+     * (si ajout=true, alors seulement le bouton d'ajout sera présent)
      * @param ajout
      * @return
      */
@@ -304,8 +304,8 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * DÃ©finit le panel de recherche d'un programmeur
-     * (en haut du tableau; contient le champ du texte d'entrÃ©e et par quoi rechercher, ainsi que le bouton)
+     * Définit le panel de recherche d'un programmeur
+     * (en haut du tableau; contient le champ du texte d'entrée et par quoi rechercher, ainsi que le bouton)
      * @param valueComboBox
      * @param modify
      * @return
@@ -341,7 +341,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * GÃ¨re la recherche, Ã  la fois la validation du contenu recherchÃ© et le rÃ©sultat de ladite recherche
+     * Gère la recherche, à la fois la validation du contenu recherché et le résultat de ladite recherche
      * @param type
      */
     public void recherche(int type) {
@@ -361,11 +361,11 @@ public class ResultatView extends ViewPanel {
                         data = controller.getProgrammeurByName(this.getSearchText().getText());
                         break;
 
-                    case "Par PrÃ©nom":
+                    case "Par Prénom":
                         data = controller.getProgrammeurByFirstName(this.getSearchText().getText());
                         break;
 
-                    case "Par AnnÃ©e de naissance":
+                    case "Par Année de naissance":
                         data = rechercheYear(controller);
                         break;
                 }
@@ -375,7 +375,7 @@ public class ResultatView extends ViewPanel {
             if (validateInput("Par ID")) {
                 data = rechercheId(controller);
             } else {
-                JOptionPane.showMessageDialog(null, "Veuillez rÃ©essayer avec un nombre entier");
+                JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
                 data = controller.getProgrammeurs();
             }
             this.modifyPanel(type, data, null);
@@ -383,12 +383,12 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Valide l'input entrÃ© par l'utilisateur lors de la recherche
+     * Valide l'input entré par l'utilisateur lors de la recherche
      * @param choice
      * @return
      */
     private Boolean validateInput(String choice) {
-        if (choice.equals("Par ID") || choice.equals("Par AnnÃ©e de naissance")) {
+        if (choice.equals("Par ID") || choice.equals("Par Année de naissance")) {
             return (this.getSearchText().getText().matches("^([0-9]*\\p{L}*\\p{javaWhitespace}*)*+$|^$"));
         } else {
             return (this.getSearchText().getText().matches("^([a-zA-Z]*\\p{L}*\\p{javaWhitespace}*)*+$|^$"));
@@ -396,7 +396,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * GÃ¨re la recherche par ID des programmeurs
+     * Gère la recherche par ID des programmeurs
      * @param controller
      * @return
      */
@@ -408,7 +408,7 @@ public class ResultatView extends ViewPanel {
             try {
                 data = controller.getProgrammeurById(Integer.parseInt(this.getSearchText().getText()));
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Veuillez rÃ©essayer avec une recherche valide");
+                JOptionPane.showMessageDialog(null, "Veuillez réessayer avec une recherche valide");
                 data = controller.getProgrammeurs();
             }
         }
@@ -416,7 +416,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * GÃ¨re la recherche par annÃ©e de naissance des programmeurs
+     * Gère la recherche par année de naissance des programmeurs
      * @param controller
      * @return
      */
@@ -431,7 +431,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * RÃ©cupÃ¨re les lignes (=les programmeurs) sÃ©lectionnÃ©es par l'utilisateur dans le tableau
+     * Récupère les lignes (=les programmeurs) sélectionnées par l'utilisateur dans le tableau
      * @return
      */
     public ArrayList<Integer> getIdRowSelected() {

@@ -24,7 +24,7 @@ public class Controller implements ActionListener, MouseListener {
     private Integer typeRv = 1;
 
     /**
-     * Construit le contrÃ´leur avec le BasePanel bp
+     * Construit le contrôleur avec le BasePanel bp
      * @param bp
      */
     public Controller(BasePanel bp) {
@@ -35,7 +35,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Remplit la HashMap avec les donnÃ©es qui sont le nom des boutons
+     * Remplit la HashMap avec les données qui sont le nom des boutons
      */
     private void fillHashMap() {
         this.identificator = new HashMap<>();
@@ -45,7 +45,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * En fonction de l'ActionEvent e reÃ§u en paramÃ¨tre, agit diffÃ©remment
+     * En fonction de l'ActionEvent e reçu en paramètre, agit différemment
      * @param e
      */
     @Override
@@ -73,10 +73,10 @@ public class Controller implements ActionListener, MouseListener {
 
             if (e.getActionCommand().equals("ajout")) {
                 if (!validate()) {
-                    JOptionPane.showMessageDialog(null, "Veuillez rÃ©essayer avec des nombres dans salaire, prime, annÃ©e de naissance");
+                    JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des nombres dans salaire, prime, année de naissance");
                 } else {
                     if (this.model.createProg(createProg(true)) == 0) {
-                        JOptionPane.showMessageDialog(null, "Veuillez rÃ©essayer avec des donnÃ©es valides");
+                        JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des données valides");
                         return;
                     }
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
@@ -86,7 +86,7 @@ public class Controller implements ActionListener, MouseListener {
             }
             if (e.getActionCommand().equals("enregistrer")) {
                 if (!validate()) {
-                    JOptionPane.showMessageDialog(null, "Veuillez rÃ©essayer avec des nombres dans salaire, prime, annÃ©e de naissance");
+                    JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des nombres dans salaire, prime, année de naissance");
                 } else {
                     this.model.editProg(createProg(false));
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
@@ -123,7 +123,7 @@ public class Controller implements ActionListener, MouseListener {
      */
     private void deleteProg() {
         Object[] options = {"Supprimer", "Annuler"};
-        int answer = JOptionPane.showOptionDialog(null, "ÃŠtes-vous sÃ»r de votre choix ?", "Alerte Suppression",
+        int answer = JOptionPane.showOptionDialog(null, "Êtes-vous sûr de votre choix ?", "Alerte Suppression",
                 JOptionPane.YES_OPTION, JOptionPane.NO_OPTION,
                 null, options, options[0]);
         if (answer == JOptionPane.YES_OPTION) {
@@ -134,7 +134,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * CrÃ©Ã© un ProgrammeurBean, vide ou non en fonction du paramÃ¨tre ajout
+     * Créé un ProgrammeurBean, vide ou non en fonction du paramètre ajout
      * @param ajout
      * @return
      */
@@ -142,7 +142,7 @@ public class Controller implements ActionListener, MouseListener {
         ProgrammeurBean prog = new ProgrammeurBean();
 
         prog.setNom(this.pv.getAllTextFields().get("nom").getText());
-        prog.setPrenom(this.pv.getAllTextFields().get("prÃ©nom").getText());
+        prog.setPrenom(this.pv.getAllTextFields().get("prénom").getText());
         prog.setPseudo(this.pv.getAllTextFields().get("pseudo").getText());
         prog.setAdresse(this.pv.getAllTextFields().get("adresse").getText());
         prog.setAnNaissance(Integer.parseInt(this.pv.getAllTextFields().get("naissance").getText()));
@@ -158,7 +158,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Valide les donnÃ©es entrÃ©es dans le cas de la crÃ©ation ou de la modification d'un programmeur
+     * Valide les données entrées dans le cas de la création ou de la modification d'un programmeur
      * @return
      */
     private boolean validate() {
@@ -180,7 +180,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Ouvre la fenÃªtre dÃ©taillÃ©e d'un programmeur, modifiable ou non, d'ajout ou non
+     * Ouvre la fenêtre détaillée d'un programmeur, modifiable ou non, d'ajout ou non
      * @param pb
      * @param type
      * @param modify
@@ -219,8 +219,8 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Ouvre la modale dÃ©taillÃ©e d'un programmeur. Il est nÃ©cessaire qu'il s'agisse d'un double clic
-     * La fenÃªtre ouverte est soit en mode Ã©dition avec les champs modifiables, ou bien en mode lecture seule
+     * Ouvre la modale détaillée d'un programmeur. Il est nécessaire qu'il s'agisse d'un double clic
+     * La fenêtre ouverte est soit en mode édition avec les champs modifiables, ou bien en mode lecture seule
      * @param e
      */
     @Override
@@ -229,7 +229,7 @@ public class Controller implements ActionListener, MouseListener {
 
         if (e.getClickCount() == 2) {
 
-            //Ouvre la modal pour l'Ã©dition d'un programmeur
+            //Ouvre la modal pour l'édition d'un programmeur
             if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 1) {
                 Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
                 ProgrammeurBean prog = this.model.getListeProg().get(targetId);

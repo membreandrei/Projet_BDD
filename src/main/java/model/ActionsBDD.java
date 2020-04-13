@@ -18,7 +18,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Connexion Ã  la base de donnÃ©es
+     * Connexion à la base de données
      * @return
      */
     public Connection getConnection() {
@@ -31,7 +31,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour construire dynamiquement une requete prÃ©parÃ©e standard.
+     * Methode pour construire dynamiquement une requete préparée standard.
      * @param conn
      * @param requete
      * @return
@@ -46,7 +46,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour construire dynamiquement une requete prÃ©parÃ©e prenant un int en argument
+     * Methode pour construire dynamiquement une requete préparée prenant un int en argument
      * @param conn
      * @param requete
      * @param id
@@ -63,7 +63,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour construire dynamiquement une requete prÃ©parÃ©e prenant juste une string en arg
+     * Methode pour construire dynamiquement une requete préparée prenant juste une string en arg
      */
     public PreparedStatement getPreparedStatementString(Connection conn, String requete, String name) {
         try {
@@ -76,7 +76,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour la construction d'une requÃªte d'insert Ã  partir de la structure d'un developpeur
+     * Methode pour la construction d'une requête d'insert à partir de la structure d'un developpeur
      * @param conn
      * @param requete
      * @param prog
@@ -101,7 +101,7 @@ public class ActionsBDD {
     }
 
     /**
-     * MÃ©thode pour prÃ©parer la requÃªte de modification du salaire
+     * Méthode pour préparer la requête de modification du salaire
      * @param conn
      * @param requete
      * @param prog
@@ -127,7 +127,7 @@ public class ActionsBDD {
     }
 
     /**
-     * MÃ©thode pour exÃ©cuter et rÃ©cupÃ©rer le rÃ©sultat d'une requÃªte renvoyant un ResultSet
+     * Méthode pour exécuter et récupérer le résultat d'une requête renvoyant un ResultSet
      * @param stmt
      * @return
      */
@@ -141,7 +141,7 @@ public class ActionsBDD {
     }
 
     /**
-     * MÃ©thode pour exÃ©cuter une requÃªte en rÃ©cupÃ©rant le nombre de ligne(s) affectÃ©e(s) par la requÃªte
+     * Méthode pour exécuter une requête en récupérant le nombre de ligne(s) affectée(s) par la requête
      * @param stmt
      * @return
      */

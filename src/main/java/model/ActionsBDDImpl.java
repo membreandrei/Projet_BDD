@@ -48,7 +48,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * MÃ©thode d'exÃ©cution d'une requÃªte prÃ©parÃ©e
+     * Méthode d'exécution d'une requête préparée
      * @param statement
      * @return
      */
@@ -70,7 +70,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * MÃ©thode d'exÃ©cution d'une requÃªte prÃ©parÃ©e avec modification dans la base de donnÃ©es
+     * Méthode d'exécution d'une requête préparée avec modification dans la base de données
      * @param statement
      * @return
      */
@@ -82,7 +82,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * ExÃ©cution de la requÃªte retournant tous les programmeurs
+     * Exécution de la requête retournant tous les programmeurs
      * @return
      */
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurs() {
@@ -90,7 +90,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * ExÃ©cution de la requÃªte retournant un programmeur grace Ã  son id
+     * Exécution de la requête retournant un programmeur grace à son id
      * @param id
      * @return
      */
@@ -99,7 +99,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * ExÃ©cution de la requÃªte retournant un ou des programmeurs par leur nom
+     * Exécution de la requête retournant un ou des programmeurs par leur nom
      * @param name
      * @return
      */
@@ -108,7 +108,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * ExÃ©cution de la requÃªte retournant un ou des programmeurs par leur prÃ©nom
+     * Exécution de la requête retournant un ou des programmeurs par leur prénom
      * @param firstName
      * @return
      */
@@ -117,7 +117,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * ExÃ©cution de la requÃªte retournant un ou des programmeurs par leur annÃ©e de naissance
+     * Exécution de la requête retournant un ou des programmeurs par leur année de naissance
      * @param year
      * @return
      */
@@ -130,7 +130,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * ExÃ©cution de la requÃªte permettant de supprimer un user par id
+     * Exécution de la requête permettant de supprimer un user par id
      * @param id
      */
     public void deleteProg(int id) {
@@ -138,7 +138,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * ExÃ©cution de la requÃªte permettant de changer le salaire via l'id
+     * Exécution de la requête permettant de changer le salaire via l'id
      * @param prog
      */
     public void editProg(ProgrammeurBean prog) {
@@ -146,7 +146,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * ExÃ©cution de la requÃªte permettant de crÃ©er un nouveau programmeur
+     * Exécution de la requête permettant de créer un nouveau programmeur
      * @param prog
      * @return
      */

@@ -14,19 +14,19 @@ public class FenetreMere extends JFrame {
     private static BasePanel basePanel = new BasePanel();
 
     /**
-     * Construit la fenÃªtre gÃ©nÃ©rale de l'application
+     * Construit la fenêtre générale de l'application
      * @param title
      * @throws HeadlessException
      */
     public FenetreMere(String title) throws HeadlessException {
 
-        //On crÃ©Ã© la fenÃªtre mÃ¨re
+        //On créé la fenêtre mère
         super(title);
 
         //Lors d'un clic sur la croix rouge, on met fin au programme
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //On dÃ©finit la taille de la fenÃªtre
+        //On définit la taille de la fenêtre
         this.setPreferredSize(new Dimension(1000, 500));
         FenetreMere.basePanel.createListeners();
         this.setBackground(Color.decode("#303030"));
@@ -38,16 +38,16 @@ public class FenetreMere extends JFrame {
     }
 
     /**
-     * Construit les sous-fenÃªtres dÃ©diÃ©es Ã  l'affichage en dÃ©tail d'un programmeur, ou bien l'ajout d'un nouveau
+     * Construit les sous-fenêtres dédiées à l'affichage en détail d'un programmeur, ou bien l'ajout d'un nouveau
      * @param title
      * @param view
      * @param type
      */
     public FenetreMere(String title, ProgrammeurView view, String type){
-        //On crÃ©Ã© la fenÃªtre mÃ¨re
+        //On créé la fenêtre mère
         super(title);
 
-        //On dÃ©finit la taille de la fenÃªtre
+        //On définit la taille de la fenêtre
         this.setPreferredSize(new Dimension(600, 300));
         StyleHelper.setStyle(this);
         this.setLayout(new BorderLayout());
@@ -79,7 +79,7 @@ public class FenetreMere extends JFrame {
     }
 
     /**
-     * DÃ©finit la fenÃªtre d'Ã©dition d'un programmeur existant
+     * Définit la fenêtre d'édition d'un programmeur existant
      * @param jp
      * @param view
      */
@@ -96,7 +96,7 @@ public class FenetreMere extends JFrame {
     }
 
     /**
-     * DÃ©finit la fenÃªtre d'ajout d'un programmeur inexistant
+     * Définit la fenêtre d'ajout d'un programmeur inexistant
      * @param jp
      * @param view
      */

@@ -3,37 +3,37 @@ package utils;
 public final class Constantes {
 
     /**
-     * RÃ©cupÃ©rer tous les programmeurs
+     * Récupérer tous les programmeurs
      */
     public final static String ALLPROGS = "SELECT * from PROGRAMMEUR";
 
     /**
-     * RÃ©cupÃ©rer un programmeurs par ID (ID Ã©tant UNIQUE, pas besoin de LIMIT)
+     * Récupérer un programmeurs par ID (ID étant UNIQUE, pas besoin de LIMIT)
      */
     public final static String PROGBYID = "SELECT * from PROGRAMMEUR where ID = ?";
 
     /**
-     * RÃ©cupÃ©rer les programmeurs par nom
+     * Récupérer les programmeurs par nom
      */
     public final static String PROGBYNAME = "SELECT * from PROGRAMMEUR where NOM like ?";
 
     /**
-     * RÃ©cupÃ©rer les programmeurs par prÃ©nom
+     * Récupérer les programmeurs par prénom
      */
     public final static String PROGBYFIRSTNAME = "SELECT * from PROGRAMMEUR where PRENOM like ?";
 
     /**
-     * RÃ©cupÃ©rer les programmeurs par annÃ©e de naissance
+     * Récupérer les programmeurs par année de naissance
      */
     public final static String PROGBYYEAR = "SELECT * from PROGRAMMEUR where ANNAISSANCE LIKE ?";
 
     /**
-     * Supprimer un programeur Ã  partir de son ID
+     * Supprimer un programeur à partir de son ID
      */
     public final static String DELPROG = "DELETE FROM PROGRAMMEUR WHERE ID=?";
 
     /**
-     * Changer le salaire d'un programmeur Ã  partir de son ID
+     * Changer le salaire d'un programmeur à partir de son ID
      */
     public final static String EDITPROG = "" +
             "UPDATE PROGRAMMEUR " +
@@ -49,7 +49,7 @@ public final class Constantes {
             "WHERE ID=?";
 
     /**
-     * CrÃ©er un programmeur
+     * Créer un programmeur
      */
     public final static String CREATEPROG = "INSERT INTO PROGRAMMEUR(NOM,PRENOM,ADRESSE,PSEUDO,RESPONSABLE,HOBBY,ANNAISSANCE,SALAIRE,PRIME) VALUES(?,?,?,?,?,?,?,?,?)";
 
