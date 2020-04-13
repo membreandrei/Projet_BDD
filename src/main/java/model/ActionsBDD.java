@@ -14,11 +14,13 @@ public class ActionsBDD {
     private PreparedStatement stmt;
     private ResultSet rs;
 
-
     public ActionsBDD() {
     }
 
-    // Connexion � la base de donn�es
+    /**
+     * Connexion à la base de données
+     * @return
+     */
     public Connection getConnection() {
         try {
             this.conn = DriverManager.getConnection(Constantes.URL, Constantes.USER, Constantes.PASSWORD);
@@ -28,7 +30,12 @@ public class ActionsBDD {
         return this.conn;
     }
 
-    // Methode pour construire dynamiquement une requete pr�par�e standard.
+    /**
+     * Methode pour construire dynamiquement une requete préparée standard.
+     * @param conn
+     * @param requete
+     * @return
+     */
     public PreparedStatement getPreparedStatement(Connection conn, String requete) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -38,7 +45,13 @@ public class ActionsBDD {
         return this.stmt;
     }
 
-    // Methode pour construire dynamiquement une requete pr�par�e prenant un int en argument
+    /**
+     * Methode pour construire dynamiquement une requete préparée prenant un int en argument
+     * @param conn
+     * @param requete
+     * @param id
+     * @return
+     */
     public PreparedStatement getPreparedStatementInt(Connection conn, String requete, int id) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -49,7 +62,9 @@ public class ActionsBDD {
         return this.stmt;
     }
 
-    //Methode pour construire dynamiquement une requete pr�par�e prenant juste une string en arg
+    /**
+     * Methode pour construire dynamiquement une requete préparée prenant juste une string en arg
+     */
     public PreparedStatement getPreparedStatementString(Connection conn, String requete, String name) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -60,7 +75,13 @@ public class ActionsBDD {
         return this.stmt;
     }
 
-    //Methode pour la construction d'une requete d'insert � partir de la structure d'un developpeur
+    /**
+     * Methode pour la construction d'une requête d'insert à partir de la structure d'un developpeur
+     * @param conn
+     * @param requete
+     * @param prog
+     * @return
+     */
     public PreparedStatement getPreparedStatementInsert(Connection conn, String requete, ProgrammeurBean prog) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -79,7 +100,13 @@ public class ActionsBDD {
         return this.stmt;
     }
 
-    // M�thode pour pr�parer la requ�te de modification du salaire
+    /**
+     * Méthode pour préparer la requête de modification du salaire
+     * @param conn
+     * @param requete
+     * @param prog
+     * @return
+     */
     public PreparedStatement getPreparedStatementModifyProg(Connection conn, String requete, ProgrammeurBean prog) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -99,7 +126,11 @@ public class ActionsBDD {
         return this.stmt;
     }
 
-    //M�thode pour ex�cuter et r�cup�rer le r�sultat d'une requ�te renvoyant un resultset
+    /**
+     * Méthode pour exécuter et récupérer le résultat d'une requête renvoyant un ResultSet
+     * @param stmt
+     * @return
+     */
     public ResultSet getResultSet(PreparedStatement stmt) {
         try {
             this.rs = stmt.executeQuery();
@@ -109,7 +140,11 @@ public class ActionsBDD {
         return this.rs;
     }
 
-    //M�thode pour ex�cuter une requ�te en r�cup�rant le nb de row affect� par la requ�te
+    /**
+     * Méthode pour exécuter une requête en récupérant le nombre de ligne(s) affectée(s) par la requête
+     * @param stmt
+     * @return
+     */
     public int getResultSetModify(PreparedStatement stmt) {
         Integer i = null;
         try {

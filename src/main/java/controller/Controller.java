@@ -23,6 +23,10 @@ public class Controller implements ActionListener, MouseListener {
     private ProgrammeurView pv;
     private Integer typeRv = 1;
 
+    /**
+     * Construit le contrôleur avec le BasePanel bp
+     * @param bp
+     */
     public Controller(BasePanel bp) {
         this.mv = bp.getMv();
         this.rv = bp.getRv();
@@ -30,6 +34,9 @@ public class Controller implements ActionListener, MouseListener {
         this.model = new ActionsBDDImpl();
     }
 
+    /**
+     * Remplit la HashMap avec les données qui sont le nom des boutons
+     */
     private void fillHashMap() {
         this.identificator = new HashMap<>();
         for (JButton button : this.mv.getAllButtons()) {
@@ -37,6 +44,10 @@ public class Controller implements ActionListener, MouseListener {
         }
     }
 
+    /**
+     * En fonction de l'ActionEvent e reçu en paramètre, agit différemment
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         TreeMap<Integer, ProgrammeurBean> data = new TreeMap<>();
@@ -45,7 +56,7 @@ public class Controller implements ActionListener, MouseListener {
         } else {
             if (e.getSource().equals(this.identificator.get("Afficher tous les programmeurs"))) {
                 data = this.model.getProgrammeurs();
-                this.typeRv = 1;
+                this.typeRv = 0;
             }
             if (e.getSource().equals(this.identificator.get("Afficher un programmeur"))) {
                 data = this.model.getProgrammeurs();
@@ -88,7 +99,7 @@ public class Controller implements ActionListener, MouseListener {
                 data = this.model.getProgrammeurs();
                 this.typeRv = 2;
             }
-            if (e.getSource().equals(this.identificator.get("Tout les Menus"))) {
+            if (e.getSource().equals(this.identificator.get("Tous les menus"))) {
                 data = this.model.getProgrammeurs();
                 this.typeRv = 4;
             }
@@ -107,6 +118,9 @@ public class Controller implements ActionListener, MouseListener {
         }
     }
 
+    /**
+     * Efface un programmeur
+     */
     private void deleteProg() {
         Object[] options = {"Supprimer", "Annuler"};
         int answer = JOptionPane.showOptionDialog(null, "Êtes-vous sûr de votre choix ?", "Alerte Suppression",
@@ -119,6 +133,11 @@ public class Controller implements ActionListener, MouseListener {
         }
     }
 
+    /**
+     * Créé un ProgrammeurBean, vide ou non en fonction du paramètre ajout
+     * @param ajout
+     * @return
+     */
     private ProgrammeurBean createProg(boolean ajout) {
         ProgrammeurBean prog = new ProgrammeurBean();
 
@@ -138,8 +157,11 @@ public class Controller implements ActionListener, MouseListener {
         return prog;
     }
 
+    /**
+     * Valide les données entrées dans le cas de la création ou de la modification d'un programmeur
+     * @return
+     */
     private boolean validate() {
-
         if (!StringUtils.isNumeric(this.pv.getAllTextFields().get("naissance").getText())) {
             return false;
         }
@@ -157,9 +179,15 @@ public class Controller implements ActionListener, MouseListener {
         this.pv = pv;
     }
 
+    /**
+     * Ouvre la fenêtre détaillée d'un programmeur, modifiable ou non, d'ajout ou non
+     * @param pb
+     * @param type
+     * @param modify
+     */
     private void openModal(@Nullable ProgrammeurBean pb, String type, boolean modify) {
-        String title = null;
-        ProgrammeurView pv = null;
+        String title;
+        ProgrammeurView pv;
         if (pb == null) {
             title = "Ajout";
             pv = new ProgrammeurView();
@@ -190,6 +218,11 @@ public class Controller implements ActionListener, MouseListener {
         return this.model.getProgrammeurByYear(year);
     }
 
+    /**
+     * Ouvre la modale détaillée d'un programmeur. Il est nécessaire qu'il s'agisse d'un double clic
+     * La fenêtre ouverte est soit en mode édition avec les champs modifiables, ou bien en mode lecture seule
+     * @param e
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         JTable laTable = (JTable) e.getSource();

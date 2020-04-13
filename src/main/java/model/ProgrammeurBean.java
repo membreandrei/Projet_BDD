@@ -15,7 +15,7 @@ public class ProgrammeurBean implements Serializable {
     private String responsable;
     private String hobby;
     
-// Liste des mÈthodes permettant de rÈcupÈrer les diffÈrentes variables de la classe Programmeur 
+// Liste des m√©thodes permettant de r√©cup√©rer les diff√©rentes variables de la classe Programmeur 
     
     public Integer getId() {
         return id;
@@ -96,13 +96,17 @@ public class ProgrammeurBean implements Serializable {
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
-//Edition de l'output du toString de la classe.
+
+    /**
+     * Edition de l'output du toString de la classe.
+     * @return
+     */
     @Override
     public String toString() {
         return  "Id : " + id + '\n' +
                 "Nom : " + nom + '\n' +
                 "Prenom : " + prenom + '\n' +
-                "Ann√©e de Naissance : " + anNaissance + '\n' +
+                "Ann√É¬©e de Naissance : " + anNaissance + '\n' +
                 "Prime : " + prime + '\n' +
                 "Salaire : " + salaire + '\n' +
                 "Pseudo : " + pseudo + '\n' +

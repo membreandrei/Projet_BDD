@@ -10,24 +10,35 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//TODO: Peut-être factoriser tout ça ?
 
 public class ProgrammeurView extends ViewPanel {
 
-    private ArrayList<JLabel> allLabels = new ArrayList<JLabel>();
+    private ArrayList<JLabel> allLabels = new ArrayList<>();
     private HashMap<String, JTextField> allTextFields = new HashMap<>();
 
-
+    /**
+     * Construit le ProgrammeurView dans le cas d'un ajout d'un nouveau programmeur
+     */
     public ProgrammeurView() {
         this.initProgrammeurView(true, false);
     }
 
+    /**
+     * Construit le ProgrammeurView quand des données sont présentes
+     * C'est-à-dire, quand on affiche les détails d'un programmeur déjà existant
+     * @param data
+     * @param modify
+     */
     public ProgrammeurView(ProgrammeurBean data, boolean modify) {
         this.initProgrammeurView(false, modify);
         this.populateProgrammeurView(data);
     }
 
-    //TODO deplacer pseudo quand ajout prog
+    /**
+     * Initialise le ProgrammeurView en fonction des paramètres reçus
+     * @param isEmpty
+     * @param modify
+     */
     private void initProgrammeurView(Boolean isEmpty, boolean modify) {
 
         if (!isEmpty) {
@@ -49,8 +60,8 @@ public class ProgrammeurView extends ViewPanel {
 
         String key;
 
-        for (int i = 0; i < this.allLabels.size(); i++) {
-            key = this.allLabels.get(i).getText().replace(": ", "").toLowerCase();
+        for (JLabel allLabel : this.allLabels) {
+            key = allLabel.getText().replace(": ", "").toLowerCase();
             this.allTextFields.put(key, new JTextField());
             this.allTextFields.get(key).setCaretColor(Color.white);
             if (modify) {
@@ -84,6 +95,10 @@ public class ProgrammeurView extends ViewPanel {
 
     }
 
+    /**
+     * Remplit le ProgrammeurView avec les données du programmeur ProgrammeurBean data choisi
+     * @param data
+     */
     private void populateProgrammeurView(ProgrammeurBean data) {
         this.allTextFields.get("id").setText(data.getId() + "");
         this.allTextFields.get("pseudo").setText(data.getPseudo() + "");
@@ -101,6 +116,11 @@ public class ProgrammeurView extends ViewPanel {
         return this.allTextFields;
     }
 
+    /**
+     * Ajoute un contrôleur au bouton d'ajout
+     * @param controller
+     * @param add
+     */
     public void actionButtonAdd(Controller controller, JButton add) {
         addListener(controller, add);
         controller.setPv(this);

@@ -8,8 +8,16 @@ import java.awt.event.ActionListener;
 
 public class FenetreMere extends JFrame {
 
+    /**
+     * champ static basePanel, il s'agit du panel de base sur lequel viennent se greffer les autres panels
+     */
     private static BasePanel basePanel = new BasePanel();
 
+    /**
+     * Construit la fenêtre générale de l'application
+     * @param title
+     * @throws HeadlessException
+     */
     public FenetreMere(String title) throws HeadlessException {
 
         //On créé la fenêtre mère
@@ -20,16 +28,21 @@ public class FenetreMere extends JFrame {
 
         //On définit la taille de la fenêtre
         this.setPreferredSize(new Dimension(1000, 500));
-        this.basePanel.createListeners();
+        FenetreMere.basePanel.createListeners();
         this.setBackground(Color.decode("#303030"));
-        this.setContentPane(this.basePanel);
+        this.setContentPane(FenetreMere.basePanel);
         this.setBounds(500, 250, 0, 0);
         this.pack();
         StyleHelper.setStyleJOptionPane();
         this.setVisible(true);
     }
 
-
+    /**
+     * Construit les sous-fenêtres dédiées à l'affichage en détail d'un programmeur, ou bien l'ajout d'un nouveau
+     * @param title
+     * @param view
+     * @param type
+     */
     public FenetreMere(String title, ProgrammeurView view, String type){
         //On créé la fenêtre mère
         super(title);
@@ -48,9 +61,7 @@ public class FenetreMere extends JFrame {
         exit.setMargin(new Insets(5,20,5,20));
         StyleHelper.setStyle(exit);
 
-        ActionListener al = e -> {
-            dispose();
-        };
+        ActionListener al = e -> dispose();
         exit.addActionListener(al);
 
         if(type.equals("add")) {
@@ -67,7 +78,11 @@ public class FenetreMere extends JFrame {
         this.setVisible(true);
     }
 
-
+    /**
+     * Définit la fenêtre d'édition d'un programmeur existant
+     * @param jp
+     * @param view
+     */
     private void fenetreEdit(JPanel jp, ProgrammeurView view){
         JButton ajout = new JButton("Enregistrer");
         ajout.setActionCommand("enregistrer");
@@ -80,7 +95,11 @@ public class FenetreMere extends JFrame {
         view.actionButtonAdd(this.getBasePanel().getController(), ajout);
     }
 
-
+    /**
+     * Définit la fenêtre d'ajout d'un programmeur inexistant
+     * @param jp
+     * @param view
+     */
     private void fenetreAjout(JPanel jp, ProgrammeurView view){
         JButton ajout = new JButton("Ajouter");
         ajout.setActionCommand("ajout");
@@ -91,10 +110,6 @@ public class FenetreMere extends JFrame {
         jp.add(Box.createHorizontalStrut(20));
 
         view.actionButtonAdd(this.getBasePanel().getController(), ajout);
-    }
-
-    private void fenetreDisplay(JPanel jp, ProgrammeurView view){
-
     }
 
     public BasePanel getBasePanel() {

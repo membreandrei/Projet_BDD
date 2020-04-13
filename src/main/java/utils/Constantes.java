@@ -2,25 +2,39 @@ package utils;
 
 public final class Constantes {
 
-    //R�cup�rer tous les programmeurs
+    /**
+     * Récupérer tous les programmeurs
+     */
     public final static String ALLPROGS = "SELECT * from PROGRAMMEUR";
 
-    //R�cup�rer un programmeurs par ID (ID �tant UNIQUE, pas besoin de LIMIT)
+    /**
+     * Récupérer un programmeurs par ID (ID étant UNIQUE, pas besoin de LIMIT)
+     */
     public final static String PROGBYID = "SELECT * from PROGRAMMEUR where ID = ?";
 
-    //R�cup�rer les programmeurs par nom
+    /**
+     * Récupérer les programmeurs par nom
+     */
     public final static String PROGBYNAME = "SELECT * from PROGRAMMEUR where NOM like ?";
 
-    //R�cup�rer les programmeurs par pr�nom
+    /**
+     * Récupérer les programmeurs par prénom
+     */
     public final static String PROGBYFIRSTNAME = "SELECT * from PROGRAMMEUR where PRENOM like ?";
 
-    //R�cup�rer les programmeurs par ann�e de naissance
+    /**
+     * Récupérer les programmeurs par année de naissance
+     */
     public final static String PROGBYYEAR = "SELECT * from PROGRAMMEUR where ANNAISSANCE LIKE ?";
 
-    //Supprimer un programeur � partir de son ID
+    /**
+     * Supprimer un programeur à partir de son ID
+     */
     public final static String DELPROG = "DELETE FROM PROGRAMMEUR WHERE ID=?";
 
-    //Changer le salaire d'un programmeur � partir de son ID
+    /**
+     * Changer le salaire d'un programmeur à partir de son ID
+     */
     public final static String EDITPROG = "" +
             "UPDATE PROGRAMMEUR " +
             "SET NOM=?," +
@@ -34,22 +48,34 @@ public final class Constantes {
             "    PRIME=? " +
             "WHERE ID=?";
 
-    //Cr�er un programmeur
+    /**
+     * Créer un programmeur
+     */
     public final static String CREATEPROG = "INSERT INTO PROGRAMMEUR(NOM,PRENOM,ADRESSE,PSEUDO,RESPONSABLE,HOBBY,ANNAISSANCE,SALAIRE,PRIME) VALUES(?,?,?,?,?,?,?,?,?)";
 
-    //Serveur
+    /**
+     * Adresse du serveur
+     */
     public final static String SERVEUR = "54.154.23.110";
 
-    //Nom BDD
+    /**
+     * Nom de la base
+     */
     public final static String BDD = "APTN61_BD";
 
-    //Url
+    /**
+     * Url
+     */
     public final static String URL = "jdbc:mysql://" + SERVEUR + "/" + BDD;
 
-    //User
+    /**
+     * User
+     */
     public final static String USER = "adm";
 
-    //Mdp
+    /**
+     * Mot de passe
+     */
     public final static String PASSWORD = "adm";
 
 }

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class ActionsBDDImpl {
 
-    private TreeMap<Integer, ProgrammeurBean> listeProg = new TreeMap<Integer, ProgrammeurBean>();
+    private TreeMap<Integer, ProgrammeurBean> listeProg = new TreeMap<>();
     private ProgrammeurBean prog;
     private ActionsBDD action = new ActionsBDD();
     private Connection conn;
@@ -23,7 +23,11 @@ public class ActionsBDDImpl {
         this.conn = this.action.getConnection();
     }
 
-    //Initialisation d'un programmeur
+    /**
+     * Initialisation d'un programmeur
+     * @param rs
+     * @return
+     */
     public ProgrammeurBean initProgrameur(ResultSet rs) {
         try {
             prog = new ProgrammeurBean();
@@ -43,7 +47,11 @@ public class ActionsBDDImpl {
         return prog;
     }
 
-    //Méthode d'exécution d'une requête préparée
+    /**
+     * Méthode d'exécution d'une requête préparée
+     * @param statement
+     * @return
+     */
     public TreeMap<Integer, ProgrammeurBean> doRequete(PreparedStatement statement) {
         this.listeProg.clear();
         try {
@@ -61,56 +69,87 @@ public class ActionsBDDImpl {
         return this.listeProg;
     }
 
-    //Méthode d'exécution d'une requête préparée avec modification dans la base de donnée
+    /**
+     * Méthode d'exécution d'une requête préparée avec modification dans la base de données
+     * @param statement
+     * @return
+     */
     public int doRequeteUpdate(PreparedStatement statement) {
         this.listeProg.clear();
         this.stmt = statement;
-        int changesCount = this.action.getResultSetModify(this.stmt);
 
-        return changesCount;
+        return this.action.getResultSetModify(this.stmt);
     }
 
-    //Exécution de la requête retournant tous les programmeurs
+    /**
+     * Exécution de la requête retournant tous les programmeurs
+     * @return
+     */
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurs() {
         return doRequete(this.action.getPreparedStatement(this.conn, Constantes.ALLPROGS));
     }
 
-    //Exécution de la requête retournant un programmeur grace à son id
+    /**
+     * Exécution de la requête retournant un programmeur grace à son id
+     * @param id
+     * @return
+     */
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurById(int id) {
         return doRequete(this.action.getPreparedStatementInt(this.conn, Constantes.PROGBYID, id));
     }
 
-    //Exécution de la requête retournant un ou des programmeurs par leur nom
+    /**
+     * Exécution de la requête retournant un ou des programmeurs par leur nom
+     * @param name
+     * @return
+     */
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurByName(String name) {
         return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYNAME, name));
     }
 
-    //Exécution de la requête retournant un ou des programmeurs par leur prénom
+    /**
+     * Exécution de la requête retournant un ou des programmeurs par leur prénom
+     * @param firstName
+     * @return
+     */
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurByFirstName(String firstName) {
         return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYFIRSTNAME, firstName));
     }
 
-    //Exécution de la requête retournant un ou des programmeurs par leur année de naissance
+    /**
+     * Exécution de la requête retournant un ou des programmeurs par leur année de naissance
+     * @param year
+     * @return
+     */
     public TreeMap<Integer, ProgrammeurBean> getProgrammeurByYear(Integer year) {
         return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYYEAR, Integer.toString(year)));
     }
 
-    //TODO À déplacer dans ProgrammeurBean
     public TreeMap<Integer, ProgrammeurBean> getListeProg() {
         return this.listeProg;
     }
 
-    //Exécution de la requête permettant de supprimer un user par id
+    /**
+     * Exécution de la requête permettant de supprimer un user par id
+     * @param id
+     */
     public void deleteProg(int id) {
         doRequeteUpdate(this.action.getPreparedStatementInt(this.conn, Constantes.DELPROG, id));
     }
 
-    //Exécution de la requête permettant de changer le salaire via l'id
+    /**
+     * Exécution de la requête permettant de changer le salaire via l'id
+     * @param prog
+     */
     public void editProg(ProgrammeurBean prog) {
         doRequeteUpdate(this.action.getPreparedStatementModifyProg(this.conn, Constantes.EDITPROG, prog));
     }
 
-    //Exécution de la requête permettant de créer un nouveau programmeur
+    /**
+     * Exécution de la requête permettant de créer un nouveau programmeur
+     * @param prog
+     * @return
+     */
     public int createProg(ProgrammeurBean prog) {
         return doRequeteUpdate(this.action.getPreparedStatementInsert(this.conn, Constantes.CREATEPROG, prog));
     }
