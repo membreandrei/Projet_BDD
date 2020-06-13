@@ -3,10 +3,10 @@ package start;
 import view.FenetreMere;
 
 /**
- * Démarre le programme
+ * Dï¿½marre le programme
  */
 public class Start {
     public static void main(String[] args){
-        new FenetreMere("Application");
+        new FenetreMere("Application") ;
     }
 }
