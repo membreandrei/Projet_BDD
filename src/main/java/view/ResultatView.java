@@ -1,12 +1,14 @@
 package view;
 
 import controller.Controller;
-import model.ProgrammeurBean;
+import model.Media;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
@@ -30,11 +32,11 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Créé le panel pour l'affichage de tous les programmeurs
+     * Crï¿½ï¿½ le panel pour l'affichage de tous les programmeurs
      *
      * @param informations
      */
-    private void displayAll(TreeMap<Integer, ProgrammeurBean> informations) {
+    private void displayAll(TreeMap<Integer, Media> informations) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         this.setHeaderTableau(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
@@ -42,12 +44,12 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Créé le panel pour l'affichage précis lors d'un clic sur la liste de tous les programmeurs
+     * Crï¿½ï¿½ le panel pour l'affichage prï¿½cis lors d'un clic sur la liste de tous les programmeurs
      *
      * @param informations
      * @param valueComboBox
      */
-    private void displayOne(TreeMap<Integer, ProgrammeurBean> informations, String valueComboBox) {
+    private void displayOne(TreeMap<Integer, Media> informations, String valueComboBox) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
 
         this.setHeaderTableau(informations, fm);
@@ -62,11 +64,11 @@ public class ResultatView extends ViewPanel {
 
 
     /**
-     * Lors d'un double clic sur un programmeur dans le tableau, ouvre une fenêtre permettant de modifier les données de ce dernier
+     * Lors d'un double clic sur un programmeur dans le tableau, ouvre une fenï¿½tre permettant de modifier les donnï¿½es de ce dernier
      *
      * @param informations
      */
-    private void modifyProg(TreeMap<Integer, ProgrammeurBean> informations) {
+    private void modifyProg(TreeMap<Integer, Media> informations) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         setHeaderTableau(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(1);
@@ -80,11 +82,11 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Efface le(s) programmeur(s) sélectionné(s) dans le tableau
+     * Efface le(s) programmeur(s) sï¿½lectionnï¿½(s) dans le tableau
      *
      * @param informations
      */
-    private void deleteProg(TreeMap<Integer, ProgrammeurBean> informations) {
+    private void deleteProg(TreeMap<Integer, Media> informations) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         setHeaderTableau(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
@@ -100,12 +102,12 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Permet tous les menus à la fois: Ajout/Modification/Suppression/Recherche
+     * Permet tous les menus ï¿½ la fois: Ajout/Modification/Suppression/Recherche
      *
      * @param informations
      * @param valueComboBox
      */
-    private void allMenu(TreeMap<Integer, ProgrammeurBean> informations, String valueComboBox) {
+    private void allMenu(TreeMap<Integer, Media> informations, String valueComboBox) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
 
         this.setHeaderTableau(informations, fm);
@@ -123,13 +125,13 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Gère le type de panel à ajouter en fonction du bouton cliqué du menu (dans MenuView)
+     * Gï¿½re le type de panel ï¿½ ajouter en fonction du bouton cliquï¿½ du menu (dans MenuView)
      *
      * @param type
      * @param data
      * @param valueComboBox
      */
-    public void modifyPanel(Integer type, TreeMap<Integer, ProgrammeurBean> data, String valueComboBox) {
+    public void modifyPanel(Integer type, TreeMap<Integer, Media> data, String valueComboBox) {
         this.removeAll();
         this.revalidate();
         this.repaint();
@@ -152,8 +154,9 @@ public class ResultatView extends ViewPanel {
         }
     }
 
+
     /**
-     * Créé la table contenant les programmeurs
+     * Crï¿½ï¿½ la table contenant les programmeurs
      *
      * @param colNames
      * @param data
@@ -176,7 +179,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Définit le scrollPanel lié au panel de vue
+     * Dï¿½finit le scrollPanel liï¿½ au panel de vue
      */
     private void setSp() {
         this.sp = new JScrollPane(table);
@@ -187,22 +190,22 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Définit le header du tableau contenant les programmeurs, et ajoute le MouseListener à celle-ci
+     * Dï¿½finit le header du tableau contenant les programmeurs, et ajoute le MouseListener ï¿½ celle-ci
      *
      * @param informations
      * @param fm
      */
-    private void setHeaderTableau(TreeMap<Integer, ProgrammeurBean> informations, FenetreMere fm) {
+    private void setHeaderTableau(TreeMap<Integer, Media> informations, FenetreMere fm) {
         String[] colNames = {"ID", "NOM", "PRENOM", "ANNEE DE NAISSANCE", "SALAIRE", "PSEUDO"};
         Object[][] data = new Object[informations.size()][6];
         int index = 0;
         for (Integer key : informations.keySet()) {
             data[index][0] = informations.get(key).getId();
             data[index][1] = informations.get(key).getNom().toUpperCase();
-            data[index][2] = informations.get(key).getPrenom();
+            /*data[index][2] = informations.get(key).getPrenom();
             data[index][3] = informations.get(key).getAnNaissance();
             data[index][4] = informations.get(key).getSalaire();
-            data[index][5] = informations.get(key).getPseudo();
+            data[index][5] = informations.get(key).getPseudo();*/
             index++;
         }
 
@@ -212,7 +215,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Définit le style du champ de recherche des programmeurs
+     * Dï¿½finit le style du champ de recherche des programmeurs
      */
     private void setSearchText() {
         this.searchText = new JTextField();
@@ -224,7 +227,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Même chose qu'au-dessus, mais pour le bouton de lancement de la recherche
+     * Mï¿½me chose qu'au-dessus, mais pour le bouton de lancement de la recherche
      *
      * @param title
      */
@@ -240,10 +243,10 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Définit le choix du type de recherche (par liste déroulante)
+     * Dï¿½finit le choix du type de recherche (par liste dï¿½roulante)
      */
     private void setChoice() {
-        String[] elements = new String[]{"Par ID", "Par Nom", "Par Prénom", "Par Année de naissance"};
+        String[] elements = new String[]{"Par ID", "Par Nom", "Par Prï¿½nom", "Par Annï¿½e de naissance"};
         this.choice = new JComboBox(elements);
         this.choice.setBackground(Color.decode("#3a3a3a"));
         this.choice.setForeground(Color.WHITE);
@@ -262,7 +265,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Définit le bouton de suppression d'un ou plusieurs programmeurs
+     * Dï¿½finit le bouton de suppression d'un ou plusieurs programmeurs
      */
     private void setDeleteButton() {
         this.deleteButton = new JButton("Supprimer");
@@ -273,7 +276,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Définit le bouton d'ajout d'un programmeur
+     * Dï¿½finit le bouton d'ajout d'un programmeur
      */
     private void setInsertButton() {
         this.insertButton = new JButton("Ajouter");
@@ -284,8 +287,8 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Définit le panel comprenant à la fois l'ajout et la suppression d'un programmeur
-     * (si ajout=true, alors seulement le bouton d'ajout sera présent)
+     * Dï¿½finit le panel comprenant ï¿½ la fois l'ajout et la suppression d'un programmeur
+     * (si ajout=true, alors seulement le bouton d'ajout sera prï¿½sent)
      * @param ajout
      * @return
      */
@@ -304,8 +307,8 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Définit le panel de recherche d'un programmeur
-     * (en haut du tableau; contient le champ du texte d'entrée et par quoi rechercher, ainsi que le bouton)
+     * Dï¿½finit le panel de recherche d'un programmeur
+     * (en haut du tableau; contient le champ du texte d'entrï¿½e et par quoi rechercher, ainsi que le bouton)
      * @param valueComboBox
      * @param modify
      * @return
@@ -341,11 +344,11 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Gère la recherche, à la fois la validation du contenu recherché et le résultat de ladite recherche
+     * Gï¿½re la recherche, ï¿½ la fois la validation du contenu recherchï¿½ et le rï¿½sultat de ladite recherche
      * @param type
      */
     public void recherche(int type) {
-        TreeMap<Integer, ProgrammeurBean> data = null;
+        TreeMap<Integer, Media> data = null;
         String choice = (String) this.getChoice().getSelectedItem();
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         Controller controller = fm.getBasePanel().getController();
@@ -361,11 +364,11 @@ public class ResultatView extends ViewPanel {
                         data = controller.getProgrammeurByName(this.getSearchText().getText());
                         break;
 
-                    case "Par Prénom":
+                    case "Par Prï¿½nom":
                         data = controller.getProgrammeurByFirstName(this.getSearchText().getText());
                         break;
 
-                    case "Par Année de naissance":
+                    case "Par Annï¿½e de naissance":
                         data = rechercheYear(controller);
                         break;
                 }
@@ -375,7 +378,7 @@ public class ResultatView extends ViewPanel {
             if (validateInput("Par ID")) {
                 data = rechercheId(controller);
             } else {
-                JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
+                JOptionPane.showMessageDialog(null, "Veuillez rï¿½essayer avec un nombre entier");
                 data = controller.getProgrammeurs();
             }
             this.modifyPanel(type, data, null);
@@ -383,12 +386,12 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Valide l'input entré par l'utilisateur lors de la recherche
+     * Valide l'input entrï¿½ par l'utilisateur lors de la recherche
      * @param choice
      * @return
      */
     private Boolean validateInput(String choice) {
-        if (choice.equals("Par ID") || choice.equals("Par Année de naissance")) {
+        if (choice.equals("Par ID") || choice.equals("Par Annï¿½e de naissance")) {
             return (this.getSearchText().getText().matches("^([0-9]*\\p{L}*\\p{javaWhitespace}*)*+$|^$"));
         } else {
             return (this.getSearchText().getText().matches("^([a-zA-Z]*\\p{L}*\\p{javaWhitespace}*)*+$|^$"));
@@ -396,19 +399,19 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Gère la recherche par ID des programmeurs
+     * Gï¿½re la recherche par ID des programmeurs
      * @param controller
      * @return
      */
-    private TreeMap<Integer, ProgrammeurBean> rechercheId(Controller controller) {
-        TreeMap<Integer, ProgrammeurBean> data;
+    private TreeMap<Integer, Media> rechercheId(Controller controller) {
+        TreeMap<Integer, Media> data;
         if (this.getSearchText().getText().equals("")) {
             data = controller.getProgrammeurs();
         } else {
             try {
                 data = controller.getProgrammeurById(Integer.parseInt(this.getSearchText().getText()));
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Veuillez réessayer avec une recherche valide");
+                JOptionPane.showMessageDialog(null, "Veuillez rï¿½essayer avec une recherche valide");
                 data = controller.getProgrammeurs();
             }
         }
@@ -416,12 +419,12 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Gère la recherche par année de naissance des programmeurs
+     * Gï¿½re la recherche par annï¿½e de naissance des programmeurs
      * @param controller
      * @return
      */
-    private TreeMap<Integer, ProgrammeurBean> rechercheYear(Controller controller) {
-        TreeMap<Integer, ProgrammeurBean> data;
+    private TreeMap<Integer, Media> rechercheYear(Controller controller) {
+        TreeMap<Integer, Media> data;
         if (this.getSearchText().getText().equals("")) {
             data = controller.getProgrammeurs();
         } else {
@@ -431,7 +434,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Récupère les lignes (=les programmeurs) sélectionnées par l'utilisateur dans le tableau
+     * Rï¿½cupï¿½re les lignes (=les programmeurs) sï¿½lectionnï¿½es par l'utilisateur dans le tableau
      * @return
      */
     public ArrayList<Integer> getIdRowSelected() {

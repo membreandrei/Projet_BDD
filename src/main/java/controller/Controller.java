@@ -1,12 +1,17 @@
 package controller;
 
+import com.opencsv.exceptions.CsvValidationException;
 import model.ActionsBDDImpl;
-import model.ProgrammeurBean;
+import model.Media;
+import model.Moment;
+import model.TempsDeParole;
 import org.apache.maven.shared.utils.StringUtils;
 import org.sonatype.inject.Nullable;
 import view.*;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +19,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.TreeMap;
+
+import com.opencsv.CSVReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Controller implements ActionListener, MouseListener {
     private final MenuView mv;
@@ -24,7 +33,7 @@ public class Controller implements ActionListener, MouseListener {
     private Integer typeRv = 1;
 
     /**
-     * Construit le contrôleur avec le BasePanel bp
+     * Construit le contrï¿½leur avec le BasePanel bp
      * @param bp
      */
     public Controller(BasePanel bp) {
@@ -35,7 +44,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Remplit la HashMap avec les données qui sont le nom des boutons
+     * Remplit la HashMap avec les donnï¿½es qui sont le nom des boutons
      */
     private void fillHashMap() {
         this.identificator = new HashMap<>();
@@ -45,12 +54,12 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * En fonction de l'ActionEvent e reçu en paramètre, agit différemment
+     * En fonction de l'ActionEvent e reï¿½u en paramï¿½tre, agit diffï¿½remment
      * @param e
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        TreeMap<Integer, ProgrammeurBean> data = new TreeMap<>();
+        TreeMap<Integer, Media> data = new TreeMap<>();
         if (e.getSource().equals(this.rv.getSearchButton())) {
             this.rv.recherche(this.typeRv);
         } else {
@@ -73,10 +82,10 @@ public class Controller implements ActionListener, MouseListener {
 
             if (e.getActionCommand().equals("ajout")) {
                 if (!validate()) {
-                    JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des nombres dans salaire, prime, année de naissance");
+                    JOptionPane.showMessageDialog(null, "Veuillez rï¿½essayer avec des nombres dans salaire, prime, annï¿½e de naissance");
                 } else {
-                    if (this.model.createProg(createProg(true)) == 0) {
-                        JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des données valides");
+                    if (this.model.createMedia(createProg(true)) == 0) {
+                        JOptionPane.showMessageDialog(null, "Veuillez rï¿½essayer avec des donnï¿½es valides");
                         return;
                     }
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
@@ -86,7 +95,7 @@ public class Controller implements ActionListener, MouseListener {
             }
             if (e.getActionCommand().equals("enregistrer")) {
                 if (!validate()) {
-                    JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des nombres dans salaire, prime, année de naissance");
+                    JOptionPane.showMessageDialog(null, "Veuillez rï¿½essayer avec des nombres dans salaire, prime, annï¿½e de naissance");
                 } else {
                     this.model.editProg(createProg(false));
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
@@ -103,6 +112,9 @@ public class Controller implements ActionListener, MouseListener {
                 data = this.model.getProgrammeurs();
                 this.typeRv = 4;
             }
+            if (e.getSource().equals(this.identificator.get("Import From CSV"))) {
+                getDataFromCsv(importFile());
+            }
             if (e.getSource().equals(this.identificator.get("Quitter le programme"))) {
                 System.exit(0);
             }
@@ -118,12 +130,74 @@ public class Controller implements ActionListener, MouseListener {
         }
     }
 
+    private String importFile(){
+        JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Choisir un fichier");
+        FileNameExtensionFilter restrictCsv = new FileNameExtensionFilter("choisir fichier .csv", "csv");
+        chooser.addChoosableFileFilter(restrictCsv);
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            return chooser.getSelectedFile().getPath();
+        }
+
+        return null;
+    }
+
+    private void getDataFromCsv(String path){
+        String csvFile = path;
+
+        CSVReader reader = null;
+        try {
+            reader = new CSVReader(new FileReader(csvFile));
+            reader.readNext();
+            String[] line;
+            String nomMediaPrec = "";
+            while ((line = reader.readNext()) != null) {
+
+                Media media = new Media();
+                media.setType(line[0]);
+                media.setIdIna(line[1]);
+                media.setNom(line[2]);
+                media.setEstPublic(Boolean.parseBoolean(line[3]));
+
+                if (!nomMediaPrec.equals(line[2])){
+                    nomMediaPrec = line[2];
+                    this.model.createMedia(media);
+                }
+
+                Moment moment = new Moment();
+
+                moment.setDateMoment(line[4]);
+                moment.setJour(line[5]);
+                moment.setVacances(line[6]);
+                moment.setEstFerie(Boolean.parseBoolean(line[7]));
+                moment.setHeure(Integer.parseInt(line[8]));
+                this.model.createMoment(moment);
+
+                media.setId(this.model.getIdMediaByName());
+                moment.setId(this.model.getIdMaxMoment());
+                TempsDeParole tempsDeParole = new TempsDeParole();
+
+                tempsDeParole.setMedia(media);
+                tempsDeParole.setMoment(moment);
+                tempsDeParole.setTempsHommes(Float.parseFloat(line[9]));
+                tempsDeParole.setTempsFemmes(Float.parseFloat(line[10]));
+                tempsDeParole.setTempsMusique(Float.parseFloat(line[11]));
+                this.model.createTemspsDeParole(tempsDeParole);
+
+                }
+        } catch (IOException | CsvValidationException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Efface un programmeur
      */
     private void deleteProg() {
         Object[] options = {"Supprimer", "Annuler"};
-        int answer = JOptionPane.showOptionDialog(null, "Êtes-vous sûr de votre choix ?", "Alerte Suppression",
+        int answer = JOptionPane.showOptionDialog(null, "ï¿½tes-vous sï¿½r de votre choix ?", "Alerte Suppression",
                 JOptionPane.YES_OPTION, JOptionPane.NO_OPTION,
                 null, options, options[0]);
         if (answer == JOptionPane.YES_OPTION) {
@@ -134,22 +208,22 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Créé un ProgrammeurBean, vide ou non en fonction du paramètre ajout
+     * Crï¿½ï¿½ un ProgrammeurBean, vide ou non en fonction du paramï¿½tre ajout
      * @param ajout
      * @return
      */
-    private ProgrammeurBean createProg(boolean ajout) {
-        ProgrammeurBean prog = new ProgrammeurBean();
+    private Media createProg(boolean ajout) {
+        Media prog = new Media();
 
         prog.setNom(this.pv.getAllTextFields().get("nom").getText());
-        prog.setPrenom(this.pv.getAllTextFields().get("prénom").getText());
+        /*prog.setPrenom(this.pv.getAllTextFields().get("prï¿½nom").getText());
         prog.setPseudo(this.pv.getAllTextFields().get("pseudo").getText());
         prog.setAdresse(this.pv.getAllTextFields().get("adresse").getText());
         prog.setAnNaissance(Integer.parseInt(this.pv.getAllTextFields().get("naissance").getText()));
         prog.setResponsable(this.pv.getAllTextFields().get("responsable").getText());
         prog.setHobby(this.pv.getAllTextFields().get("hobby").getText());
         prog.setSalaire(Float.parseFloat(this.pv.getAllTextFields().get("salaire").getText().replaceAll(",", ".")));
-        prog.setPrime(Float.parseFloat(this.pv.getAllTextFields().get("prime").getText().replaceAll(",", ".")));
+        prog.setPrime(Float.parseFloat(this.pv.getAllTextFields().get("prime").getText().replaceAll(",", ".")));*/
         if (!ajout) {
             prog.setId(Integer.parseInt((this.pv.getAllTextFields().get("id").getText())));
         }
@@ -158,7 +232,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Valide les données entrées dans le cas de la création ou de la modification d'un programmeur
+     * Valide les donnï¿½es entrï¿½es dans le cas de la crï¿½ation ou de la modification d'un programmeur
      * @return
      */
     private boolean validate() {
@@ -180,47 +254,47 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Ouvre la fenêtre détaillée d'un programmeur, modifiable ou non, d'ajout ou non
+     * Ouvre la fenï¿½tre dï¿½taillï¿½e d'un programmeur, modifiable ou non, d'ajout ou non
      * @param pb
      * @param type
      * @param modify
      */
-    private void openModal(@Nullable ProgrammeurBean pb, String type, boolean modify) {
+    private void openModal(@Nullable Media pb, String type, boolean modify) {
         String title;
         ProgrammeurView pv;
         if (pb == null) {
             title = "Ajout";
             pv = new ProgrammeurView();
         } else {
-            title = pb.getNom().toUpperCase() + " " + pb.getPrenom();
+            //title = pb.getNom().toUpperCase() + " " + pb.getPrenom();
             pv = new ProgrammeurView(pb, modify);
         }
-        new FenetreMere(title, pv, type);
+        new FenetreMere("title", pv, type);
     }
 
-    public TreeMap<Integer, ProgrammeurBean> getProgrammeurs() {
+    public TreeMap<Integer, Media> getProgrammeurs() {
         return this.model.getProgrammeurs();
     }
 
-    public TreeMap<Integer, ProgrammeurBean> getProgrammeurById(int id) {
+    public TreeMap<Integer, Media> getProgrammeurById(int id) {
         return this.model.getProgrammeurById(id);
     }
 
-    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByName(String name) {
+    public TreeMap<Integer, Media> getProgrammeurByName(String name) {
         return this.model.getProgrammeurByName(name);
     }
 
-    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByFirstName(String firstName) {
+    public TreeMap<Integer, Media> getProgrammeurByFirstName(String firstName) {
         return this.model.getProgrammeurByFirstName(firstName);
     }
 
-    public TreeMap<Integer, ProgrammeurBean> getProgrammeurByYear(Integer year) {
+    public TreeMap<Integer, Media> getProgrammeurByYear(Integer year) {
         return this.model.getProgrammeurByYear(year);
     }
 
     /**
-     * Ouvre la modale détaillée d'un programmeur. Il est nécessaire qu'il s'agisse d'un double clic
-     * La fenêtre ouverte est soit en mode édition avec les champs modifiables, ou bien en mode lecture seule
+     * Ouvre la modale dï¿½taillï¿½e d'un programmeur. Il est nï¿½cessaire qu'il s'agisse d'un double clic
+     * La fenï¿½tre ouverte est soit en mode ï¿½dition avec les champs modifiables, ou bien en mode lecture seule
      * @param e
      */
     @Override
@@ -229,17 +303,17 @@ public class Controller implements ActionListener, MouseListener {
 
         if (e.getClickCount() == 2) {
 
-            //Ouvre la modal pour l'édition d'un programmeur
+            //Ouvre la modal pour l'ï¿½dition d'un programmeur
             if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 1) {
                 Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
-                ProgrammeurBean prog = this.model.getListeProg().get(targetId);
+                Media prog = this.model.getListeProg().get(targetId);
                 openModal(prog, "edit", true);
             }
 
             //Ouvre la modal en mode lecture uniquement
             if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 0) {
                 Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
-                ProgrammeurBean prog = this.model.getListeProg().get(targetId);
+                Media prog = this.model.getListeProg().get(targetId);
                 openModal(prog, "display", false);
             }
         }

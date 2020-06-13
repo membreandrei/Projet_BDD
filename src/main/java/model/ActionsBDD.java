@@ -18,7 +18,8 @@ public class ActionsBDD {
     }
 
     /**
-     * Connexion à la base de données
+     * Connexion ï¿½ la base de donnï¿½es
+     *
      * @return
      */
     public Connection getConnection() {
@@ -31,7 +32,8 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour construire dynamiquement une requete préparée standard.
+     * Methode pour construire dynamiquement une requete prï¿½parï¿½e standard.
+     *
      * @param conn
      * @param requete
      * @return
@@ -46,7 +48,8 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour construire dynamiquement une requete préparée prenant un int en argument
+     * Methode pour construire dynamiquement une requete prï¿½parï¿½e prenant un int en argument
+     *
      * @param conn
      * @param requete
      * @param id
@@ -63,12 +66,12 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour construire dynamiquement une requete préparée prenant juste une string en arg
+     * Methode pour construire dynamiquement une requete prï¿½parï¿½e prenant juste une string en arg
      */
     public PreparedStatement getPreparedStatementString(Connection conn, String requete, String name) {
         try {
             this.stmt = conn.prepareStatement(requete);
-            this.stmt.setString(1, "%" + name + "%");
+            this.stmt.setString(1, name);
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -76,17 +79,70 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour la construction d'une requête d'insert à partir de la structure d'un developpeur
+     * Methode pour la construction d'une requï¿½te d'insert ï¿½ partir de la structure d'un developpeur
+     *
      * @param conn
      * @param requete
      * @param prog
      * @return
      */
-    public PreparedStatement getPreparedStatementInsert(Connection conn, String requete, ProgrammeurBean prog) {
+    public PreparedStatement getPreparedStatementInsertMedia(Connection conn, String requete, Media media) {
+        try {
+            this.stmt = conn.prepareStatement(requete);
+            this.stmt.setString(1, media.getIdIna());
+            this.stmt.setString(2, media.getType());
+            this.stmt.setString(3, media.getNom());
+            this.stmt.setBoolean(4, media.getEstPublic());
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.stmt;
+    }
+
+    public PreparedStatement getPreparedStatementInsertMoment(Connection conn, String requete, Moment moment) {
+        try {
+            this.stmt = conn.prepareStatement(requete);
+            this.stmt.setString(1, moment.getDateMoment());
+            this.stmt.setBoolean(2, moment.getEstFerie());
+            this.stmt.setString(3, moment.getVacances());
+            this.stmt.setInt(4, moment.getHeure());
+            this.stmt.setString(5, moment.getJour());
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.stmt;
+    }
+
+    public PreparedStatement getPreparedStatementInsertTempsDeParole(Connection conn, String requete, TempsDeParole tempsDeParole) {
+        try {
+            this.stmt = conn.prepareStatement(requete);
+            this.stmt.setFloat(1, tempsDeParole.getTempsFemmes());
+            this.stmt.setFloat(2, tempsDeParole.getTempsHommes());
+            this.stmt.setFloat(3, tempsDeParole.getTempsMusique());
+            this.stmt.setInt(4, tempsDeParole.getMedia().getId());
+            this.stmt.setInt(5, tempsDeParole.getMoment().getId());
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.stmt;
+    }
+
+    /**
+     * Mï¿½thode pour prï¿½parer la requï¿½te de modification du salaire
+     *
+     * @param conn
+     * @param requete
+     * @param prog
+     * @return
+     */
+    public PreparedStatement getPreparedStatementModifyProg(Connection conn, String requete, Media prog) {
         try {
             this.stmt = conn.prepareStatement(requete);
             this.stmt.setString(1, prog.getNom());
-            this.stmt.setString(2, prog.getPrenom());
+            /*this.stmt.setString(2, prog.getPrenom());
             this.stmt.setString(3, prog.getAdresse());
             this.stmt.setString(4, prog.getPseudo());
             this.stmt.setString(5, prog.getResponsable());
@@ -94,6 +150,7 @@ public class ActionsBDD {
             this.stmt.setInt(7, prog.getAnNaissance());
             this.stmt.setFloat(8, prog.getSalaire());
             this.stmt.setFloat(9, prog.getPrime());
+            this.stmt.setInt(10, prog.getId());*/
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -101,33 +158,8 @@ public class ActionsBDD {
     }
 
     /**
-     * Méthode pour préparer la requête de modification du salaire
-     * @param conn
-     * @param requete
-     * @param prog
-     * @return
-     */
-    public PreparedStatement getPreparedStatementModifyProg(Connection conn, String requete, ProgrammeurBean prog) {
-        try {
-            this.stmt = conn.prepareStatement(requete);
-            this.stmt.setString(1, prog.getNom());
-            this.stmt.setString(2, prog.getPrenom());
-            this.stmt.setString(3, prog.getAdresse());
-            this.stmt.setString(4, prog.getPseudo());
-            this.stmt.setString(5, prog.getResponsable());
-            this.stmt.setString(6, prog.getHobby());
-            this.stmt.setInt(7, prog.getAnNaissance());
-            this.stmt.setFloat(8, prog.getSalaire());
-            this.stmt.setFloat(9, prog.getPrime());
-            this.stmt.setInt(10, prog.getId());
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return this.stmt;
-    }
-
-    /**
-     * Méthode pour exécuter et récupérer le résultat d'une requête renvoyant un ResultSet
+     * Mï¿½thode pour exï¿½cuter et rï¿½cupï¿½rer le rï¿½sultat d'une requï¿½te renvoyant un ResultSet
+     *
      * @param stmt
      * @return
      */
@@ -141,7 +173,8 @@ public class ActionsBDD {
     }
 
     /**
-     * Méthode pour exécuter une requête en récupérant le nombre de ligne(s) affectée(s) par la requête
+     * Mï¿½thode pour exï¿½cuter une requï¿½te en rï¿½cupï¿½rant le nombre de ligne(s) affectï¿½e(s) par la requï¿½te
+     *
      * @param stmt
      * @return
      */
@@ -149,7 +182,7 @@ public class ActionsBDD {
         Integer i = null;
         try {
             i = stmt.executeUpdate();
-        } catch (MysqlDataTruncation ex){
+        } catch (MysqlDataTruncation ex) {
             return 0;
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);

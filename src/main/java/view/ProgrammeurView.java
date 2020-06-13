@@ -1,7 +1,7 @@
 package view;
 
 import controller.Controller;
-import model.ProgrammeurBean;
+import model.Media;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -24,18 +24,18 @@ public class ProgrammeurView extends ViewPanel {
     }
 
     /**
-     * Construit le ProgrammeurView quand des données sont présentes
-     * C'est-à-dire, quand on affiche les détails d'un programmeur déjà existant
+     * Construit le ProgrammeurView quand des donnï¿½es sont prï¿½sentes
+     * C'est-ï¿½-dire, quand on affiche les dï¿½tails d'un programmeur dï¿½jï¿½ existant
      * @param data
      * @param modify
      */
-    public ProgrammeurView(ProgrammeurBean data, boolean modify) {
+    public ProgrammeurView(Media data, boolean modify) {
         this.initProgrammeurView(false, modify);
         this.populateProgrammeurView(data);
     }
 
     /**
-     * Initialise le ProgrammeurView en fonction des paramètres reçus
+     * Initialise le ProgrammeurView en fonction des paramï¿½tres reï¿½us
      * @param isEmpty
      * @param modify
      */
@@ -50,7 +50,7 @@ public class ProgrammeurView extends ViewPanel {
 
         this.allLabels.add(new JLabel("Pseudo: "));
         this.allLabels.add(new JLabel("Nom: "));
-        this.allLabels.add(new JLabel("Prénom: "));
+        this.allLabels.add(new JLabel("Prï¿½nom: "));
         this.allLabels.add(new JLabel("Naissance: "));
         this.allLabels.add(new JLabel("Salaire: "));
         this.allLabels.add(new JLabel("Prime: "));
@@ -96,20 +96,20 @@ public class ProgrammeurView extends ViewPanel {
     }
 
     /**
-     * Remplit le ProgrammeurView avec les données du programmeur ProgrammeurBean data choisi
+     * Remplit le ProgrammeurView avec les donnï¿½es du programmeur ProgrammeurBean data choisi
      * @param data
      */
-    private void populateProgrammeurView(ProgrammeurBean data) {
+    private void populateProgrammeurView(Media data) {
         this.allTextFields.get("id").setText(data.getId() + "");
-        this.allTextFields.get("pseudo").setText(data.getPseudo() + "");
+        /*this.allTextFields.get("pseudo").setText(data.getPseudo() + "");
         this.allTextFields.get("nom").setText(data.getNom() + "");
-        this.allTextFields.get("prénom").setText(data.getPrenom() + "");
+        this.allTextFields.get("prï¿½nom").setText(data.getPrenom() + "");
         this.allTextFields.get("naissance").setText(data.getAnNaissance() + "");
         this.allTextFields.get("salaire").setText(data.getSalaire() + "");
         this.allTextFields.get("prime").setText(data.getPrime() + "");
         this.allTextFields.get("adresse").setText(data.getAdresse() + "");
         this.allTextFields.get("responsable").setText(data.getResponsable() + "");
-        this.allTextFields.get("hobby").setText(data.getHobby() + "");
+        this.allTextFields.get("hobby").setText(data.getHobby() + "");*/
     }
 
     public HashMap<String, JTextField> getAllTextFields() {
@@ -117,7 +117,7 @@ public class ProgrammeurView extends ViewPanel {
     }
 
     /**
-     * Ajoute un contrôleur au bouton d'ajout
+     * Ajoute un contrï¿½leur au bouton d'ajout
      * @param controller
      * @param add
      */

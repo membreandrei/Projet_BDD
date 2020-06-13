@@ -17,7 +17,7 @@ public class MenuView extends ViewPanel {
      * Construit le MenuView avec les boutons, leur style
      */
     public MenuView() {
-        GridLayout g1 = new GridLayout(8, 1);
+        GridLayout g1 = new GridLayout(9, 1);
         this.setLayout(g1);
         this.setBackground(Color.decode("#303030"));
         this.allButtons.add(new JButton("Afficher tous les programmeurs"));
@@ -26,6 +26,7 @@ public class MenuView extends ViewPanel {
         this.allButtons.add(new JButton("Ajouter un programmeur"));
         this.allButtons.add(new JButton("Modifier le salaire"));
         this.allButtons.add(new JButton("Tous les menus"));
+        this.allButtons.add(new JButton("Import From CSV"));
         this.allButtons.add(new JButton("Quitter le programme"));
         this.titre.setForeground(Color.white);
         this.titre.setBorder(new CompoundBorder(this.titre.getBorder(), new EmptyBorder(0,90,0,0)));
@@ -43,7 +44,7 @@ public class MenuView extends ViewPanel {
     }
 
     /**
-     * Ajoute un contrôleur aux boutons présents
+     * Ajoute un contrï¿½leur aux boutons prï¿½sents
      * @param controller
      */
     protected void addListeners(Controller controller) {
