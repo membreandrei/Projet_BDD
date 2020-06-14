@@ -62,13 +62,13 @@ public final class Constantes {
      * Cr�er un Temp de parole
      */
 
-    public final static String CREATETEMPSDEPAROLE = "INSERT INTO temps_de_parole(\ttemps_femme,temps_homme,temps_musique,id_media,id_moment) VALUES(?,?,?,?,?)";
+    public final static String CREATETEMPSDEPAROLE = "INSERT INTO temps_de_parole(temps_femme,temps_homme,temps_musique,id_media,id_moment) VALUES(?,?,?,?,?)";
 
     /**
      * recupérer un id media a partir de son nom
      */
 
-    public final static String GETIDMEDIABYNAME = "SELECT MAX(id_moment) AS max_id FROM media";
+    public final static String GETIDMEDIABYNAME = "SELECT MAX(id_media) AS max_id FROM media";
 
     /**
      * recupérer le dernier id de la table moment

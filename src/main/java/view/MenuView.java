@@ -26,7 +26,7 @@ public class MenuView extends ViewPanel {
         this.allButtons.add(new JButton("Ajouter un programmeur"));
         this.allButtons.add(new JButton("Modifier le salaire"));
         this.allButtons.add(new JButton("Tous les menus"));
-        this.allButtons.add(new JButton("Import From CSV"));
+        this.allButtons.add(new JButton("Importer à partir d'un csv"));
         this.allButtons.add(new JButton("Quitter le programme"));
         this.titre.setForeground(Color.white);
         this.titre.setBorder(new CompoundBorder(this.titre.getBorder(), new EmptyBorder(0,90,0,0)));

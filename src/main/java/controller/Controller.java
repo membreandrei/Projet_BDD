@@ -17,12 +17,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.TreeMap;
 
 import com.opencsv.CSVReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class Controller implements ActionListener, MouseListener {
     private final MenuView mv;
@@ -112,7 +114,7 @@ public class Controller implements ActionListener, MouseListener {
                 data = this.model.getProgrammeurs();
                 this.typeRv = 4;
             }
-            if (e.getSource().equals(this.identificator.get("Import From CSV"))) {
+            if (e.getSource().equals(this.identificator.get("Importer à partir d'un csv"))) {
                 getDataFromCsv(importFile());
             }
             if (e.getSource().equals(this.identificator.get("Quitter le programme"))) {
@@ -126,7 +128,7 @@ public class Controller implements ActionListener, MouseListener {
                 data = this.model.getProgrammeurs();
                 this.openModal(null, "add", true);
             }
-            this.rv.modifyPanel(this.typeRv, data, null);
+            //this.rv.modifyPanel(this.typeRv, data, null);
         }
     }
 
@@ -146,47 +148,87 @@ public class Controller implements ActionListener, MouseListener {
 
     private void getDataFromCsv(String path){
         String csvFile = path;
-
         CSVReader reader = null;
+
         try {
+            String str [];
             reader = new CSVReader(new FileReader(csvFile));
             reader.readNext();
-            String[] line;
-            String nomMediaPrec = "";
-            while ((line = reader.readNext()) != null) {
+            while ((str = reader.readNext()) != null) {
 
-                Media media = new Media();
-                media.setType(line[0]);
-                media.setIdIna(line[1]);
-                media.setNom(line[2]);
-                media.setEstPublic(Boolean.parseBoolean(line[3]));
+            }
+            System.out.println((int) reader.getLinesRead());
+            final int nbLigne = (int) reader.getLinesRead();
+            new Thread(() -> {
+                ProgressMonitor pm = new ProgressMonitor(this.rv, "progression en cours",
+                        "Task starting", 0, nbLigne);
 
-                if (!nomMediaPrec.equals(line[2])){
-                    nomMediaPrec = line[2];
-                    this.model.createMedia(media);
+                pm.setMillisToDecideToPopup(100);
+                pm.setMillisToPopup(100);
+
+                CSVReader newReader = null;
+                try {
+                    newReader = new CSVReader(new FileReader(csvFile));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
+                try {
+                    newReader.readNext();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (CsvValidationException e) {
+                    e.printStackTrace();
+                }
+                String[] line = new String[0];
+                String nomMediaPrec = "";
 
-                Moment moment = new Moment();
+                while (true) {
+                    try {
+                        if (!((line = newReader.readNext()) != null)) break;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (CsvValidationException e) {
+                        e.printStackTrace();
+                    }
+                    pm.setNote("donnée inséré: " + (int) newReader.getLinesRead() + " / " + nbLigne);
+                    pm.setProgress((int) newReader.getLinesRead());
+                    Media media = new Media();
+                    media.setType(line[0]);
+                    media.setIdIna(line[1]);
+                    media.setNom(line[2]);
+                    media.setEstPublic(Boolean.parseBoolean(line[3]));
 
-                moment.setDateMoment(line[4]);
-                moment.setJour(line[5]);
-                moment.setVacances(line[6]);
-                moment.setEstFerie(Boolean.parseBoolean(line[7]));
-                moment.setHeure(Integer.parseInt(line[8]));
-                this.model.createMoment(moment);
+                    if (!nomMediaPrec.equals(line[2])){
+                        nomMediaPrec = line[2];
+                        this.model.createMedia(media);
+                    }
 
-                media.setId(this.model.getIdMediaByName());
-                moment.setId(this.model.getIdMaxMoment());
-                TempsDeParole tempsDeParole = new TempsDeParole();
+                    Moment moment = new Moment();
 
-                tempsDeParole.setMedia(media);
-                tempsDeParole.setMoment(moment);
-                tempsDeParole.setTempsHommes(Float.parseFloat(line[9]));
-                tempsDeParole.setTempsFemmes(Float.parseFloat(line[10]));
-                tempsDeParole.setTempsMusique(Float.parseFloat(line[11]));
-                this.model.createTemspsDeParole(tempsDeParole);
+                    moment.setDateMoment(line[4]);
+                    moment.setJour(line[5]);
+                    moment.setVacances(line[6]);
+                    moment.setEstFerie(Boolean.parseBoolean(line[7]));
+                    moment.setHeure(Integer.parseInt(line[8]));
+                    this.model.createMoment(moment);
+
+                    media.setId(this.model.getIdMediaByName());
+                    moment.setId(this.model.getIdMaxMoment());
+                    TempsDeParole tempsDeParole = new TempsDeParole();
+
+                    tempsDeParole.setMedia(media);
+                    tempsDeParole.setMoment(moment);
+                    tempsDeParole.setTempsHommes(Float.parseFloat(line[9]));
+                    tempsDeParole.setTempsFemmes(Float.parseFloat(line[10]));
+                    tempsDeParole.setTempsMusique(Float.parseFloat(line[11]));
+                    this.model.createTemspsDeParole(tempsDeParole);
 
                 }
+                pm.setNote("Task finished");
+            }).start();
+
+
+
         } catch (IOException | CsvValidationException e) {
             e.printStackTrace();
         }
