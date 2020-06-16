@@ -25,7 +25,6 @@ import com.opencsv.CSVReader;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class Controller implements ActionListener, MouseListener {
     private final MenuView mv;
@@ -68,20 +67,20 @@ public class Controller implements ActionListener, MouseListener {
         if (e.getSource().equals(this.rv.getSearchButton())) {
             this.rv.recherche(this.typeRv);
         } else {
-            if (e.getSource().equals(this.identificator.get("Afficher tous les programmeurs"))) {
-                data = this.model.getProgrammeurs();
+            if (e.getSource().equals(this.identificator.get("Afficher tous les médias"))) {
+                data = this.model.getMedia();
                 this.typeRv = 0;
             }
             if (e.getSource().equals(this.identificator.get("Afficher un programmeur"))) {
-                data = this.model.getProgrammeurs();
+                data = this.model.getMedia();
                 this.typeRv = 1;
             }
             if (e.getSource().equals(this.identificator.get("Supprimer un programmeur"))) {
-                data = this.model.getProgrammeurs();
+                data = this.model.getMedia();
                 this.typeRv = 3;
             }
             if (e.getSource().equals(this.identificator.get("Ajouter un programmeur"))) {
-                data = this.model.getProgrammeurs();
+                data = this.model.getMedia();
                 this.openModal(null, "add", true);
             }
 
@@ -95,7 +94,7 @@ public class Controller implements ActionListener, MouseListener {
                     }
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
                     fm.dispose();
-                    data = this.model.getProgrammeurs();
+                    data = this.model.getMedia();
                 }
             }
             if (e.getActionCommand().equals("enregistrer")) {
@@ -105,16 +104,16 @@ public class Controller implements ActionListener, MouseListener {
                     this.model.editProg(createProg(false));
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
                     fm.dispose();
-                    data = this.model.getProgrammeurs();
+                    data = this.model.getMedia();
                 }
             }
 
             if (e.getSource().equals(this.identificator.get("Modifier le salaire"))) {
-                data = this.model.getProgrammeurs();
+                data = this.model.getMedia();
                 this.typeRv = 2;
             }
             if (e.getSource().equals(this.identificator.get("Tous les menus"))) {
-                data = this.model.getProgrammeurs();
+                data = this.model.getMedia();
                 this.typeRv = 4;
             }
             if (e.getSource().equals(this.identificator.get("Importer à partir d'un csv"))) {
@@ -125,13 +124,13 @@ public class Controller implements ActionListener, MouseListener {
             }
             if (e.getSource().equals(this.rv.getDeleteButton())) {
                 deleteProg();
-                data = this.model.getProgrammeurs();
+                data = this.model.getMedia();
             }
             if (e.getSource().equals(this.rv.getInsertButton())) {
-                data = this.model.getProgrammeurs();
+                data = this.model.getMedia();
                 this.openModal(null, "add", true);
             }
-            //this.rv.modifyPanel(this.typeRv, data, null);
+            this.rv.modifyPanel(this.typeRv, data, null);
         }
     }
 
@@ -337,7 +336,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     public TreeMap<Integer, Media> getProgrammeurs() {
-        return this.model.getProgrammeurs();
+        return this.model.getMedia();
     }
 
     public TreeMap<Integer, Media> getProgrammeurById(int id) {
@@ -371,14 +370,14 @@ public class Controller implements ActionListener, MouseListener {
             //Ouvre la modal pour l'�dition d'un programmeur
             if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 1) {
                 Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
-                Media prog = this.model.getListeProg().get(targetId);
+                Media prog = this.model.getListeMedia().get(targetId);
                 openModal(prog, "edit", true);
             }
 
             //Ouvre la modal en mode lecture uniquement
             if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 0) {
                 Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
-                Media prog = this.model.getListeProg().get(targetId);
+                Media prog = this.model.getListeMedia().get(targetId);
                 openModal(prog, "display", false);
             }
         }

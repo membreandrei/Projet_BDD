@@ -196,16 +196,14 @@ public class ResultatView extends ViewPanel {
      * @param fm
      */
     private void setHeaderTableau(TreeMap<Integer, Media> informations, FenetreMere fm) {
-        String[] colNames = {"ID", "NOM", "PRENOM", "ANNEE DE NAISSANCE", "SALAIRE", "PSEUDO"};
-        Object[][] data = new Object[informations.size()][6];
+        String[] colNames = {"TYPE", "INA", "NOM", "PUBLIC"};
+        Object[][] data = new Object[informations.size()][4];
         int index = 0;
         for (Integer key : informations.keySet()) {
-            data[index][0] = informations.get(key).getId();
-            data[index][1] = informations.get(key).getNom().toUpperCase();
-            /*data[index][2] = informations.get(key).getPrenom();
-            data[index][3] = informations.get(key).getAnNaissance();
-            data[index][4] = informations.get(key).getSalaire();
-            data[index][5] = informations.get(key).getPseudo();*/
+            data[index][0] = informations.get(key).getType();
+            data[index][1] = informations.get(key).getIdIna();
+            data[index][2] = informations.get(key).getNom().toUpperCase();
+            data[index][3] = informations.get(key).getEstPublic();
             index++;
         }
 
@@ -213,7 +211,7 @@ public class ResultatView extends ViewPanel {
         this.table.addMouseListener(fm.getBasePanel().getController());
         this.setSp();
     }
-
+-
     /**
      * D�finit le style du champ de recherche des programmeurs
      */

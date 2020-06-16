@@ -5,7 +5,7 @@ public final class Constantes {
     /**
      * R�cup�rer tous les programmeurs
      */
-    public final static String ALLPROGS = "SELECT * from PROGRAMMEUR";
+    public final static String ALLMEDIA = "SELECT * from media";
 
     /**
      * R�cup�rer un programmeurs par ID (ID �tant UNIQUE, pas besoin de LIMIT)

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class ActionsBDDImpl {
 
-    private TreeMap<Integer, Media> listeProg = new TreeMap<>();
+    private TreeMap<Integer, Media> listeMedia = new TreeMap<>();
     private Media media;
     private ActionsBDD action = new ActionsBDD();
     private Connection conn;
@@ -29,19 +29,14 @@ public class ActionsBDDImpl {
      * @param rs
      * @return
      */
-    public Media initProgrameur(ResultSet rs) {
+    public Media initMedia(ResultSet rs) {
         try {
             media = new Media();
-            media.setId(rs.getInt("ID"));
-           /* prog.setPrenom(rs.getString("PRENOM"));
-            prog.setAnNaissance(Integer.parseInt(rs.getString("ANNAISSANCE")));
-            prog.setNom(rs.getString("NOM"));
-            prog.setPrime(Float.parseFloat(rs.getString("PRIME")));
-            prog.setPseudo(rs.getString("PSEUDO"));
-            prog.setSalaire(Float.parseFloat(rs.getString("SALAIRE")));
-            prog.setAdresse(rs.getString("ADRESSE"));
-            prog.setResponsable(rs.getString("RESPONSABLE"));
-            prog.setHobby(rs.getString("HOBBY"));*/
+            media.setId(rs.getInt("id_media"));
+            media.setIdIna(rs.getString("identifiant_ina"));
+            media.setType(rs.getString("type"));
+            media.setNom(rs.getString("nom"));
+            media.setEstPublic(Boolean.parseBoolean(rs.getString("est_public")));
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -55,20 +50,20 @@ public class ActionsBDDImpl {
      * @return
      */
     public TreeMap<Integer, Media> doRequete(PreparedStatement statement) {
-        this.listeProg.clear();
+        this.listeMedia.clear();
         try {
             this.stmt = statement;
             this.rs = this.action.getResultSet(this.stmt);
 
             while (this.rs.next()) {
-                this.listeProg.put(this.rs.getInt("ID"), initProgrameur(this.rs));
+                this.listeMedia.put(this.rs.getInt("id_media"), initMedia(this.rs));
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return this.listeProg;
+        return this.listeMedia;
     }
 
     /*
@@ -110,7 +105,7 @@ public class ActionsBDDImpl {
      * @return
      */
     public int doRequeteUpdate(PreparedStatement statement) {
-        this.listeProg.clear();
+        this.listeMedia.clear();
         this.stmt = statement;
 
         return this.action.getResultSetModify(this.stmt);
@@ -121,8 +116,8 @@ public class ActionsBDDImpl {
      *
      * @return
      */
-    public TreeMap<Integer, Media> getProgrammeurs() {
-        return doRequete(this.action.getPreparedStatement(this.conn, Constantes.ALLPROGS));
+    public TreeMap<Integer, Media> getMedia() {
+        return doRequete(this.action.getPreparedStatement(this.conn, Constantes.ALLMEDIA));
     }
 
     /**
@@ -173,8 +168,8 @@ public class ActionsBDDImpl {
         return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYYEAR, Integer.toString(year)));
     }
 
-    public TreeMap<Integer, Media> getListeProg() {
-        return this.listeProg;
+    public TreeMap<Integer, Media> getListeMedia() {
+        return this.listeMedia;
     }
 
     /**
