@@ -155,11 +155,11 @@ public class ActionsBDDImpl {
         return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYFIRSTNAME, firstName));
     }
 
-    public int getIdMediaByName() {
-        return doRequeteInt(this.action.getPreparedStatement(this.conn, Constantes.GETIDMEDIABYNAME));
+    public int getMaxIdMedia() {
+        return doRequeteInt(this.action.getPreparedStatement(this.conn, Constantes.GETMAXIDMEDIA));
     }
 
-    public int getIdMaxMoment() {
+    public int getMaxIdMoment() {
         return doRequeteInt(this.action.getPreparedStatement(this.conn, Constantes.GETMAXIDMOMENT));
     }
 

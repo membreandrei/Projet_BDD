@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 import com.opencsv.CSVReader;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +37,7 @@ public class Controller implements ActionListener, MouseListener {
 
     /**
      * Construit le contr�leur avec le BasePanel bp
+     *
      * @param bp
      */
     public Controller(BasePanel bp) {
@@ -57,6 +59,7 @@ public class Controller implements ActionListener, MouseListener {
 
     /**
      * En fonction de l'ActionEvent e re�u en param�tre, agit diff�remment
+     *
      * @param e
      */
     @Override
@@ -132,7 +135,7 @@ public class Controller implements ActionListener, MouseListener {
         }
     }
 
-    private String importFile(){
+    private String importFile() {
         JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Choisir un fichier");
@@ -151,13 +154,13 @@ public class Controller implements ActionListener, MouseListener {
         CSVReader reader = null;
 
         try {
-            String str [];
+            String str[];
             reader = new CSVReader(new FileReader(csvFile));
             reader.readNext();
             while ((str = reader.readNext()) != null) {
 
             }
-            System.out.println((int) reader.getLinesRead());
+
             final int nbLigne = (int) reader.getLinesRead();
             new Thread(() -> {
                 ProgressMonitor pm = new ProgressMonitor(this.rv, "progression en cours",
@@ -192,35 +195,20 @@ public class Controller implements ActionListener, MouseListener {
                     }
                     pm.setNote("donnée inséré: " + (int) newReader.getLinesRead() + " / " + nbLigne);
                     pm.setProgress((int) newReader.getLinesRead());
-                    Media media = new Media();
-                    media.setType(line[0]);
-                    media.setIdIna(line[1]);
-                    media.setNom(line[2]);
-                    media.setEstPublic(Boolean.parseBoolean(line[3]));
+                    Media media = createMedia(line[0], line[1], line[2], Boolean.parseBoolean(line[3]));
 
-                    if (!nomMediaPrec.equals(line[2])){
+                    if (!nomMediaPrec.equals(line[2])) {
                         nomMediaPrec = line[2];
                         this.model.createMedia(media);
                     }
 
-                    Moment moment = new Moment();
-
-                    moment.setDateMoment(line[4]);
-                    moment.setJour(line[5]);
-                    moment.setVacances(line[6]);
-                    moment.setEstFerie(Boolean.parseBoolean(line[7]));
-                    moment.setHeure(Integer.parseInt(line[8]));
+                    Moment moment = createMoment(line[4], line[5], line[6], Boolean.parseBoolean(line[7]), Integer.parseInt(line[8]));
                     this.model.createMoment(moment);
 
-                    media.setId(this.model.getIdMediaByName());
-                    moment.setId(this.model.getIdMaxMoment());
-                    TempsDeParole tempsDeParole = new TempsDeParole();
+                    media.setId(this.model.getMaxIdMedia());
+                    moment.setId(this.model.getMaxIdMoment());
 
-                    tempsDeParole.setMedia(media);
-                    tempsDeParole.setMoment(moment);
-                    tempsDeParole.setTempsHommes(Float.parseFloat(line[9]));
-                    tempsDeParole.setTempsFemmes(Float.parseFloat(line[10]));
-                    tempsDeParole.setTempsMusique(Float.parseFloat(line[11]));
+                    TempsDeParole tempsDeParole = createTempsDeParole(media, moment, Float.parseFloat(line[9]), Float.parseFloat(line[10]), Float.parseFloat(line[11]));
                     this.model.createTemspsDeParole(tempsDeParole);
 
                 }
@@ -228,10 +216,41 @@ public class Controller implements ActionListener, MouseListener {
             }).start();
 
 
-
         } catch (IOException | CsvValidationException e) {
             e.printStackTrace();
         }
+    }
+
+    public Media createMedia(String type, String idIna, String nom, boolean estPublic) {
+        Media media = new Media();
+        media.setType(type);
+        media.setIdIna(idIna);
+        media.setNom(nom);
+        media.setEstPublic(estPublic);
+
+        return media;
+    }
+
+    public Moment createMoment(String dateMoment, String jour, String vacances, boolean estFerie, int heure) {
+        Moment moment = new Moment();
+        moment.setDateMoment(dateMoment);
+        moment.setJour(jour);
+        moment.setVacances(vacances);
+        moment.setEstFerie(estFerie);
+        moment.setHeure(heure);
+
+        return moment;
+    }
+
+    public TempsDeParole createTempsDeParole(Media media, Moment moment, Float tempsHommes, Float tempsFemmes, Float tempsMusique) {
+        TempsDeParole tempsDeParole = new TempsDeParole();
+        tempsDeParole.setMedia(media);
+        tempsDeParole.setMoment(moment);
+        tempsDeParole.setTempsHommes(tempsHommes);
+        tempsDeParole.setTempsFemmes(tempsFemmes);
+        tempsDeParole.setTempsMusique(tempsMusique);
+
+        return tempsDeParole;
     }
 
     /**
@@ -251,6 +270,7 @@ public class Controller implements ActionListener, MouseListener {
 
     /**
      * Cr�� un ProgrammeurBean, vide ou non en fonction du param�tre ajout
+     *
      * @param ajout
      * @return
      */
@@ -275,6 +295,7 @@ public class Controller implements ActionListener, MouseListener {
 
     /**
      * Valide les donn�es entr�es dans le cas de la cr�ation ou de la modification d'un programmeur
+     *
      * @return
      */
     private boolean validate() {
@@ -297,6 +318,7 @@ public class Controller implements ActionListener, MouseListener {
 
     /**
      * Ouvre la fen�tre d�taill�e d'un programmeur, modifiable ou non, d'ajout ou non
+     *
      * @param pb
      * @param type
      * @param modify
@@ -337,6 +359,7 @@ public class Controller implements ActionListener, MouseListener {
     /**
      * Ouvre la modale d�taill�e d'un programmeur. Il est n�cessaire qu'il s'agisse d'un double clic
      * La fen�tre ouverte est soit en mode �dition avec les champs modifiables, ou bien en mode lecture seule
+     *
      * @param e
      */
     @Override

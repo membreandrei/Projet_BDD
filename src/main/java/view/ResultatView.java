@@ -155,22 +155,6 @@ public class ResultatView extends ViewPanel {
         }
     }
 
-    public void createProgressBar(int max){
-        JPanel pane = new JPanel();
-        pane.setSize(500,100);
-        this.progressBar = new JProgressBar(0, max);
-        this.progressBar.setStringPainted(true);
-        this.progressBar.setValue(0);
-        this.progressBar.setSize(400, 50);
-        pane.add(progressBar);
-        this.add(pane);
-        this.setVisible(true);
-    }
-
-    public void refreshProgressBar(int value){
-        this.progressBar.setValue(value);
-    }
-
     /**
      * Cr�� la table contenant les programmeurs
      *

@@ -68,7 +68,7 @@ public final class Constantes {
      * recupérer un id media a partir de son nom
      */
 
-    public final static String GETIDMEDIABYNAME = "SELECT MAX(id_media) AS max_id FROM media";
+    public final static String GETMAXIDMEDIA = "SELECT MAX(id_media) AS max_id FROM media";
 
     /**
      * recupérer le dernier id de la table moment
