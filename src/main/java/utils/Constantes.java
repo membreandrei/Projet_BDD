@@ -10,12 +10,12 @@ public final class Constantes {
     /**
      * R�cup�rer un programmeurs par ID (ID �tant UNIQUE, pas besoin de LIMIT)
      */
-    public final static String PROGBYID = "SELECT * from PROGRAMMEUR where ID = ?";
+    public final static String MEDIABYID = "SELECT * from media where id_media = ?";
 
     /**
      * R�cup�rer les programmeurs par nom
      */
-    public final static String PROGBYNAME = "SELECT * from PROGRAMMEUR where NOM like ?";
+    public final static String MEDIABYNAME = "SELECT * from media where nom like ?";
 
     /**
      * R�cup�rer les programmeurs par pr�nom

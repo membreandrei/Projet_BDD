@@ -126,8 +126,8 @@ public class ActionsBDDImpl {
      * @param id
      * @return
      */
-    public TreeMap<Integer, Media> getProgrammeurById(int id) {
-        return doRequete(this.action.getPreparedStatementInt(this.conn, Constantes.PROGBYID, id));
+    public TreeMap<Integer, Media> getMediaById(int id) {
+        return doRequete(this.action.getPreparedStatementInt(this.conn, Constantes.MEDIABYID, id));
     }
 
     /**
@@ -136,8 +136,9 @@ public class ActionsBDDImpl {
      * @param name
      * @return
      */
-    public TreeMap<Integer, Media> getProgrammeurByName(String name) {
-        return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYNAME, name));
+    public TreeMap<Integer, Media> getMediaByName(String name) {
+        System.out.println(name);
+        return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.MEDIABYNAME, name));
     }
 
     /**

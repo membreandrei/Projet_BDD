@@ -69,10 +69,6 @@ public class Controller implements ActionListener, MouseListener {
         } else {
             if (e.getSource().equals(this.identificator.get("Afficher tous les médias"))) {
                 data = this.model.getMedia();
-                this.typeRv = 0;
-            }
-            if (e.getSource().equals(this.identificator.get("Afficher un programmeur"))) {
-                data = this.model.getMedia();
                 this.typeRv = 1;
             }
             if (e.getSource().equals(this.identificator.get("Supprimer un programmeur"))) {
@@ -335,16 +331,17 @@ public class Controller implements ActionListener, MouseListener {
         new FenetreMere("title", pv, type);
     }
 
-    public TreeMap<Integer, Media> getProgrammeurs() {
+    public TreeMap<Integer, Media> getMedia() {
         return this.model.getMedia();
     }
 
-    public TreeMap<Integer, Media> getProgrammeurById(int id) {
-        return this.model.getProgrammeurById(id);
+    public TreeMap<Integer, Media> getMediaById(int id) {
+        return this.model.getMediaById(id);
     }
 
-    public TreeMap<Integer, Media> getProgrammeurByName(String name) {
-        return this.model.getProgrammeurByName(name);
+    public TreeMap<Integer, Media> getMediaByName(String name) {
+        System.out.println(name);
+        return this.model.getMediaByName(name);
     }
 
     public TreeMap<Integer, Media> getProgrammeurByFirstName(String firstName) {

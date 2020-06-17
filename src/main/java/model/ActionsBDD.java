@@ -70,6 +70,8 @@ public class ActionsBDD {
      */
     public PreparedStatement getPreparedStatementString(Connection conn, String requete, String name) {
         try {
+
+            System.out.println(requete);
             this.stmt = conn.prepareStatement(requete);
             this.stmt.setString(1, name);
         } catch (SQLException ex) {

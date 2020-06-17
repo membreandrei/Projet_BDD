@@ -21,7 +21,6 @@ public class MenuView extends ViewPanel {
         this.setLayout(g1);
         this.setBackground(Color.decode("#303030"));
         this.allButtons.add(new JButton("Afficher tous les médias"));
-        this.allButtons.add(new JButton("Afficher un programmeur"));
         this.allButtons.add(new JButton("Supprimer un programmeur"));
         this.allButtons.add(new JButton("Ajouter un programmeur"));
         this.allButtons.add(new JButton("Modifier le salaire"));

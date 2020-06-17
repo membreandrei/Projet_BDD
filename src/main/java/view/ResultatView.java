@@ -7,8 +7,6 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
@@ -202,7 +200,7 @@ public class ResultatView extends ViewPanel {
         for (Integer key : informations.keySet()) {
             data[index][0] = informations.get(key).getType();
             data[index][1] = informations.get(key).getIdIna();
-            data[index][2] = informations.get(key).getNom().toUpperCase();
+            data[index][2] = informations.get(key).getNom();
             data[index][3] = informations.get(key).getEstPublic();
             index++;
         }
@@ -211,7 +209,7 @@ public class ResultatView extends ViewPanel {
         this.table.addMouseListener(fm.getBasePanel().getController());
         this.setSp();
     }
--
+
     /**
      * D�finit le style du champ de recherche des programmeurs
      */
@@ -244,7 +242,7 @@ public class ResultatView extends ViewPanel {
      * D�finit le choix du type de recherche (par liste d�roulante)
      */
     private void setChoice() {
-        String[] elements = new String[]{"Par ID", "Par Nom", "Par Pr�nom", "Par Ann�e de naissance"};
+        String[] elements = new String[]{"Par ID", "Par Nom"};
         this.choice = new JComboBox(elements);
         this.choice.setBackground(Color.decode("#3a3a3a"));
         this.choice.setForeground(Color.WHITE);
@@ -359,15 +357,8 @@ public class ResultatView extends ViewPanel {
                         break;
 
                     case "Par Nom":
-                        data = controller.getProgrammeurByName(this.getSearchText().getText());
-                        break;
-
-                    case "Par Pr�nom":
-                        data = controller.getProgrammeurByFirstName(this.getSearchText().getText());
-                        break;
-
-                    case "Par Ann�e de naissance":
-                        data = rechercheYear(controller);
+                        data = controller.getMediaByName(this.getSearchText().getText());
+                        System.out.println(this.getSearchText().getText());
                         break;
                 }
             }
@@ -377,7 +368,7 @@ public class ResultatView extends ViewPanel {
                 data = rechercheId(controller);
             } else {
                 JOptionPane.showMessageDialog(null, "Veuillez r�essayer avec un nombre entier");
-                data = controller.getProgrammeurs();
+                data = controller.getMedia();
             }
             this.modifyPanel(type, data, null);
         }
@@ -404,13 +395,13 @@ public class ResultatView extends ViewPanel {
     private TreeMap<Integer, Media> rechercheId(Controller controller) {
         TreeMap<Integer, Media> data;
         if (this.getSearchText().getText().equals("")) {
-            data = controller.getProgrammeurs();
+            data = controller.getMedia();
         } else {
             try {
-                data = controller.getProgrammeurById(Integer.parseInt(this.getSearchText().getText()));
+                data = controller.getMediaById(Integer.parseInt(this.getSearchText().getText()));
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Veuillez r�essayer avec une recherche valide");
-                data = controller.getProgrammeurs();
+                data = controller.getMedia();
             }
         }
         return data;
@@ -424,7 +415,7 @@ public class ResultatView extends ViewPanel {
     private TreeMap<Integer, Media> rechercheYear(Controller controller) {
         TreeMap<Integer, Media> data;
         if (this.getSearchText().getText().equals("")) {
-            data = controller.getProgrammeurs();
+            data = controller.getMedia();
         } else {
             data = controller.getProgrammeurByYear(Integer.parseInt(this.getSearchText().getText()));
         }
