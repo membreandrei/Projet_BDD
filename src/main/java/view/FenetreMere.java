@@ -14,19 +14,19 @@ public class FenetreMere extends JFrame {
     private static BasePanel basePanel = new BasePanel();
 
     /**
-     * Construit la fenêtre générale de l'application
+     * Construit la fenï¿½tre gï¿½nï¿½rale de l'application
      * @param title
      * @throws HeadlessException
      */
     public FenetreMere(String title) throws HeadlessException {
 
-        //On créé la fenêtre mère
+        //On crï¿½ï¿½ la fenï¿½tre mï¿½re
         super(title);
 
         //Lors d'un clic sur la croix rouge, on met fin au programme
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //On définit la taille de la fenêtre
+        //On dï¿½finit la taille de la fenï¿½tre
         this.setPreferredSize(new Dimension(1000, 500));
         FenetreMere.basePanel.createListeners();
         this.setBackground(Color.decode("#303030"));
@@ -38,16 +38,16 @@ public class FenetreMere extends JFrame {
     }
 
     /**
-     * Construit les sous-fenêtres dédiées à l'affichage en détail d'un programmeur, ou bien l'ajout d'un nouveau
+     * Construit les sous-fenï¿½tres dï¿½diï¿½es ï¿½ l'affichage en dï¿½tail d'un programmeur, ou bien l'ajout d'un nouveau
      * @param title
      * @param view
      * @param type
      */
-    public FenetreMere(String title, ProgrammeurView view, String type){
-        //On créé la fenêtre mère
+    public FenetreMere(String title, MediaView view, String type){
+        //On crï¿½ï¿½ la fenï¿½tre mï¿½re
         super(title);
 
-        //On définit la taille de la fenêtre
+        //On dï¿½finit la taille de la fenï¿½tre
         this.setPreferredSize(new Dimension(600, 300));
         StyleHelper.setStyle(this);
         this.setLayout(new BorderLayout());
@@ -79,11 +79,11 @@ public class FenetreMere extends JFrame {
     }
 
     /**
-     * Définit la fenêtre d'édition d'un programmeur existant
+     * Dï¿½finit la fenï¿½tre d'ï¿½dition d'un programmeur existant
      * @param jp
      * @param view
      */
-    private void fenetreEdit(JPanel jp, ProgrammeurView view){
+    private void fenetreEdit(JPanel jp, MediaView view){
         JButton ajout = new JButton("Enregistrer");
         ajout.setActionCommand("enregistrer");
         StyleHelper.setStyle(ajout);
@@ -96,11 +96,11 @@ public class FenetreMere extends JFrame {
     }
 
     /**
-     * Définit la fenêtre d'ajout d'un programmeur inexistant
+     * Dï¿½finit la fenï¿½tre d'ajout d'un programmeur inexistant
      * @param jp
      * @param view
      */
-    private void fenetreAjout(JPanel jp, ProgrammeurView view){
+    private void fenetreAjout(JPanel jp, MediaView view){
         JButton ajout = new JButton("Ajouter");
         ajout.setActionCommand("ajout");
         StyleHelper.setStyle(ajout);

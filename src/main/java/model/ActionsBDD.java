@@ -70,10 +70,8 @@ public class ActionsBDD {
      */
     public PreparedStatement getPreparedStatementString(Connection conn, String requete, String name) {
         try {
-
-            System.out.println(requete);
             this.stmt = conn.prepareStatement(requete);
-            this.stmt.setString(1, name);
+            this.stmt.setString(1, "%" + name + "%");
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,9 +81,9 @@ public class ActionsBDD {
     /**
      * Methode pour la construction d'une requ�te d'insert � partir de la structure d'un developpeur
      *
-     * @param conn
-     * @param requete
-     * @param prog
+     * @param conn Connexion à la base de données
+     * @param requete Requête à effectuer
+     * @param media Média recherché
      * @return
      */
     public PreparedStatement getPreparedStatementInsertMedia(Connection conn, String requete, Media media) {
@@ -133,8 +131,7 @@ public class ActionsBDD {
     }
 
     /**
-     * M�thode pour pr�parer la requ�te de modification du salaire
-     *
+     * Méthode pour préparer la requête de modification du salaire
      * @param conn
      * @param requete
      * @param prog

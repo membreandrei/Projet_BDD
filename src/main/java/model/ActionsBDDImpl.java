@@ -36,7 +36,7 @@ public class ActionsBDDImpl {
             media.setIdIna(rs.getString("identifiant_ina"));
             media.setType(rs.getString("type"));
             media.setNom(rs.getString("nom"));
-            media.setEstPublic(Boolean.parseBoolean(rs.getString("est_public")));
+            media.setEstPublic(rs.getString("est_public").equals("1"));
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -131,13 +131,12 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te retournant un ou des programmeurs par leur nom
+     * Ex�cution de la requ�te retournant un ou des médias par leur nom
      *
      * @param name
      * @return
      */
     public TreeMap<Integer, Media> getMediaByName(String name) {
-        System.out.println(name);
         return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.MEDIABYNAME, name));
     }
 

@@ -11,35 +11,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class ProgrammeurView extends ViewPanel {
+public class MediaView extends ViewPanel {
 
     private ArrayList<JLabel> allLabels = new ArrayList<>();
     private HashMap<String, JTextField> allTextFields = new HashMap<>();
 
     /**
-     * Construit le ProgrammeurView dans le cas d'un ajout d'un nouveau programmeur
+     * Construit le MediaView dans le cas d'un ajout d'un nouveau programmeur
      */
-    public ProgrammeurView() {
-        this.initProgrammeurView(true, false);
+    public MediaView() {
+        this.initMediaView(true, false);
     }
 
     /**
-     * Construit le ProgrammeurView quand des donn�es sont pr�sentes
+     * Construit le MediaView quand des données sont présentes
      * C'est-�-dire, quand on affiche les d�tails d'un programmeur d�j� existant
      * @param data
      * @param modify
      */
-    public ProgrammeurView(Media data, boolean modify) {
-        this.initProgrammeurView(false, modify);
-        this.populateProgrammeurView(data);
+    public MediaView(Media data, boolean modify) {
+        this.initMediaView(false, modify);
+        this.populateMediaView(data);
     }
 
     /**
-     * Initialise le ProgrammeurView en fonction des param�tres re�us
+     * Initialise le MediaView en fonction des paramètres reçus
      * @param isEmpty
      * @param modify
      */
-    private void initProgrammeurView(Boolean isEmpty, boolean modify) {
+    private void initMediaView(Boolean isEmpty, boolean modify) {
 
         if (!isEmpty) {
             this.setLayout(new GridLayout(6, 4));
@@ -48,15 +48,10 @@ public class ProgrammeurView extends ViewPanel {
             this.setLayout(new GridLayout(5, 4));
         }
 
-        this.allLabels.add(new JLabel("Pseudo: "));
+        this.allLabels.add(new JLabel("Type: "));
+        this.allLabels.add(new JLabel("INA: "));
         this.allLabels.add(new JLabel("Nom: "));
-        this.allLabels.add(new JLabel("Pr�nom: "));
-        this.allLabels.add(new JLabel("Naissance: "));
-        this.allLabels.add(new JLabel("Salaire: "));
-        this.allLabels.add(new JLabel("Prime: "));
-        this.allLabels.add(new JLabel("Adresse: "));
-        this.allLabels.add(new JLabel("Responsable: "));
-        this.allLabels.add(new JLabel("Hobby: "));
+        this.allLabels.add(new JLabel("Public: "));
 
         String key;
 
@@ -96,10 +91,10 @@ public class ProgrammeurView extends ViewPanel {
     }
 
     /**
-     * Remplit le ProgrammeurView avec les donn�es du programmeur ProgrammeurBean data choisi
+     * Remplit le MediaView avec les donn�es du programmeur ProgrammeurBean data choisi
      * @param data
      */
-    private void populateProgrammeurView(Media data) {
+    private void populateMediaView(Media data) {
         this.allTextFields.get("id").setText(data.getId() + "");
         /*this.allTextFields.get("pseudo").setText(data.getPseudo() + "");
         this.allTextFields.get("nom").setText(data.getNom() + "");

@@ -31,7 +31,7 @@ public class Controller implements ActionListener, MouseListener {
     private ResultatView rv;
     private HashMap<String, JButton> identificator;
     private ActionsBDDImpl model;
-    private ProgrammeurView pv;
+    private MediaView pv;
     private Integer typeRv = 1;
 
     /**
@@ -71,20 +71,20 @@ public class Controller implements ActionListener, MouseListener {
                 data = this.model.getMedia();
                 this.typeRv = 1;
             }
-            if (e.getSource().equals(this.identificator.get("Supprimer un programmeur"))) {
+            if (e.getSource().equals(this.identificator.get("Supprimer un média"))) {
                 data = this.model.getMedia();
                 this.typeRv = 3;
             }
-            if (e.getSource().equals(this.identificator.get("Ajouter un programmeur"))) {
+            if (e.getSource().equals(this.identificator.get("Ajouter un média"))) {
                 data = this.model.getMedia();
                 this.openModal(null, "add", true);
             }
 
             if (e.getActionCommand().equals("ajout")) {
                 if (!validate()) {
-                    JOptionPane.showMessageDialog(null, "Veuillez r�essayer avec des nombres dans salaire, prime, ann�e de naissance");
+                    JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un INA de trois caractères, et 0 ou 1 pour Public");
                 } else {
-                    if (this.model.createMedia(createProg(true)) == 0) {
+                    if (this.model.createMedia(createMedia(true)) == 0) {
                         JOptionPane.showMessageDialog(null, "Veuillez r�essayer avec des donn�es valides");
                         return;
                     }
@@ -97,7 +97,7 @@ public class Controller implements ActionListener, MouseListener {
                 if (!validate()) {
                     JOptionPane.showMessageDialog(null, "Veuillez r�essayer avec des nombres dans salaire, prime, ann�e de naissance");
                 } else {
-                    this.model.editProg(createProg(false));
+                    this.model.editProg(createMedia(false));
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
                     fm.dispose();
                     data = this.model.getMedia();
@@ -269,45 +269,41 @@ public class Controller implements ActionListener, MouseListener {
      * @param ajout
      * @return
      */
-    private Media createProg(boolean ajout) {
-        Media prog = new Media();
+    private Media createMedia(boolean ajout) {
+        Media media = new Media();
 
-        prog.setNom(this.pv.getAllTextFields().get("nom").getText());
-        /*prog.setPrenom(this.pv.getAllTextFields().get("pr�nom").getText());
-        prog.setPseudo(this.pv.getAllTextFields().get("pseudo").getText());
-        prog.setAdresse(this.pv.getAllTextFields().get("adresse").getText());
-        prog.setAnNaissance(Integer.parseInt(this.pv.getAllTextFields().get("naissance").getText()));
-        prog.setResponsable(this.pv.getAllTextFields().get("responsable").getText());
-        prog.setHobby(this.pv.getAllTextFields().get("hobby").getText());
-        prog.setSalaire(Float.parseFloat(this.pv.getAllTextFields().get("salaire").getText().replaceAll(",", ".")));
-        prog.setPrime(Float.parseFloat(this.pv.getAllTextFields().get("prime").getText().replaceAll(",", ".")));*/
+        media.setType(this.pv.getAllTextFields().get("type").getText());
+        media.setIdIna(this.pv.getAllTextFields().get("ina").getText());
+        media.setNom(this.pv.getAllTextFields().get("nom").getText());
+        media.setEstPublic(this.pv.getAllTextFields().get("public").getText().equals("1"));
         if (!ajout) {
-            prog.setId(Integer.parseInt((this.pv.getAllTextFields().get("id").getText())));
+            media.setId(Integer.parseInt((this.pv.getAllTextFields().get("id").getText())));
         }
 
-        return prog;
+        return media;
     }
 
     /**
-     * Valide les donn�es entr�es dans le cas de la cr�ation ou de la modification d'un programmeur
+     * Valide les données entrées dans le cas de la création ou de la modification d'un média
      *
-     * @return
+     * @return Boolean
      */
     private boolean validate() {
-        if (!StringUtils.isNumeric(this.pv.getAllTextFields().get("naissance").getText())) {
+
+        if ((this.pv.getAllTextFields().get("ina").getText().length() > 3)) {
             return false;
         }
-        if (!this.pv.getAllTextFields().get("prime").getText().matches("[-+]?[0-9]*[.|,]?[0-9]+")) {
+        if (!StringUtils.isNumeric(this.pv.getAllTextFields().get("public").getText())) {
             return false;
         }
-        if (!this.pv.getAllTextFields().get("salaire").getText().matches("[-+]?[0-9]*[.|,]?[0-9]+")) {
+        if (Integer.parseInt(this.pv.getAllTextFields().get("public").getText()) != 0 && Integer.parseInt(this.pv.getAllTextFields().get("public").getText()) != 1) {
             return false;
         }
 
         return true;
     }
 
-    public void setPv(ProgrammeurView pv) {
+    public void setPv(MediaView pv) {
         this.pv = pv;
     }
 
@@ -319,16 +315,14 @@ public class Controller implements ActionListener, MouseListener {
      * @param modify
      */
     private void openModal(@Nullable Media pb, String type, boolean modify) {
-        String title;
-        ProgrammeurView pv;
+        MediaView pv;
         if (pb == null) {
-            title = "Ajout";
-            pv = new ProgrammeurView();
+            pv = new MediaView();
         } else {
             //title = pb.getNom().toUpperCase() + " " + pb.getPrenom();
-            pv = new ProgrammeurView(pb, modify);
+            pv = new MediaView(pb, modify);
         }
-        new FenetreMere("title", pv, type);
+        new FenetreMere("Ajout d'un média", pv, type);
     }
 
     public TreeMap<Integer, Media> getMedia() {
@@ -340,7 +334,6 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     public TreeMap<Integer, Media> getMediaByName(String name) {
-        System.out.println(name);
         return this.model.getMediaByName(name);
     }
 

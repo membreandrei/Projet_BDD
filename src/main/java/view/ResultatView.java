@@ -201,7 +201,7 @@ public class ResultatView extends ViewPanel {
             data[index][0] = informations.get(key).getType();
             data[index][1] = informations.get(key).getIdIna();
             data[index][2] = informations.get(key).getNom();
-            data[index][3] = informations.get(key).getEstPublic();
+            data[index][3] = (informations.get(key).getEstPublic() ? "Oui" : "Non");
             index++;
         }
 
@@ -358,7 +358,6 @@ public class ResultatView extends ViewPanel {
 
                     case "Par Nom":
                         data = controller.getMediaByName(this.getSearchText().getText());
-                        System.out.println(this.getSearchText().getText());
                         break;
                 }
             }
