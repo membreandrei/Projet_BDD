@@ -28,9 +28,71 @@ public final class Constantes {
     public final static String PROGBYYEAR = "SELECT * from PROGRAMMEUR where ANNAISSANCE LIKE ?";
 
     /**
-     * Supprimer un programeur � partir de son ID
+     * Supprimer un média � partir de son ID
      */
-    public final static String DELPROG = "DELETE FROM PROGRAMMEUR WHERE ID=?";
+    public final static String DELMEDIA = "DELETE FROM media WHERE id_media = ?";
+
+    /**
+     * Supprimer un temps_de_parole � partir de son ID
+     */
+    public final static String DELTEMPSDEPAROLE = "DELETE FROM temps_de_parole WHERE id_media = ?";
+
+    /**
+     * Temps de parole/musique par moment
+     */
+    public final static String TEMPSPARMOMENT = "select DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')                            AS annee,\n" +
+            "       TDP.id_media   AS id_media,\n" +
+            "       AVG((TDP.temps_femme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique) * 100))   AS temps_femme,\n" +
+            "       AVG((TDP.temps_homme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100)   AS temps_homme,\n" +
+            "       AVG((TDP.temps_musique / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100) AS temps_musique\n" +
+            "from media AS ME\n" +
+            "         INNER JOIN temps_de_parole AS tdp on ME.id_media = tdp.id_media\n" +
+            "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
+            "group by annee;";
+
+    /**
+     * Temps de parole/musique par moment par année
+     */
+    public final static String TEMPSPARMOMENTPARANNEE = "select DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')                               AS annee,\n" +
+            "       ME.id_media   AS id_media,\n" +
+            "       AVG((TDP.temps_femme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique) * 100))   AS temps_femme,\n" +
+            "       AVG((TDP.temps_homme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100)   AS temps_homme,\n" +
+            "       AVG((TDP.temps_musique / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100) AS temps_musique\n" +
+            "from media AS ME\n" +
+            "         INNER JOIN temps_de_parole AS tdp on ME.id_media = tdp.id_media\n" +
+            "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
+            "WHERE DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y') = ?\n" +
+            "group by DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
+
+
+    /**
+     * Temps de parole/musique par média
+     */
+    public final static String TEMPSPARMOMENTPARCHAINE = "select DISTINCT ME.nom        as nom_media,\n" +
+            "                ME.id_media                                                as id_media,\n" +
+            "                DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y') as annee,\n" +
+            "                AVG(TDP.temps_femme)                                       AS temps_femme,\n" +
+            "                AVG(TDP.temps_homme)                                       AS temps_homme,\n" +
+            "                AVG(TDP.temps_musique)                                     AS temps_musique\n" +
+            "from media AS ME\n" +
+            "         INNER JOIN temps_de_parole AS tdp on ME.id_media = tdp.id_media\n" +
+            "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
+            "group by ME.nom, DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
+
+    /**
+     * Temps de parole/musique par moment et par année
+     */
+    public final static String TEMPSPARMOMENTPARCHAINEPARANNEE = "select DISTINCT ME.nom as nom_media,\n" +
+            "                ME.id_media                                                 as id_media,\n" +
+            "                DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')  as annee,\n" +
+            "                AVG(TDP.temps_femme)                                        AS temps_femme,\n" +
+            "                AVG(TDP.temps_homme)                                        AS temps_homme,\n" +
+            "                AVG(TDP.temps_musique)                                      AS temps_musique\n" +
+            "from media AS ME\n" +
+            "         INNER JOIN temps_de_parole AS tdp on ME.id_media = tdp.id_media\n" +
+            "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
+            "group by ME.nom, DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
+
 
     /**
      * Changer le salaire d'un programmeur � partir de son ID

@@ -21,10 +21,10 @@ public class MenuView extends ViewPanel {
         this.setLayout(g1);
         this.setBackground(Color.decode("#303030"));
         this.allButtons.add(new JButton("Afficher tous les médias"));
-        this.allButtons.add(new JButton("Supprimer un média"));
         this.allButtons.add(new JButton("Ajouter un média"));
-        this.allButtons.add(new JButton("Modifier le salaire"));
-        this.allButtons.add(new JButton("Tous les menus"));
+        this.allButtons.add(new JButton("Supprimer un média"));
+        this.allButtons.add(new JButton("Pourcentage temps de parole"));
+        this.allButtons.add(new JButton("Moyenne temps de parole par média et par année"));
         this.allButtons.add(new JButton("Importer à partir d'un csv"));
         this.allButtons.add(new JButton("Quitter le programme"));
         this.titre.setForeground(Color.white);

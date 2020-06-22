@@ -2,6 +2,8 @@ package view;
 
 import controller.Controller;
 import model.Media;
+import model.TempsDeParole;
+import org.apache.maven.shared.utils.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -31,16 +33,39 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Cr�� le panel pour l'affichage de tous les programmeurs
+     * Créé le panel pour l'affichage de tous les programmeurs
      *
      * @param informations
      */
-    private void displayAll(TreeMap<Integer, Media> informations) {
+    private void displayAll(TreeMap<Integer, TempsDeParole> informations) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
-        this.setHeaderTableau(informations, fm);
+        this.setHeaderTableauTempsDeParole(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
+        this.add(this.setPanelRecherche());
         this.add(sp);
+
+
+        this.searchText.addActionListener(e -> searchButton.doClick());
+
+        this.searchText.requestFocusInWindow();
+        addListener(fm.getBasePanel().getController(), this.searchButton);
     }
+
+    private void displayMoyenneAll(TreeMap<Integer, TempsDeParole> informations) {
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        this.setHeaderTableauMoyenne(informations, fm);
+        ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
+        this.add(this.setPanelRecherche());
+        this.add(sp);
+
+
+        this.searchText.addActionListener(e -> searchButton.doClick());
+
+        this.searchText.requestFocusInWindow();
+        addListener(fm.getBasePanel().getController(), this.searchButton);
+    }
+
+
 
     /**
      * Cr�� le panel pour l'affichage pr�cis lors d'un clic sur la liste de tous les programmeurs
@@ -51,7 +76,7 @@ public class ResultatView extends ViewPanel {
     private void displayOne(TreeMap<Integer, Media> informations, String valueComboBox) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
 
-        this.setHeaderTableau(informations, fm);
+        this.setHeaderTableauMedia(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
         this.add(this.setPanelRecherche(valueComboBox, false));
         this.add(sp);
@@ -69,7 +94,7 @@ public class ResultatView extends ViewPanel {
      */
     private void modifyProg(TreeMap<Integer, Media> informations) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
-        setHeaderTableau(informations, fm);
+        this.setHeaderTableauMedia(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(1);
         this.add(this.setPanelRecherche(null, true));
         this.add(sp);
@@ -87,7 +112,7 @@ public class ResultatView extends ViewPanel {
      */
     private void deleteProg(TreeMap<Integer, Media> informations) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
-        setHeaderTableau(informations, fm);
+        this.setHeaderTableauMedia(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
         this.add(this.setPanelRecherche(null, true));
         this.add(sp);
@@ -109,7 +134,7 @@ public class ResultatView extends ViewPanel {
     private void allMenu(TreeMap<Integer, Media> informations, String valueComboBox) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
 
-        this.setHeaderTableau(informations, fm);
+        this.setHeaderTableauMedia(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(1);
         this.add(this.setPanelRecherche(valueComboBox, false));
         this.add(sp);
@@ -124,20 +149,27 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * G�re le type de panel � ajouter en fonction du bouton cliqu� du menu (dans MenuView)
-     *
-     * @param type
-     * @param data
-     * @param valueComboBox
+     * Gère le type de panel � ajouter en fonction du bouton cliqu� du menu (dans MenuView)
+     * @param dataTDP
      */
+    public void modifyPanel(Integer type, TreeMap<Integer, TempsDeParole> dataTDP) {
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
+        switch(type){
+            case 1:
+                displayMoyenneAll(dataTDP);
+                break;
+            case 2:
+                displayAll(dataTDP);
+        }
+
+    }
     public void modifyPanel(Integer type, TreeMap<Integer, Media> data, String valueComboBox) {
         this.removeAll();
         this.revalidate();
         this.repaint();
         switch (type) {
-            case 0:
-                displayAll(data);
-                break;
             case 1:
                 displayOne(data, valueComboBox);
                 break;
@@ -167,6 +199,10 @@ public class ResultatView extends ViewPanel {
             }
         };
 
+        if(this.table.getColumnName(0).contains("id")){
+            this.table.removeColumn(table.getColumnModel().getColumn(0));
+        }
+
         this.table.setBackground(Color.decode("#424242"));
         this.table.setForeground(Color.white);
         this.table.setFocusable(false);
@@ -193,15 +229,16 @@ public class ResultatView extends ViewPanel {
      * @param informations
      * @param fm
      */
-    private void setHeaderTableau(TreeMap<Integer, Media> informations, FenetreMere fm) {
-        String[] colNames = {"TYPE", "INA", "NOM", "PUBLIC"};
-        Object[][] data = new Object[informations.size()][4];
+    private void setHeaderTableauMedia(TreeMap<Integer, Media> informations, FenetreMere fm) {
+        String[] colNames = {"id_media", "Type", "INA", "Nom", "Public ?"};
+        Object[][] data = new Object[informations.size()][5];
         int index = 0;
         for (Integer key : informations.keySet()) {
-            data[index][0] = informations.get(key).getType();
-            data[index][1] = informations.get(key).getIdIna();
-            data[index][2] = informations.get(key).getNom();
-            data[index][3] = (informations.get(key).getEstPublic() ? "Oui" : "Non");
+            data[index][0] = informations.get(key).getId();
+            data[index][1] = informations.get(key).getType();
+            data[index][2] = informations.get(key).getIdIna();
+            data[index][3] = informations.get(key).getNom();
+            data[index][4] = (informations.get(key).getEstPublic() ? "Oui" : "Non");
             index++;
         }
 
@@ -209,6 +246,44 @@ public class ResultatView extends ViewPanel {
         this.table.addMouseListener(fm.getBasePanel().getController());
         this.setSp();
     }
+
+    private void setHeaderTableauTempsDeParole(TreeMap<Integer, TempsDeParole> informations, FenetreMere fm) {
+        String[] colNames = {"Année", "% Femmes", "% Hommes", "% Musique"};
+        Object[][] data = new Object[informations.size()][4];
+        int index = 0;
+        for (Integer key : informations.keySet()) {
+            data[index][0] = key;
+            data[index][1] = informations.get(key).getTempsFemmes();
+            data[index][2] = informations.get(key).getTempsHommes();
+            data[index][3] = informations.get(key).getTempsMusique();
+            index++;
+        }
+
+        this.setTable(colNames, data);
+        this.table.addMouseListener(fm.getBasePanel().getController());
+        this.setSp();
+    }
+
+    private void setHeaderTableauMoyenne(TreeMap<Integer, TempsDeParole> informations, FenetreMere fm) {
+        String[] colNames = {"Nom", "Année", "Moyenne Femmes (s)", "Moyenne Hommes (s)", "Moyenne Musique (s)"};
+        Object[][] data = new Object[informations.size()][5];
+        int index = 0;
+        for (Integer key : informations.keySet()) {
+            System.out.println(informations.get(key).getMedia());
+            data[index][0] = informations.get(key).getMedia().getNom();
+            data[index][1] = key;
+            data[index][2] = informations.get(key).getTempsFemmes();
+            data[index][3] = informations.get(key).getTempsHommes();
+            data[index][4] = informations.get(key).getTempsMusique();
+            index++;
+        }
+
+        this.setTable(colNames, data);
+        this.table.addMouseListener(fm.getBasePanel().getController());
+        this.setSp();
+    }
+
+
 
     /**
      * D�finit le style du champ de recherche des programmeurs
@@ -235,7 +310,7 @@ public class ResultatView extends ViewPanel {
         if (title.equals("Rechercher"))
             this.searchButton.setPreferredSize(new Dimension(110, 20));
         else
-            this.searchButton.setPreferredSize(new Dimension(150, 20));
+            this.searchButton.setPreferredSize(new Dimension(190, 20));
     }
 
     /**
@@ -339,6 +414,20 @@ public class ResultatView extends ViewPanel {
         return jp;
     }
 
+    private JPanel setPanelRecherche() {
+        JPanel jp = new JPanel();
+        jp.setBackground(Color.decode("#424242"));
+        jp.setPreferredSize(new Dimension(jp.getSize().width, 70));
+
+        this.setSearchText();
+        this.setSearchButton("Rechercher par année");
+        jp.add(this.searchText);
+        jp.add(this.searchButton);
+
+        return jp;
+    }
+
+
     /**
      * G�re la recherche, � la fois la validation du contenu recherch� et le r�sultat de ladite recherche
      * @param type
@@ -373,6 +462,24 @@ public class ResultatView extends ViewPanel {
         }
     }
 
+    public void recherche() {
+        TreeMap<Integer, TempsDeParole> data = null;
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        Controller controller = fm.getBasePanel().getController();
+
+        if (this.searchButton.getText().equals("Rechercher par année")) {
+            if(validateInput()){
+                data = controller.getPourcentageTDPByYear(Integer.parseInt(this.getSearchText().getText()));
+            } else{
+                JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
+                data = controller.getPourcentageTDP();
+            }
+            this.modifyPanel(2, data);
+        }
+    }
+
+
+
     /**
      * Valide l'input entr� par l'utilisateur lors de la recherche
      * @param choice
@@ -385,6 +492,10 @@ public class ResultatView extends ViewPanel {
             return (this.getSearchText().getText().matches("^([a-zA-Z]*\\p{L}*\\p{javaWhitespace}*)*+$|^$"));
         }
     }
+    private Boolean validateInput() {
+        return (StringUtils.isNumeric(this.getSearchText().getText()));
+    }
+
 
     /**
      * G�re la recherche par ID des programmeurs
@@ -411,6 +522,7 @@ public class ResultatView extends ViewPanel {
      * @param controller
      * @return
      */
+    /*
     private TreeMap<Integer, Media> rechercheYear(Controller controller) {
         TreeMap<Integer, Media> data;
         if (this.getSearchText().getText().equals("")) {
@@ -420,15 +532,16 @@ public class ResultatView extends ViewPanel {
         }
         return data;
     }
+    */
 
     /**
-     * R�cup�re les lignes (=les programmeurs) s�lectionn�es par l'utilisateur dans le tableau
+     * R�cup�re les lignes (=les médias) s�lectionn�es par l'utilisateur dans le tableau
      * @return
      */
     public ArrayList<Integer> getIdRowSelected() {
         ArrayList<Integer> listeId = new ArrayList<>();
         for (int i = 0; i < this.table.getSelectedRows().length; i++) {
-            Object targetId = this.table.getValueAt(this.table.getSelectedRows()[i], this.table.getColumnModel().getColumnIndex("ID"));
+            Object targetId = this.table.getModel().getValueAt(this.table.getSelectedRows()[i], 0);
             listeId.add((int) targetId);
         }
         return listeId;

@@ -13,21 +13,23 @@ import java.util.logging.Logger;
 public class ActionsBDDImpl {
 
     private TreeMap<Integer, Media> listeMedia = new TreeMap<>();
+    private TreeMap<Integer, TempsDeParole> listeTempsDeParole = new TreeMap<>();
     private Media media;
+    private TempsDeParole tdp;
     private ActionsBDD action = new ActionsBDD();
     private Connection conn;
     private PreparedStatement stmt;
-    private ResultSet rs;
+    private ResultSet rsMedia;
+    private ResultSet rsTDP;
 
     public ActionsBDDImpl() {
         this.conn = this.action.getConnection();
     }
 
     /**
-     * Initialisation d'un programmeur
-     *
+     * Initialisation d'un média
      * @param rs
-     * @return
+     * @return Media
      */
     public Media initMedia(ResultSet rs) {
         try {
@@ -44,27 +46,63 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * M�thode d'ex�cution d'une requ�te pr�par�e
-     *
-     * @param statement
-     * @return
+     * Initialisation des pourcentages de temps de parole
+     * @param rs
+     * @return Media
      */
-    public TreeMap<Integer, Media> doRequete(PreparedStatement statement) {
-        this.listeMedia.clear();
+    public TempsDeParole initTempsDeParole(ResultSet rs) {
         try {
-            this.stmt = statement;
-            this.rs = this.action.getResultSet(this.stmt);
-
-            while (this.rs.next()) {
-                this.listeMedia.put(this.rs.getInt("id_media"), initMedia(this.rs));
-            }
-
+            tdp = new TempsDeParole();
+            tdp.setTempsFemmes(Float.parseFloat(rs.getString("temps_femme")));
+            tdp.setTempsHommes(Float.parseFloat(rs.getString("temps_homme")));
+            tdp.setTempsMusique(Float.parseFloat(rs.getString("temps_musique")));
+            tdp.setMedia(getMediaById(rs.getInt("id_media")).get(rs.getInt("id_media")));
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return tdp;
+    }
 
+    /**
+     * Méthode d'exécution d'une requête préparée
+     * @param statement
+     * @return
+     */
+    public TreeMap<Integer, Media> doRequeteMedia(PreparedStatement statement) {
+        this.listeMedia.clear();
+        try {
+            this.stmt = statement;
+            this.rsMedia = this.action.getResultSet(this.stmt);
+            while (this.rsMedia.next()) {
+                this.listeMedia.put(this.rsMedia.getInt("id_media"), initMedia(this.rsMedia));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return this.listeMedia;
     }
+
+    /**
+     * Méthode d'exécution d'une requête préparée
+     * @param statement
+     * @return
+     */
+    public TreeMap<Integer, TempsDeParole> doRequeteTempsDeParole(PreparedStatement statement) {
+        this.listeTempsDeParole.clear();
+        try {
+            this.stmt = statement;
+            this.rsTDP = this.action.getResultSet(this.stmt);
+            while (this.rsTDP.next()) {
+                this.listeTempsDeParole.put(this.rsTDP.getInt("annee"), initTempsDeParole(this.rsTDP));
+                System.out.println(this.rsTDP.getInt("id_media"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.listeTempsDeParole;
+    }
+
+
 
     /*
     public int doRequeteIntMedia(PreparedStatement statement) {
@@ -86,10 +124,10 @@ public class ActionsBDDImpl {
     public int doRequeteInt(PreparedStatement statement) {
         try {
             this.stmt = statement;
-            this.rs = this.action.getResultSet(this.stmt);
+            this.rsMedia = this.action.getResultSet(this.stmt);
 
-            while (this.rs.next()) {
-                return (this.rs.getInt("max_id"));
+            while (this.rsMedia.next()) {
+                return (this.rsMedia.getInt("max_id"));
             }
 
         } catch (SQLException ex) {
@@ -113,11 +151,10 @@ public class ActionsBDDImpl {
 
     /**
      * Ex�cution de la requ�te retournant tous les programmeurs
-     *
      * @return
      */
     public TreeMap<Integer, Media> getMedia() {
-        return doRequete(this.action.getPreparedStatement(this.conn, Constantes.ALLMEDIA));
+        return doRequeteMedia(this.action.getPreparedStatement(this.conn, Constantes.ALLMEDIA));
     }
 
     /**
@@ -127,7 +164,7 @@ public class ActionsBDDImpl {
      * @return
      */
     public TreeMap<Integer, Media> getMediaById(int id) {
-        return doRequete(this.action.getPreparedStatementInt(this.conn, Constantes.MEDIABYID, id));
+        return doRequeteMedia(this.action.getPreparedStatementInt(this.conn, Constantes.MEDIABYID, id));
     }
 
     /**
@@ -137,17 +174,29 @@ public class ActionsBDDImpl {
      * @return
      */
     public TreeMap<Integer, Media> getMediaByName(String name) {
-        return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.MEDIABYNAME, name));
+        return doRequeteMedia(this.action.getPreparedStatementString(this.conn, Constantes.MEDIABYNAME, name));
     }
 
     /**
-     * Ex�cution de la requ�te retournant un ou des programmeurs par leur pr�nom
-     *
-     * @param firstName
+     * Exécution de la requête retournant un ou des médias avec pourcentage de temps de parole par moment
+     * @return TreeMap
+     */
+    public TreeMap<Integer, TempsDeParole> getPourcentageTDP() {
+        return doRequeteTempsDeParole(this.action.getPreparedStatement(this.conn, Constantes.TEMPSPARMOMENT));
+    }
+    public TreeMap<Integer, TempsDeParole> getPourcentageTDPByYear(Integer year) {
+        return doRequeteTempsDeParole(this.action.getPreparedStatementInt(this.conn, Constantes.TEMPSPARMOMENTPARANNEE, year));
+    }
+
+    /**
+     * Ex�cution de la requ�te retournant la moyenne de temps de parole par média et par année
      * @return
      */
-    public TreeMap<Integer, Media> getProgrammeurByFirstName(String firstName) {
-        return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYFIRSTNAME, firstName));
+    public TreeMap<Integer, TempsDeParole> getMoyenneTDP() {
+        return doRequeteTempsDeParole(this.action.getPreparedStatement(this.conn, Constantes.TEMPSPARMOMENTPARCHAINE));
+    }
+    public TreeMap<Integer, TempsDeParole> getMoyenneTDPByMedia(Integer year) {
+        return doRequeteTempsDeParole(this.action.getPreparedStatementInt(this.conn, Constantes.TEMPSPARMOMENTPARCHAINEPARANNEE, year));
     }
 
     public int getMaxIdMedia() {
@@ -165,7 +214,7 @@ public class ActionsBDDImpl {
      * @return
      */
     public TreeMap<Integer, Media> getProgrammeurByYear(Integer year) {
-        return doRequete(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYYEAR, Integer.toString(year)));
+        return doRequeteMedia(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYYEAR, Integer.toString(year)));
     }
 
     public TreeMap<Integer, Media> getListeMedia() {
@@ -177,8 +226,9 @@ public class ActionsBDDImpl {
      *
      * @param id
      */
-    public void deleteProg(int id) {
-        doRequeteUpdate(this.action.getPreparedStatementInt(this.conn, Constantes.DELPROG, id));
+    public void deleteMedia(int id) {
+        doRequeteUpdate(this.action.getPreparedStatementInt(this.conn, Constantes.DELTEMPSDEPAROLE, id));
+        doRequeteUpdate(this.action.getPreparedStatementInt(this.conn, Constantes.DELMEDIA, id));
     }
 
     /**

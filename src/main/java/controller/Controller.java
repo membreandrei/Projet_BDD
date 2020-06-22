@@ -57,19 +57,27 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * En fonction de l'ActionEvent e re�u en param�tre, agit diff�remment
-     *
+     * En fonction de l'ActionEvent e re�u en param�tre, agit différemment
+     * rv = 1 : Affiche simple d'un tableau des médias (non utilisé)
+     * rv = 2 : Affiche avec temps de parole en pourcentage
+     * rv = 3 : Suppression d'un média (à corriger)
+     * rv = 4 : Affichage général avec les boutons en bas
      * @param e
      */
     @Override
     public void actionPerformed(ActionEvent e) {
         TreeMap<Integer, Media> data = new TreeMap<>();
+        TreeMap<Integer, TempsDeParole> dataTDP = new TreeMap<>();
         if (e.getSource().equals(this.rv.getSearchButton())) {
-            this.rv.recherche(this.typeRv);
+            if (this.rv.getSearchButton().getText().equals("Rechercher par année")) {
+                this.rv.recherche();
+            } else {
+                this.rv.recherche(this.typeRv);
+            }
         } else {
             if (e.getSource().equals(this.identificator.get("Afficher tous les médias"))) {
                 data = this.model.getMedia();
-                this.typeRv = 1;
+                this.typeRv = 4;
             }
             if (e.getSource().equals(this.identificator.get("Supprimer un média"))) {
                 data = this.model.getMedia();
@@ -104,13 +112,13 @@ public class Controller implements ActionListener, MouseListener {
                 }
             }
 
-            if (e.getSource().equals(this.identificator.get("Modifier le salaire"))) {
-                data = this.model.getMedia();
+            if (e.getSource().equals(this.identificator.get("Pourcentage temps de parole"))) {
+                dataTDP = this.getPourcentageTDP();
                 this.typeRv = 2;
             }
-            if (e.getSource().equals(this.identificator.get("Tous les menus"))) {
-                data = this.model.getMedia();
-                this.typeRv = 4;
+            if (e.getSource().equals(this.identificator.get("Moyenne temps de parole par média et par année"))) {
+                dataTDP = this.getMoyenneTDP();
+                this.typeRv = 1;
             }
             if (e.getSource().equals(this.identificator.get("Importer à partir d'un csv"))) {
                 getDataFromCsv(importFile());
@@ -119,14 +127,18 @@ public class Controller implements ActionListener, MouseListener {
                 System.exit(0);
             }
             if (e.getSource().equals(this.rv.getDeleteButton())) {
-                deleteProg();
+                deleteMedia();
                 data = this.model.getMedia();
             }
             if (e.getSource().equals(this.rv.getInsertButton())) {
                 data = this.model.getMedia();
                 this.openModal(null, "add", true);
             }
-            this.rv.modifyPanel(this.typeRv, data, null);
+            if (data.isEmpty()) {
+                this.rv.modifyPanel(this.typeRv, dataTDP);
+            } else {
+                this.rv.modifyPanel(this.typeRv, data, null);
+            }
         }
     }
 
@@ -249,16 +261,16 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Efface un programmeur
+     * Efface un média
      */
-    private void deleteProg() {
+    private void deleteMedia() {
         Object[] options = {"Supprimer", "Annuler"};
-        int answer = JOptionPane.showOptionDialog(null, "�tes-vous s�r de votre choix ?", "Alerte Suppression",
+        int answer = JOptionPane.showOptionDialog(null, "Êtes-vous sûr de votre choix ?", "Alerte Suppression",
                 JOptionPane.YES_OPTION, JOptionPane.NO_OPTION,
                 null, options, options[0]);
         if (answer == JOptionPane.YES_OPTION) {
             for (int id : this.rv.getIdRowSelected()) {
-                this.model.deleteProg(id);
+                this.model.deleteMedia(id);
             }
         }
     }
@@ -337,12 +349,16 @@ public class Controller implements ActionListener, MouseListener {
         return this.model.getMediaByName(name);
     }
 
-    public TreeMap<Integer, Media> getProgrammeurByFirstName(String firstName) {
-        return this.model.getProgrammeurByFirstName(firstName);
+    public TreeMap<Integer, TempsDeParole> getPourcentageTDP() {
+        return this.model.getPourcentageTDP();
     }
 
-    public TreeMap<Integer, Media> getProgrammeurByYear(Integer year) {
-        return this.model.getProgrammeurByYear(year);
+    public TreeMap<Integer, TempsDeParole> getPourcentageTDPByYear(Integer year) {
+        return this.model.getPourcentageTDPByYear(year);
+    }
+
+    public TreeMap<Integer, TempsDeParole> getMoyenneTDP() {
+        return this.model.getMoyenneTDP();
     }
 
     /**
