@@ -27,11 +27,11 @@ public class FenetreMere extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //On d�finit la taille de la fen�tre
-        this.setPreferredSize(new Dimension(1000, 500));
+        this.setPreferredSize(new Dimension(1300, 600));
         FenetreMere.basePanel.createListeners();
         this.setBackground(Color.decode("#303030"));
         this.setContentPane(FenetreMere.basePanel);
-        this.setBounds(500, 250, 0, 0);
+        this.setBounds(200, 250, 0, 0);
         this.pack();
         StyleHelper.setStyleJOptionPane();
         this.setVisible(true);

@@ -83,6 +83,10 @@ public class Controller implements ActionListener, MouseListener {
                 data = this.model.getMedia();
                 this.typeRv = 4;
             }
+            if (e.getSource().equals(this.identificator.get("Média avec temps de parole des hommes 2x fois supérieur à celui des femmes"))) {
+                dataTDP = this.model.getTDPHomme2FoisSupFemme();
+                this.typeRv = 3;
+            }
             if (e.getSource().equals(this.identificator.get("Supprimer un média"))) {
                 data = this.model.getMedia();
                 this.typeRv = 3;

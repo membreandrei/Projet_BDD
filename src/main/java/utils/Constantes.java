@@ -51,6 +51,23 @@ public final class Constantes {
     /**
      * Temps de parole/musique par moment
      */
+    public final static String TEMPSALLWHEREHOMME2FOISSUPFEMME = "select DISTINCT ME.nom                              as nom_media,\n" +
+            "DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')                               AS annee,\n" +
+            "                AVG(TDP.temps_musique)                                     AS temps_musique,\n" +
+            "TDP.id_media   AS id_media,\n" +
+            "    MO.id_moment                       as id_moment,\n" +
+            "    AVG(TDP.temps_femme)               AS temps_femme,\n" +
+            "    AVG(TDP.temps_homme)               AS temps_homme\n" +
+            "    from media                         AS ME\n" +
+            "    INNER JOIN temps_de_parole AS tdp on ME.id_media = tdp.id_media\n" +
+            "    inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
+            "    WHERE (select AVG(tdp2.temps_femme)\n" +
+            "    from temps_de_parole as tdp2\n" +
+            "    where tdp2.id_media = ME.id_media) * 2 < (select AVG(tdp3.temps_homme)\n" +
+            "    from temps_de_parole as tdp3\n" +
+            "    where tdp3.id_media = ME.id_media)\n" +
+            "    group by ME.nom";
+
     public final static String TEMPSPARMOMENT = "select DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')                            AS annee,\n" +
             "       TDP.id_media   AS id_media,\n" +
             "                MO.id_moment                                                as id_moment,\n" +
@@ -61,6 +78,7 @@ public final class Constantes {
             "         INNER JOIN temps_de_parole AS tdp on ME.id_media = tdp.id_media\n" +
             "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
             "group by annee;";
+
 
     /**
      * Temps de parole/musique par moment par année
@@ -76,7 +94,6 @@ public final class Constantes {
             "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
             "WHERE DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y') = ?\n" +
             "group by DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
-
 
 
     /**

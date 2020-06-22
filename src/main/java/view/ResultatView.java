@@ -24,7 +24,6 @@ public class ResultatView extends ViewPanel {
     private JButton insertButton = new JButton();
     private JComboBox choice = new JComboBox();
     private JTextField searchText = new JTextField();
-    private JProgressBar progressBar;
 
     public ResultatView() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -63,6 +62,13 @@ public class ResultatView extends ViewPanel {
 
         this.searchText.requestFocusInWindow();
         addListener(fm.getBasePanel().getController(), this.searchButton);
+    }
+
+    private void displayMoyenne2FoisSup(TreeMap<Integer, TempsDeParole> informations) {
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        this.setHeaderTableauMoyenne2FoisSup(informations, fm);
+        ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
+        this.add(sp);
     }
 
 
@@ -162,6 +168,10 @@ public class ResultatView extends ViewPanel {
                 break;
             case 2:
                 displayAll(dataTDP);
+                break;
+            case 3:
+                displayMoyenne2FoisSup(dataTDP);
+                break;
         }
 
     }
@@ -283,6 +293,22 @@ public class ResultatView extends ViewPanel {
         this.setSp();
     }
 
+    private void setHeaderTableauMoyenne2FoisSup(TreeMap<Integer, TempsDeParole> informations, FenetreMere fm) {
+        String[] colNames = {"Nom", "Moyenne Femmes (s)", "Moyenne Hommes (s)"};
+        Object[][] data = new Object[informations.size()][3];
+        int index = 0;
+        for (Integer key : informations.keySet()) {
+            data[index][0] = informations.get(key).getMedia().getNom();
+            data[index][1] = informations.get(key).getTempsFemmes();
+            data[index][2] = informations.get(key).getTempsHommes();
+            index++;
+        }
+
+        this.setTable(colNames, data);
+        this.table.addMouseListener(fm.getBasePanel().getController());
+        this.setSp();
+    }
+
 
     /**
      * D�finit le style du champ de recherche des programmeurs
@@ -388,7 +414,7 @@ public class ResultatView extends ViewPanel {
     private JPanel setPanelRecherche(String valueComboBox, boolean modify) {
         JPanel jp = new JPanel();
         jp.setBackground(Color.decode("#424242"));
-        jp.setPreferredSize(new Dimension(jp.getSize().width, 70));
+        jp.setPreferredSize(new Dimension(jp.getSize().width, 0));
 
         this.setSearchText();
         if (!modify) {
@@ -418,7 +444,7 @@ public class ResultatView extends ViewPanel {
     private JPanel setPanelRecherche(String titre) {
         JPanel jp = new JPanel();
         jp.setBackground(Color.decode("#424242"));
-        jp.setPreferredSize(new Dimension(jp.getSize().width, 70));
+        jp.setPreferredSize(new Dimension(jp.getSize().width, 0));
 
         this.setSearchText();
         this.setSearchButton(titre);

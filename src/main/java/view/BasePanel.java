@@ -19,7 +19,7 @@ public class BasePanel extends ViewPanel {
     }
 
     /**
-     * Crée les listeners pour le contrôleur
+     * Crï¿½e les listeners pour le contrï¿½leur
      */
     public void createListeners() {
         this.controller = new Controller(this);
@@ -43,10 +43,10 @@ public class BasePanel extends ViewPanel {
     }
 
     /**
-     * Créé le layout du basePanel, afin d'organiser MenuView et ResultatView correctement
+     * Crï¿½ï¿½ le layout du basePanel, afin d'organiser MenuView et ResultatView correctement
      */
     private void createLayout() {
-        //On créé d'abord la zone dédiée au menu
+        //On crï¿½ï¿½ d'abord la zone dï¿½diï¿½e au menu
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.weightx = 0;
         gbc.weighty = 0.5;

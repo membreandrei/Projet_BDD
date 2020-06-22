@@ -232,6 +232,11 @@ public class ActionsBDDImpl {
     public TreeMap<Integer, TempsDeParole> getPourcentageTDP() {
         return doRequeteTempsDeParole(this.action.getPreparedStatement(this.conn, Constantes.TEMPSPARMOMENT));
     }
+
+    public TreeMap<Integer, TempsDeParole> getTDPHomme2FoisSupFemme() {
+        return doRequeteTempsDeParole(this.action.getPreparedStatement(this.conn, Constantes.TEMPSALLWHEREHOMME2FOISSUPFEMME));
+    }
+
     public TreeMap<Integer, TempsDeParole> getPourcentageTDPByYear(Integer year) {
         return doRequeteTempsDeParole(this.action.getPreparedStatementInt(this.conn, Constantes.TEMPSPARMOMENTPARANNEE, year));
     }
