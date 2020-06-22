@@ -13,6 +13,17 @@ public final class Constantes {
     public final static String MEDIABYID = "SELECT * from media where id_media = ?";
 
     /**
+     * R�cup�rer un programmeurs par ID (ID �tant UNIQUE, pas besoin de LIMIT)
+     */
+    public final static String MOMENTBYID = "SELECT DATE_FORMAT(STR_TO_DATE(date_moment, '%d/%m/%Y'), '%Y') AS annee, " +
+            "id_moment, " +
+            "est_ferie, " +
+            "vacances, " +
+            "heure, " +
+            "jour " +
+            "from moment where id_moment = ?";
+
+    /**
      * R�cup�rer les programmeurs par nom
      */
     public final static String MEDIABYNAME = "SELECT * from media where nom like ?";
@@ -42,6 +53,7 @@ public final class Constantes {
      */
     public final static String TEMPSPARMOMENT = "select DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')                            AS annee,\n" +
             "       TDP.id_media   AS id_media,\n" +
+            "                MO.id_moment                                                as id_moment,\n" +
             "       AVG((TDP.temps_femme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique) * 100))   AS temps_femme,\n" +
             "       AVG((TDP.temps_homme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100)   AS temps_homme,\n" +
             "       AVG((TDP.temps_musique / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100) AS temps_musique\n" +
@@ -55,6 +67,7 @@ public final class Constantes {
      */
     public final static String TEMPSPARMOMENTPARANNEE = "select DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')                               AS annee,\n" +
             "       ME.id_media   AS id_media,\n" +
+            "                MO.id_moment                                                as id_moment,\n" +
             "       AVG((TDP.temps_femme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique) * 100))   AS temps_femme,\n" +
             "       AVG((TDP.temps_homme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100)   AS temps_homme,\n" +
             "       AVG((TDP.temps_musique / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100) AS temps_musique\n" +
@@ -65,11 +78,13 @@ public final class Constantes {
             "group by DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
 
 
+
     /**
      * Temps de parole/musique par média
      */
     public final static String TEMPSPARMOMENTPARCHAINE = "select DISTINCT ME.nom        as nom_media,\n" +
             "                ME.id_media                                                as id_media,\n" +
+            "                MO.id_moment                                                as id_moment,\n" +
             "                DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y') as annee,\n" +
             "                AVG(TDP.temps_femme)                                       AS temps_femme,\n" +
             "                AVG(TDP.temps_homme)                                       AS temps_homme,\n" +
@@ -80,10 +95,27 @@ public final class Constantes {
             "group by ME.nom, DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
 
     /**
+     * Temps de parole/musique par média
+     */
+    public final static String TEMPSPARMOMENTPARCHAINEBYNAME = "select DISTINCT ME.nom        as nom_media,\n" +
+            "                ME.id_media                                                as id_media,\n" +
+            "                MO.id_moment                                                as id_moment,\n" +
+            "                DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y') as annee,\n" +
+            "                AVG(TDP.temps_femme)                                       AS temps_femme,\n" +
+            "                AVG(TDP.temps_homme)                                       AS temps_homme,\n" +
+            "                AVG(TDP.temps_musique)                                     AS temps_musique\n" +
+            "from media AS ME\n" +
+            "         INNER JOIN temps_de_parole AS tdp on ME.id_media = tdp.id_media\n" +
+            "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
+            "WHERE ME.nom LIKE ?\n" +
+            "group by ME.nom, DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
+
+    /**
      * Temps de parole/musique par moment et par année
      */
     public final static String TEMPSPARMOMENTPARCHAINEPARANNEE = "select DISTINCT ME.nom as nom_media,\n" +
             "                ME.id_media                                                 as id_media,\n" +
+            "                MO.id_moment                                                as id_moment,\n" +
             "                DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')  as annee,\n" +
             "                AVG(TDP.temps_femme)                                        AS temps_femme,\n" +
             "                AVG(TDP.temps_homme)                                        AS temps_homme,\n" +

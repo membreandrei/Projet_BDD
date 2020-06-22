@@ -13,13 +13,16 @@ import java.util.logging.Logger;
 public class ActionsBDDImpl {
 
     private TreeMap<Integer, Media> listeMedia = new TreeMap<>();
+    private TreeMap<Integer, Moment> listeMoment = new TreeMap<>();
     private TreeMap<Integer, TempsDeParole> listeTempsDeParole = new TreeMap<>();
     private Media media;
+    private Moment moment;
     private TempsDeParole tdp;
     private ActionsBDD action = new ActionsBDD();
     private Connection conn;
     private PreparedStatement stmt;
     private ResultSet rsMedia;
+    private ResultSet rsMoment;
     private ResultSet rsTDP;
 
     public ActionsBDDImpl() {
@@ -46,6 +49,26 @@ public class ActionsBDDImpl {
     }
 
     /**
+     * Initialisation d'un Moment
+     * @param rs
+     * @return Moment
+     */
+    public Moment initMoment(ResultSet rs) {
+        try {
+            moment = new Moment();
+            moment.setId(rs.getInt("id_moment"));
+            moment.setDateMoment(rs.getString("annee"));
+            moment.setEstFerie(rs.getString("est_ferie").equals("1"));
+            moment.setVacances(rs.getString("vacances"));
+            moment.setHeure(Integer.parseInt(rs.getString("heure")));
+            moment.setJour(rs.getString("jour"));
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return moment;
+    }
+
+    /**
      * Initialisation des pourcentages de temps de parole
      * @param rs
      * @return Media
@@ -57,6 +80,7 @@ public class ActionsBDDImpl {
             tdp.setTempsHommes(Float.parseFloat(rs.getString("temps_homme")));
             tdp.setTempsMusique(Float.parseFloat(rs.getString("temps_musique")));
             tdp.setMedia(getMediaById(rs.getInt("id_media")).get(rs.getInt("id_media")));
+            tdp.setMoment(getMomentById(rs.getInt("id_moment")).get(rs.getInt("id_moment")));
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -87,14 +111,34 @@ public class ActionsBDDImpl {
      * @param statement
      * @return
      */
+    public TreeMap<Integer, Moment> doRequeteMoment(PreparedStatement statement) {
+        this.listeMedia.clear();
+        try {
+            this.stmt = statement;
+            this.rsMoment = this.action.getResultSet(this.stmt);
+            while (this.rsMoment.next()) {
+                this.listeMoment.put(this.rsMoment.getInt("id_moment"), initMoment(this.rsMoment));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.listeMoment;
+    }
+
+    /**
+     * Méthode d'exécution d'une requête préparée
+     * @param statement
+     * @return
+     */
     public TreeMap<Integer, TempsDeParole> doRequeteTempsDeParole(PreparedStatement statement) {
         this.listeTempsDeParole.clear();
         try {
             this.stmt = statement;
             this.rsTDP = this.action.getResultSet(this.stmt);
+            int index = 1;
             while (this.rsTDP.next()) {
-                this.listeTempsDeParole.put(this.rsTDP.getInt("annee"), initTempsDeParole(this.rsTDP));
-                System.out.println(this.rsTDP.getInt("id_media"));
+                this.listeTempsDeParole.put(index, initTempsDeParole(this.rsTDP));
+                index++;
             }
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
@@ -167,6 +211,10 @@ public class ActionsBDDImpl {
         return doRequeteMedia(this.action.getPreparedStatementInt(this.conn, Constantes.MEDIABYID, id));
     }
 
+    public TreeMap<Integer, Moment> getMomentById(int id) {
+        return doRequeteMoment(this.action.getPreparedStatementInt(this.conn, Constantes.MOMENTBYID, id));
+    }
+
     /**
      * Ex�cution de la requ�te retournant un ou des médias par leur nom
      *
@@ -188,15 +236,16 @@ public class ActionsBDDImpl {
         return doRequeteTempsDeParole(this.action.getPreparedStatementInt(this.conn, Constantes.TEMPSPARMOMENTPARANNEE, year));
     }
 
+    public TreeMap<Integer, TempsDeParole> getMoyenneTDPByName(String name) {
+        return doRequeteTempsDeParole(this.action.getPreparedStatementString(this.conn, Constantes.TEMPSPARMOMENTPARCHAINEBYNAME, name));
+    }
+
     /**
      * Ex�cution de la requ�te retournant la moyenne de temps de parole par média et par année
      * @return
      */
     public TreeMap<Integer, TempsDeParole> getMoyenneTDP() {
         return doRequeteTempsDeParole(this.action.getPreparedStatement(this.conn, Constantes.TEMPSPARMOMENTPARCHAINE));
-    }
-    public TreeMap<Integer, TempsDeParole> getMoyenneTDPByMedia(Integer year) {
-        return doRequeteTempsDeParole(this.action.getPreparedStatementInt(this.conn, Constantes.TEMPSPARMOMENTPARCHAINEPARANNEE, year));
     }
 
     public int getMaxIdMedia() {

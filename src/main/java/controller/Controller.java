@@ -32,7 +32,7 @@ public class Controller implements ActionListener, MouseListener {
     private HashMap<String, JButton> identificator;
     private ActionsBDDImpl model;
     private MediaView pv;
-    private Integer typeRv = 1;
+    private Integer typeRv = 4;
 
     /**
      * Construit le contr�leur avec le BasePanel bp
@@ -68,9 +68,13 @@ public class Controller implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
         TreeMap<Integer, Media> data = new TreeMap<>();
         TreeMap<Integer, TempsDeParole> dataTDP = new TreeMap<>();
+        data = this.model.getMedia();
         if (e.getSource().equals(this.rv.getSearchButton())) {
             if (this.rv.getSearchButton().getText().equals("Rechercher par année")) {
-                this.rv.recherche();
+                this.rv.rechercheParAnnee();
+            }
+            if (this.rv.getSearchButton().getText().equals("Rechercher par média")){
+                this.rv.rechercheParMedia();
             } else {
                 this.rv.recherche(this.typeRv);
             }
@@ -161,8 +165,13 @@ public class Controller implements ActionListener, MouseListener {
         CSVReader reader = null;
 
         try {
+            if(csvFile == null){
+                return;
+            }
+
             String str[];
             reader = new CSVReader(new FileReader(csvFile));
+
             reader.readNext();
             while ((str = reader.readNext()) != null) {
 
@@ -355,6 +364,10 @@ public class Controller implements ActionListener, MouseListener {
 
     public TreeMap<Integer, TempsDeParole> getPourcentageTDPByYear(Integer year) {
         return this.model.getPourcentageTDPByYear(year);
+    }
+
+    public TreeMap<Integer, TempsDeParole> getMoyenneTDPByMedia(String name) {
+        return this.model.getMoyenneTDPByName(name);
     }
 
     public TreeMap<Integer, TempsDeParole> getMoyenneTDP() {

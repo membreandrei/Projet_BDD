@@ -41,7 +41,7 @@ public class ResultatView extends ViewPanel {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         this.setHeaderTableauTempsDeParole(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
-        this.add(this.setPanelRecherche());
+        this.add(this.setPanelRecherche("Rechercher par année"));
         this.add(sp);
 
 
@@ -55,7 +55,7 @@ public class ResultatView extends ViewPanel {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         this.setHeaderTableauMoyenne(informations, fm);
         ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
-        this.add(this.setPanelRecherche());
+        this.add(this.setPanelRecherche("Rechercher par média"));
         this.add(sp);
 
 
@@ -64,7 +64,6 @@ public class ResultatView extends ViewPanel {
         this.searchText.requestFocusInWindow();
         addListener(fm.getBasePanel().getController(), this.searchButton);
     }
-
 
 
     /**
@@ -150,13 +149,14 @@ public class ResultatView extends ViewPanel {
 
     /**
      * Gère le type de panel � ajouter en fonction du bouton cliqu� du menu (dans MenuView)
+     *
      * @param dataTDP
      */
     public void modifyPanel(Integer type, TreeMap<Integer, TempsDeParole> dataTDP) {
         this.removeAll();
         this.revalidate();
         this.repaint();
-        switch(type){
+        switch (type) {
             case 1:
                 displayMoyenneAll(dataTDP);
                 break;
@@ -165,6 +165,7 @@ public class ResultatView extends ViewPanel {
         }
 
     }
+
     public void modifyPanel(Integer type, TreeMap<Integer, Media> data, String valueComboBox) {
         this.removeAll();
         this.revalidate();
@@ -199,7 +200,7 @@ public class ResultatView extends ViewPanel {
             }
         };
 
-        if(this.table.getColumnName(0).contains("id")){
+        if (this.table.getColumnName(0).contains("id")) {
             this.table.removeColumn(table.getColumnModel().getColumn(0));
         }
 
@@ -252,7 +253,7 @@ public class ResultatView extends ViewPanel {
         Object[][] data = new Object[informations.size()][4];
         int index = 0;
         for (Integer key : informations.keySet()) {
-            data[index][0] = key;
+            data[index][0] = informations.get(key).getMoment().getDateMoment();
             data[index][1] = informations.get(key).getTempsFemmes();
             data[index][2] = informations.get(key).getTempsHommes();
             data[index][3] = informations.get(key).getTempsMusique();
@@ -269,9 +270,8 @@ public class ResultatView extends ViewPanel {
         Object[][] data = new Object[informations.size()][5];
         int index = 0;
         for (Integer key : informations.keySet()) {
-            System.out.println(informations.get(key).getMedia());
             data[index][0] = informations.get(key).getMedia().getNom();
-            data[index][1] = key;
+            data[index][1] = informations.get(key).getMoment().getDateMoment();
             data[index][2] = informations.get(key).getTempsFemmes();
             data[index][3] = informations.get(key).getTempsHommes();
             data[index][4] = informations.get(key).getTempsMusique();
@@ -282,7 +282,6 @@ public class ResultatView extends ViewPanel {
         this.table.addMouseListener(fm.getBasePanel().getController());
         this.setSp();
     }
-
 
 
     /**
@@ -360,6 +359,7 @@ public class ResultatView extends ViewPanel {
     /**
      * D�finit le panel comprenant � la fois l'ajout et la suppression d'un programmeur
      * (si ajout=true, alors seulement le bouton d'ajout sera pr�sent)
+     *
      * @param ajout
      * @return
      */
@@ -380,6 +380,7 @@ public class ResultatView extends ViewPanel {
     /**
      * D�finit le panel de recherche d'un programmeur
      * (en haut du tableau; contient le champ du texte d'entr�e et par quoi rechercher, ainsi que le bouton)
+     *
      * @param valueComboBox
      * @param modify
      * @return
@@ -414,13 +415,13 @@ public class ResultatView extends ViewPanel {
         return jp;
     }
 
-    private JPanel setPanelRecherche() {
+    private JPanel setPanelRecherche(String titre) {
         JPanel jp = new JPanel();
         jp.setBackground(Color.decode("#424242"));
         jp.setPreferredSize(new Dimension(jp.getSize().width, 70));
 
         this.setSearchText();
-        this.setSearchButton("Rechercher par année");
+        this.setSearchButton(titre);
         jp.add(this.searchText);
         jp.add(this.searchButton);
 
@@ -430,6 +431,7 @@ public class ResultatView extends ViewPanel {
 
     /**
      * G�re la recherche, � la fois la validation du contenu recherch� et le r�sultat de ladite recherche
+     *
      * @param type
      */
     public void recherche(int type) {
@@ -462,15 +464,15 @@ public class ResultatView extends ViewPanel {
         }
     }
 
-    public void recherche() {
+    public void rechercheParAnnee() {
         TreeMap<Integer, TempsDeParole> data = null;
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         Controller controller = fm.getBasePanel().getController();
 
         if (this.searchButton.getText().equals("Rechercher par année")) {
-            if(validateInput()){
+            if (validateInput()) {
                 data = controller.getPourcentageTDPByYear(Integer.parseInt(this.getSearchText().getText()));
-            } else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
                 data = controller.getPourcentageTDP();
             }
@@ -478,10 +480,21 @@ public class ResultatView extends ViewPanel {
         }
     }
 
+    public void rechercheParMedia() {
+        TreeMap<Integer, TempsDeParole> data = null;
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        Controller controller = fm.getBasePanel().getController();
+
+        if (this.searchButton.getText().equals("Rechercher par média")) {
+            data = controller.getMoyenneTDPByMedia(this.getSearchText().getText());
+        }
+        this.modifyPanel(1, data);
+    }
 
 
     /**
      * Valide l'input entr� par l'utilisateur lors de la recherche
+     *
      * @param choice
      * @return
      */
@@ -492,13 +505,14 @@ public class ResultatView extends ViewPanel {
             return (this.getSearchText().getText().matches("^([a-zA-Z]*\\p{L}*\\p{javaWhitespace}*)*+$|^$"));
         }
     }
+
     private Boolean validateInput() {
         return (StringUtils.isNumeric(this.getSearchText().getText()));
     }
 
-
     /**
      * G�re la recherche par ID des programmeurs
+     *
      * @param controller
      * @return
      */
@@ -536,6 +550,7 @@ public class ResultatView extends ViewPanel {
 
     /**
      * R�cup�re les lignes (=les médias) s�lectionn�es par l'utilisateur dans le tableau
+     *
      * @return
      */
     public ArrayList<Integer> getIdRowSelected() {
