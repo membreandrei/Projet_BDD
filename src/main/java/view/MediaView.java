@@ -13,8 +13,8 @@ import java.util.HashMap;
 
 public class MediaView extends ViewPanel {
 
-    private ArrayList<JLabel> allLabels = new ArrayList<>();
-    private HashMap<String, JTextField> allTextFields = new HashMap<>();
+    private final ArrayList<JLabel> allLabels = new ArrayList<>();
+    private final HashMap<String, JTextField> allTextFields = new HashMap<>();
 
     /**
      * Construit le MediaView dans le cas d'un ajout d'un nouveau programmeur

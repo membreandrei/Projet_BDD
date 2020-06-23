@@ -3,12 +3,12 @@ package utils;
 public final class Constantes {
 
     /**
-     * R�cup�rer tous les programmeurs
+     * R�cup�rer tous les Médias
      */
     public final static String ALLMEDIA = "SELECT * from media";
 
     /**
-     * R�cup�rer un programmeurs par ID (ID �tant UNIQUE, pas besoin de LIMIT)
+     * R�cup�rer un Médias par ID (ID �tant UNIQUE, pas besoin de LIMIT)
      */
     public final static String MEDIABYID = "SELECT * from media where id_media = ?";
 
@@ -24,12 +24,12 @@ public final class Constantes {
             "from moment where id_moment = ?";
 
     /**
-     * R�cup�rer les programmeurs par nom
+     * R�cup�rer les Médias par nom
      */
     public final static String MEDIABYNAME = "SELECT * from media where nom like ?";
 
     /**
-     * R�cup�rer les programmeurs par pr�nom
+     * R�cup�rer les Médias par pr�nom
      */
     public final static String PROGBYFIRSTNAME = "SELECT * from PROGRAMMEUR where PRENOM like ?";
 
@@ -80,14 +80,18 @@ public final class Constantes {
             "group by annee;";
 
     public final static String CHAINETVPOURCENTAGEHOMMESUPX = "select\n" +
+            "       ME.id_media,\n" +
+            "       TDP.id_moment,\n" +
             "       ME.nom,\n" +
             "       ME.type,\n" +
-            "       AVG((TDP.temps_homme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100) as pourcentage_homme\n" +
+            "       AVG((TDP.temps_femme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100) as temps_femme,\n" +
+            "       AVG((TDP.temps_homme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100) as temps_homme,\n" +
+            "       AVG((TDP.temps_musique / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100) as temps_musique\n" +
             "FROM media ME\n" +
             "         INNER JOIN temps_de_parole TDP ON TDP.id_media = ME.id_media\n" +
             "WHERE ME.type = 'tv'\n" +
             "GROUP BY ME.id_media\n" +
-            "Having  pourcentage_homme > ?";
+            "Having  AVG((TDP.temps_homme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100) > ?";
 
 
     /**

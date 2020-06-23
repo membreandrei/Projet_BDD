@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class MenuView extends ViewPanel {
 
-    private JLabel titre = new JLabel("Menu");
-    private ArrayList<JButton> allButtons = new ArrayList<>();
+    private final JLabel titre = new JLabel("Menu");
+    private final ArrayList<JButton> allButtons = new ArrayList<>();
 
     /**
      * Construit le MenuView avec les boutons, leur style
@@ -22,7 +22,7 @@ public class MenuView extends ViewPanel {
         this.setBackground(Color.decode("#303030"));
         this.allButtons.add(new JButton("Afficher tous les médias"));
         this.allButtons.add(new JButton("Média avec temps de parole des hommes 2x fois supérieur à celui des femmes"));
-        this.allButtons.add(new JButton("Supprimer un média"));
+        this.allButtons.add(new JButton("TV avec pourcentage temps de parole homme supérieur à X"));
         this.allButtons.add(new JButton("Pourcentage temps de parole"));
         this.allButtons.add(new JButton("Moyenne temps de parole par média et par année"));
         this.allButtons.add(new JButton("Importer à partir d'un csv"));

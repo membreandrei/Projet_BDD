@@ -71,6 +71,21 @@ public class ResultatView extends ViewPanel {
         this.add(sp);
     }
 
+    private void displayPercentHSupX(TreeMap<Integer, TempsDeParole> informations) {
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        this.setHeaderTableauPercentHSupX(informations, fm);
+        ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
+        this.add(sp);
+
+        this.add(this.setPanelRecherche("Recherche par pourcentage minimal"));
+        this.add(sp);
+
+        this.searchText.addActionListener(e -> searchButton.doClick());
+
+        this.searchText.requestFocusInWindow();
+        addListener(fm.getBasePanel().getController(), this.searchButton);
+    }
+
 
     /**
      * Cr�� le panel pour l'affichage pr�cis lors d'un clic sur la liste de tous les programmeurs
@@ -171,6 +186,9 @@ public class ResultatView extends ViewPanel {
                 break;
             case 3:
                 displayMoyenne2FoisSup(dataTDP);
+                break;
+            case 5:
+                displayPercentHSupX(dataTDP);
                 break;
         }
 
@@ -309,6 +327,24 @@ public class ResultatView extends ViewPanel {
         this.setSp();
     }
 
+    private void setHeaderTableauPercentHSupX(TreeMap<Integer, TempsDeParole> informations, FenetreMere fm) {
+        String[] colNames = {"Nom", "Type", "% Femmes", "% Hommes", "% Musique"};
+        Object[][] data = new Object[informations.size()][5];
+        int index = 0;
+        for (Integer key : informations.keySet()) {
+            data[index][0] = informations.get(key).getMedia().getNom();
+            data[index][1] = informations.get(key).getMedia().getType();
+            data[index][2] = informations.get(key).getTempsFemmes();
+            data[index][3] = informations.get(key).getTempsHommes();
+            data[index][4] = informations.get(key).getTempsMusique();
+            index++;
+        }
+
+        this.setTable(colNames, data);
+        this.table.addMouseListener(fm.getBasePanel().getController());
+        this.setSp();
+    }
+
 
     /**
      * D�finit le style du champ de recherche des programmeurs
@@ -414,7 +450,7 @@ public class ResultatView extends ViewPanel {
     private JPanel setPanelRecherche(String valueComboBox, boolean modify) {
         JPanel jp = new JPanel();
         jp.setBackground(Color.decode("#424242"));
-        jp.setPreferredSize(new Dimension(jp.getSize().width, 0));
+        jp.setPreferredSize(new Dimension(jp.getSize().width, 70));
 
         this.setSearchText();
         if (!modify) {
@@ -494,7 +530,12 @@ public class ResultatView extends ViewPanel {
         TreeMap<Integer, TempsDeParole> data = null;
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         Controller controller = fm.getBasePanel().getController();
-
+        if(this.getSearchText().getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
+            data = controller.getPourcentageTDP();
+            this.modifyPanel(2, data);
+            return;
+        }
         if (this.searchButton.getText().equals("Rechercher par année")) {
             if (validateInput()) {
                 data = controller.getPourcentageTDPByYear(Integer.parseInt(this.getSearchText().getText()));
@@ -510,11 +551,38 @@ public class ResultatView extends ViewPanel {
         TreeMap<Integer, TempsDeParole> data = null;
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         Controller controller = fm.getBasePanel().getController();
-
+        if(this.getSearchText().getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Veuillez réessayer en écrivant quelque chose");
+            data = controller.getMoyenneTDP();
+            this.modifyPanel(1, data);
+            return;
+        }
         if (this.searchButton.getText().equals("Rechercher par média")) {
             data = controller.getMoyenneTDPByMedia(this.getSearchText().getText());
         }
         this.modifyPanel(1, data);
+    }
+
+    public void recherchePourcentageMinimalH(){
+        TreeMap<Integer, TempsDeParole> data = null;
+        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
+        Controller controller = fm.getBasePanel().getController();
+
+        if (this.searchButton.getText().equals("Recherche par pourcentage minimal")) {
+            if(this.getSearchText().getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Veuillez réessayer (nombre entier, compris entre 0 et 100 inclus");
+                data = controller.getTVPourcentageHommeSupX(0);
+                this.modifyPanel(5, data);
+                return;
+            }
+            if (validateInput() && 0 <= Integer.parseInt(this.getSearchText().getText()) && Integer.parseInt(this.getSearchText().getText()) <= 100) {
+                data = controller.getTVPourcentageHommeSupX(Integer.parseInt(this.getSearchText().getText()));
+            } else {
+                JOptionPane.showMessageDialog(null, "Veuillez réessayer (nombre entier, compris entre 0 et 100 inclus");
+                data = controller.getTVPourcentageHommeSupX(0);
+            }
+            this.modifyPanel(5, data);
+        }
     }
 
 
@@ -557,22 +625,6 @@ public class ResultatView extends ViewPanel {
         return data;
     }
 
-    /**
-     * G�re la recherche par ann�e de naissance des programmeurs
-     * @param controller
-     * @return
-     */
-    /*
-    private TreeMap<Integer, Media> rechercheYear(Controller controller) {
-        TreeMap<Integer, Media> data;
-        if (this.getSearchText().getText().equals("")) {
-            data = controller.getMedia();
-        } else {
-            data = controller.getProgrammeurByYear(Integer.parseInt(this.getSearchText().getText()));
-        }
-        return data;
-    }
-    */
 
     /**
      * R�cup�re les lignes (=les médias) s�lectionn�es par l'utilisateur dans le tableau

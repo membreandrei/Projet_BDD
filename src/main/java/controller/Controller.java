@@ -28,9 +28,9 @@ import java.io.IOException;
 
 public class Controller implements ActionListener, MouseListener {
     private final MenuView mv;
-    private ResultatView rv;
+    private final ResultatView rv;
     private HashMap<String, JButton> identificator;
-    private ActionsBDDImpl model;
+    private final ActionsBDDImpl model;
     private MediaView pv;
     private Integer typeRv = 4;
 
@@ -70,13 +70,20 @@ public class Controller implements ActionListener, MouseListener {
         TreeMap<Integer, TempsDeParole> dataTDP = new TreeMap<>();
         data = this.model.getMedia();
         if (e.getSource().equals(this.rv.getSearchButton())) {
-            if (this.rv.getSearchButton().getText().equals("Rechercher par année")) {
-                this.rv.rechercheParAnnee();
-            }
-            if (this.rv.getSearchButton().getText().equals("Rechercher par média")){
-                this.rv.rechercheParMedia();
-            } else {
-                this.rv.recherche(this.typeRv);
+            switch (this.rv.getSearchButton().getText()) {
+                case "Rechercher par année":
+                    this.rv.rechercheParAnnee();
+                    break;
+                case "Rechercher par média":
+                    this.rv.rechercheParMedia();
+                    break;
+                case "Recherche par pourcentage minimal":
+                    this.rv.recherchePourcentageMinimalH();
+                    break;
+                default:
+                    System.out.println("ici");
+                    this.rv.recherche(this.typeRv);
+                    break;
             }
         } else {
             if (e.getSource().equals(this.identificator.get("Afficher tous les médias"))) {
@@ -87,9 +94,9 @@ public class Controller implements ActionListener, MouseListener {
                 dataTDP = this.model.getTDPHomme2FoisSupFemme();
                 this.typeRv = 3;
             }
-            if (e.getSource().equals(this.identificator.get("Supprimer un média"))) {
-                data = this.model.getMedia();
-                this.typeRv = 3;
+            if (e.getSource().equals(this.identificator.get("TV avec pourcentage temps de parole homme supérieur à X"))) {
+                dataTDP = this.getTVPourcentageHommeSupX(0);
+                this.typeRv = 5;
             }
             if (e.getSource().equals(this.identificator.get("Ajouter un média"))) {
                 data = this.model.getMedia();
@@ -173,7 +180,7 @@ public class Controller implements ActionListener, MouseListener {
                 return;
             }
 
-            String str[];
+            String[] str;
             reader = new CSVReader(new FileReader(csvFile));
 
             reader.readNext();
@@ -321,11 +328,7 @@ public class Controller implements ActionListener, MouseListener {
         if (!StringUtils.isNumeric(this.pv.getAllTextFields().get("public").getText())) {
             return false;
         }
-        if (Integer.parseInt(this.pv.getAllTextFields().get("public").getText()) != 0 && Integer.parseInt(this.pv.getAllTextFields().get("public").getText()) != 1) {
-            return false;
-        }
-
-        return true;
+        return Integer.parseInt(this.pv.getAllTextFields().get("public").getText()) == 0 || Integer.parseInt(this.pv.getAllTextFields().get("public").getText()) == 1;
     }
 
     public void setPv(MediaView pv) {
@@ -376,6 +379,10 @@ public class Controller implements ActionListener, MouseListener {
 
     public TreeMap<Integer, TempsDeParole> getMoyenneTDP() {
         return this.model.getMoyenneTDP();
+    }
+
+    public TreeMap<Integer, TempsDeParole> getTVPourcentageHommeSupX(Integer percent) {
+        return this.model.getTVPourcentageHommeSupX(percent);
     }
 
     /**

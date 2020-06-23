@@ -12,14 +12,14 @@ import java.util.logging.Logger;
 
 public class ActionsBDDImpl {
 
-    private TreeMap<Integer, Media> listeMedia = new TreeMap<>();
-    private TreeMap<Integer, Moment> listeMoment = new TreeMap<>();
-    private TreeMap<Integer, TempsDeParole> listeTempsDeParole = new TreeMap<>();
+    private final TreeMap<Integer, Media> listeMedia = new TreeMap<>();
+    private final TreeMap<Integer, Moment> listeMoment = new TreeMap<>();
+    private final TreeMap<Integer, TempsDeParole> listeTempsDeParole = new TreeMap<>();
     private Media media;
     private Moment moment;
     private TempsDeParole tdp;
-    private ActionsBDD action = new ActionsBDD();
-    private Connection conn;
+    private final ActionsBDD action = new ActionsBDD();
+    private final Connection conn;
     private PreparedStatement stmt;
     private ResultSet rsMedia;
     private ResultSet rsMoment;
@@ -259,6 +259,15 @@ public class ActionsBDDImpl {
 
     public int getMaxIdMoment() {
         return doRequeteInt(this.action.getPreparedStatement(this.conn, Constantes.GETMAXIDMOMENT));
+    }
+
+
+    /**
+     * Exécution de la requête retournant les chaînes de TV avec pourcentage temps de parole homme supérieur à X
+     * @return
+     */
+    public TreeMap<Integer, TempsDeParole> getTVPourcentageHommeSupX(Integer percent) {
+        return doRequeteTempsDeParole(this.action.getPreparedStatementInt(this.conn, Constantes.CHAINETVPOURCENTAGEHOMMESUPX, percent));
     }
 
     /**

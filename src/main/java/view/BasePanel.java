@@ -7,7 +7,7 @@ import java.awt.*;
 public class BasePanel extends ViewPanel {
 
     private GridBagConstraints gbc = new GridBagConstraints();
-    private MenuView mv;
+    private final MenuView mv;
     private ResultatView rv;
     private Controller controller;
 

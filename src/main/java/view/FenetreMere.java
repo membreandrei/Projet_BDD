@@ -11,7 +11,7 @@ public class FenetreMere extends JFrame {
     /**
      * champ static basePanel, il s'agit du panel de base sur lequel viennent se greffer les autres panels
      */
-    private static BasePanel basePanel = new BasePanel();
+    private static final BasePanel basePanel = new BasePanel();
 
     /**
      * Construit la fen�tre g�n�rale de l'application
