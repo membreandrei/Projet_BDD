@@ -93,17 +93,17 @@ public final class Constantes {
     /**
      * Temps de parole/musique par moment par année
      */
-    public final static String TEMPSPARMOMENTPARANNEE = "select DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')                               AS annee,\n" +
-            "       ME.id_media   AS id_media,\n" +
-            "                MO.id_moment                                                as id_moment,\n" +
+    public final static String TEMPSPARMOMENTPARANNEE = "SELECT YEAR(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'))                                            AS annee,\n" +
+            "       ME.id_media                                                                              AS id_media,\n" +
+            "       MO.id_moment                                                                             AS id_moment,\n" +
             "       AVG((TDP.temps_femme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique) * 100))   AS temps_femme,\n" +
             "       AVG((TDP.temps_homme / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100)   AS temps_homme,\n" +
             "       AVG((TDP.temps_musique / (TDP.temps_femme + TDP.temps_homme + TDP.temps_musique)) * 100) AS temps_musique\n" +
-            "from media AS ME\n" +
-            "         INNER JOIN temps_de_parole AS tdp on ME.id_media = tdp.id_media\n" +
-            "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
-            "WHERE DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y') = ?\n" +
-            "group by DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
+            "FROM media AS ME\n" +
+            "         INNER JOIN temps_de_parole AS tdp ON ME.id_media = tdp.id_media\n" +
+            "         INNER JOIN moment AS MO ON MO.id_moment = tdp.id_moment\n" +
+            "WHERE YEAR(STR_TO_DATE(mo.date_moment, '%d/%m/%Y')) = ?\n" +
+            "GROUP BY YEAR(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'))";
 
 
     /**
