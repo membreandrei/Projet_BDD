@@ -81,7 +81,6 @@ public class Controller implements ActionListener, MouseListener {
                     this.rv.recherchePourcentageMinimalH();
                     break;
                 default:
-                    System.out.println("ici");
                     this.rv.recherche(this.typeRv);
                     break;
             }
@@ -98,10 +97,6 @@ public class Controller implements ActionListener, MouseListener {
                 dataTDP = this.getTVPourcentageHommeSupX(0);
                 this.typeRv = 5;
             }
-            if (e.getSource().equals(this.identificator.get("Ajouter un média"))) {
-                data = this.model.getMedia();
-                this.openModal(null, "add", true);
-            }
 
             if (e.getActionCommand().equals("ajout")) {
                 if (!validate()) {
@@ -111,16 +106,6 @@ public class Controller implements ActionListener, MouseListener {
                         JOptionPane.showMessageDialog(null, "Veuillez r�essayer avec des donn�es valides");
                         return;
                     }
-                    FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
-                    fm.dispose();
-                    data = this.model.getMedia();
-                }
-            }
-            if (e.getActionCommand().equals("enregistrer")) {
-                if (!validate()) {
-                    JOptionPane.showMessageDialog(null, "Veuillez r�essayer avec des nombres dans salaire, prime, ann�e de naissance");
-                } else {
-                    this.model.editProg(createMedia(false));
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
                     fm.dispose();
                     data = this.model.getMedia();
@@ -137,6 +122,7 @@ public class Controller implements ActionListener, MouseListener {
             }
             if (e.getSource().equals(this.identificator.get("Importer à partir d'un csv"))) {
                 getDataFromCsv(importFile());
+                this.typeRv = 4;
             }
             if (e.getSource().equals(this.identificator.get("Quitter le programme"))) {
                 System.exit(0);
@@ -147,7 +133,7 @@ public class Controller implements ActionListener, MouseListener {
             }
             if (e.getSource().equals(this.rv.getInsertButton())) {
                 data = this.model.getMedia();
-                this.openModal(null, "add", true);
+                this.openModal("add");
             }
             if (data.isEmpty()) {
                 this.rv.modifyPanel(this.typeRv, dataTDP);
@@ -157,6 +143,9 @@ public class Controller implements ActionListener, MouseListener {
         }
     }
 
+    /**
+     * permet d'importer un fichier csv
+     */
     private String importFile() {
         JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         chooser.setCurrentDirectory(new java.io.File("."));
@@ -171,6 +160,9 @@ public class Controller implements ActionListener, MouseListener {
         return null;
     }
 
+    /**
+     * permet de rentrer les données dans la base de donné a partir du fichier csv
+     */
     private void getDataFromCsv(String path){
         String csvFile = path;
         CSVReader reader = null;
@@ -248,6 +240,13 @@ public class Controller implements ActionListener, MouseListener {
         }
     }
 
+    /**
+     * créé un média
+     * @param type
+     * @param idIna
+     * @param nom
+     * @param estPublic
+     */
     public Media createMedia(String type, String idIna, String nom, boolean estPublic) {
         Media media = new Media();
         media.setType(type);
@@ -258,6 +257,14 @@ public class Controller implements ActionListener, MouseListener {
         return media;
     }
 
+    /**
+     * créé un moment
+     * @param dateMoment
+     * @param jour
+     * @param vacances
+     * @param estFerie
+     * @param heure
+     */
     public Moment createMoment(String dateMoment, String jour, String vacances, boolean estFerie, int heure) {
         Moment moment = new Moment();
         moment.setDateMoment(dateMoment);
@@ -269,6 +276,14 @@ public class Controller implements ActionListener, MouseListener {
         return moment;
     }
 
+    /**
+     * créé un temps de parole
+     * @param media
+     * @param moment
+     * @param tempsFemmes
+     * @param tempsHommes
+     * @param tempsMusique
+     */
     public TempsDeParole createTempsDeParole(Media media, Moment moment, Float tempsHommes, Float tempsFemmes, Float tempsMusique) {
         TempsDeParole tempsDeParole = new TempsDeParole();
         tempsDeParole.setMedia(media);
@@ -296,7 +311,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Cr�� un ProgrammeurBean, vide ou non en fonction du param�tre ajout
+     * Cr�� un média, vide ou non en fonction du param�tre ajout
      *
      * @param ajout
      * @return
@@ -316,7 +331,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Valide les données entrées dans le cas de la création ou de la modification d'un média
+     * Valide les données entrées dans le cas de la création d'un média
      *
      * @return Boolean
      */
@@ -336,20 +351,14 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Ouvre la fen�tre d�taill�e d'un programmeur, modifiable ou non, d'ajout ou non
+     * Ouvre la fen�tre d'ajout d'un média
      *
-     * @param pb
      * @param type
-     * @param modify
+     *
      */
-    private void openModal(@Nullable Media pb, String type, boolean modify) {
+    private void openModal(String type) {
         MediaView pv;
-        if (pb == null) {
-            pv = new MediaView();
-        } else {
-            //title = pb.getNom().toUpperCase() + " " + pb.getPrenom();
-            pv = new MediaView(pb, modify);
-        }
+        pv = new MediaView();
         new FenetreMere("Ajout d'un média", pv, type);
     }
 
@@ -385,32 +394,9 @@ public class Controller implements ActionListener, MouseListener {
         return this.model.getTVPourcentageHommeSupX(percent);
     }
 
-    /**
-     * Ouvre la modale d�taill�e d'un programmeur. Il est n�cessaire qu'il s'agisse d'un double clic
-     * La fen�tre ouverte est soit en mode �dition avec les champs modifiables, ou bien en mode lecture seule
-     *
-     * @param e
-     */
     @Override
     public void mouseClicked(MouseEvent e) {
-        JTable laTable = (JTable) e.getSource();
 
-        if (e.getClickCount() == 2) {
-
-            //Ouvre la modal pour l'�dition d'un programmeur
-            if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 1) {
-                Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
-                Media prog = this.model.getListeMedia().get(targetId);
-                openModal(prog, "edit", true);
-            }
-
-            //Ouvre la modal en mode lecture uniquement
-            if (((DefaultCellEditor) laTable.getDefaultEditor(Object.class)).getClickCountToStart() == 0) {
-                Object targetId = laTable.getValueAt(laTable.getSelectedRow(), laTable.getColumnModel().getColumnIndex("ID"));
-                Media prog = this.model.getListeMedia().get(targetId);
-                openModal(prog, "display", false);
-            }
-        }
     }
 
     @Override

@@ -79,7 +79,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour la construction d'une requ�te d'insert � partir de la structure d'un developpeur
+     * Methode pour la construction d'une requ�te d'insert � partir de la structure d'un developpeur pour un média
      *
      * @param conn Connexion à la base de données
      * @param requete Requête à effectuer
@@ -100,6 +100,14 @@ public class ActionsBDD {
         return this.stmt;
     }
 
+    /**
+     * Methode pour la construction d'une requ�te d'insert � partir de la structure d'un developpeur pour un moment
+     *
+     * @param conn Connexion à la base de données
+     * @param requete Requête à effectuer
+     * @param moment Média recherché
+     * @return
+     */
     public PreparedStatement getPreparedStatementInsertMoment(Connection conn, String requete, Moment moment) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -114,7 +122,14 @@ public class ActionsBDD {
         }
         return this.stmt;
     }
-
+    /**
+     * Methode pour la construction d'une requ�te d'insert � partir de la structure d'un developpeur pour un temps de parole
+     *
+     * @param conn Connexion à la base de données
+     * @param requete Requête à effectuer
+     * @param tempsDeParole Média recherché
+     * @return
+     */
     public PreparedStatement getPreparedStatementInsertTempsDeParole(Connection conn, String requete, TempsDeParole tempsDeParole) {
         try {
             this.stmt = conn.prepareStatement(requete);
@@ -124,32 +139,6 @@ public class ActionsBDD {
             this.stmt.setInt(4, tempsDeParole.getMedia().getId());
             this.stmt.setInt(5, tempsDeParole.getMoment().getId());
 
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return this.stmt;
-    }
-
-    /**
-     * Méthode pour préparer la requête de modification du salaire
-     * @param conn
-     * @param requete
-     * @param prog
-     * @return
-     */
-    public PreparedStatement getPreparedStatementModifyProg(Connection conn, String requete, Media prog) {
-        try {
-            this.stmt = conn.prepareStatement(requete);
-            this.stmt.setString(1, prog.getNom());
-            /*this.stmt.setString(2, prog.getPrenom());
-            this.stmt.setString(3, prog.getAdresse());
-            this.stmt.setString(4, prog.getPseudo());
-            this.stmt.setString(5, prog.getResponsable());
-            this.stmt.setString(6, prog.getHobby());
-            this.stmt.setInt(7, prog.getAnNaissance());
-            this.stmt.setFloat(8, prog.getSalaire());
-            this.stmt.setFloat(9, prog.getPrime());
-            this.stmt.setInt(10, prog.getId());*/
         } catch (SQLException ex) {
             Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
         }

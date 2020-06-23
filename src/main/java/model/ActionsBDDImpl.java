@@ -88,7 +88,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Méthode d'exécution d'une requête préparée
+     * Méthode d'exécution d'une requête préparée pour un média
      * @param statement
      * @return
      */
@@ -107,7 +107,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Méthode d'exécution d'une requête préparée
+     * Méthode d'exécution d'une requête préparée pour un Moment
      * @param statement
      * @return
      */
@@ -126,7 +126,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Méthode d'exécution d'une requête préparée
+     * Méthode d'exécution d'une requête préparée pour un temps de parole
      * @param statement
      * @return
      */
@@ -146,25 +146,11 @@ public class ActionsBDDImpl {
         return this.listeTempsDeParole;
     }
 
-
-
-    /*
-    public int doRequeteIntMedia(PreparedStatement statement) {
-        try {
-            this.stmt = statement;
-            this.rs = this.action.getResultSet(this.stmt);
-
-            while (this.rs.next()) {
-               return this.rs.getInt("id_media");
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionsBDD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 1;
-    }
-*/
-
+    /**
+     * Méthode d'exécution d'une requête préparée pour récup les max_id
+     * @param statement
+     * @return
+     */
     public int doRequeteInt(PreparedStatement statement) {
         try {
             this.stmt = statement;
@@ -194,7 +180,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te retournant tous les programmeurs
+     * Ex�cution de la requ�te retournant tous les médias
      * @return
      */
     public TreeMap<Integer, Media> getMedia() {
@@ -202,7 +188,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te retournant un programmeur grace � son id
+     * Ex�cution de la requ�te retournant un média grace � son id
      *
      * @param id
      * @return
@@ -211,6 +197,12 @@ public class ActionsBDDImpl {
         return doRequeteMedia(this.action.getPreparedStatementInt(this.conn, Constantes.MEDIABYID, id));
     }
 
+    /**
+     * Ex�cution de la requ�te retournant un moment grace � son id
+     *
+     * @param id
+     * @return
+     */
     public TreeMap<Integer, Moment> getMomentById(int id) {
         return doRequeteMoment(this.action.getPreparedStatementInt(this.conn, Constantes.MOMENTBYID, id));
     }
@@ -233,14 +225,28 @@ public class ActionsBDDImpl {
         return doRequeteTempsDeParole(this.action.getPreparedStatement(this.conn, Constantes.TEMPSPARMOMENT));
     }
 
+    /**
+     * Exécution de la requête retournant un ou des médias avec moyenne de temps de parole par temps Homme 2 fois supérieur à temps femme
+     * @return TreeMap
+     */
     public TreeMap<Integer, TempsDeParole> getTDPHomme2FoisSupFemme() {
         return doRequeteTempsDeParole(this.action.getPreparedStatement(this.conn, Constantes.TEMPSALLWHEREHOMME2FOISSUPFEMME));
     }
 
+    /**
+     * Exécution de la requête retournant un ou des médias avec pourcentage de temps de parole par année
+     * @param year
+     * @return TreeMap
+     */
     public TreeMap<Integer, TempsDeParole> getPourcentageTDPByYear(Integer year) {
         return doRequeteTempsDeParole(this.action.getPreparedStatementInt(this.conn, Constantes.TEMPSPARMOMENTPARANNEE, year));
     }
 
+    /**
+     * Exécution de la requête retournant un ou des médias avec moyenne de temps de parole par nom de média
+     * @param name
+     * @return TreeMap
+     */
     public TreeMap<Integer, TempsDeParole> getMoyenneTDPByName(String name) {
         return doRequeteTempsDeParole(this.action.getPreparedStatementString(this.conn, Constantes.TEMPSPARMOMENTPARCHAINEBYNAME, name));
     }
@@ -253,10 +259,18 @@ public class ActionsBDDImpl {
         return doRequeteTempsDeParole(this.action.getPreparedStatement(this.conn, Constantes.TEMPSPARMOMENTPARCHAINE));
     }
 
+    /**
+     * Ex�cution de la requ�te retournant le dernier id de média
+     * @return
+     */
     public int getMaxIdMedia() {
         return doRequeteInt(this.action.getPreparedStatement(this.conn, Constantes.GETMAXIDMEDIA));
     }
 
+    /**
+     * Ex�cution de la requ�te retournant le dernier id de moment
+     * @return
+     */
     public int getMaxIdMoment() {
         return doRequeteInt(this.action.getPreparedStatement(this.conn, Constantes.GETMAXIDMOMENT));
     }
@@ -270,22 +284,17 @@ public class ActionsBDDImpl {
         return doRequeteTempsDeParole(this.action.getPreparedStatementInt(this.conn, Constantes.CHAINETVPOURCENTAGEHOMMESUPX, percent));
     }
 
+
     /**
-     * Ex�cution de la requ�te retournant un ou des programmeurs par leur ann�e de naissance
-     *
-     * @param year
+     * récupère la liste des médias
      * @return
      */
-    public TreeMap<Integer, Media> getProgrammeurByYear(Integer year) {
-        return doRequeteMedia(this.action.getPreparedStatementString(this.conn, Constantes.PROGBYYEAR, Integer.toString(year)));
-    }
-
     public TreeMap<Integer, Media> getListeMedia() {
         return this.listeMedia;
     }
 
     /**
-     * Ex�cution de la requ�te permettant de supprimer un user par id
+     * Ex�cution de la requ�te permettant de supprimer un média et temps de parole par id de média
      *
      * @param id
      */
@@ -295,16 +304,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te permettant de changer le salaire via l'id
-     *
-     * @param prog
-     */
-    public void editProg(Media prog) {
-        doRequeteUpdate(this.action.getPreparedStatementModifyProg(this.conn, Constantes.EDITPROG, prog));
-    }
-
-    /**
-     * Ex�cution de la requ�te permettant de cr�er un nouveau programmeur
+     * Ex�cution de la requ�te permettant de cr�er un nouveau média
      *
      * @param media
      * @return
@@ -313,10 +313,22 @@ public class ActionsBDDImpl {
         return doRequeteUpdate(this.action.getPreparedStatementInsertMedia(this.conn, Constantes.CREATEMEDIA, media));
     }
 
+    /**
+     * Ex�cution de la requ�te permettant de cr�er un nouveau moment
+     *
+     * @param media
+     * @return
+     */
     public int createMoment(Moment moment) {
         return doRequeteUpdate(this.action.getPreparedStatementInsertMoment(this.conn, Constantes.CREATEMOMENT, moment));
     }
 
+    /**
+     * Ex�cution de la requ�te permettant de cr�er un nouveau temps de parole
+     *
+     * @param media
+     * @return
+     */
     public int createTemspsDeParole(TempsDeParole tempsDeParole) {
         return doRequeteUpdate(this.action.getPreparedStatementInsertTempsDeParole(this.conn, Constantes.CREATETEMPSDEPAROLE, tempsDeParole));
     }

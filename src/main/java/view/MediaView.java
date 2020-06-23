@@ -17,21 +17,10 @@ public class MediaView extends ViewPanel {
     private final HashMap<String, JTextField> allTextFields = new HashMap<>();
 
     /**
-     * Construit le MediaView dans le cas d'un ajout d'un nouveau programmeur
+     * Construit le MediaView dans le cas d'un ajout d'un nouveau média
      */
     public MediaView() {
         this.initMediaView(true, false);
-    }
-
-    /**
-     * Construit le MediaView quand des données sont présentes
-     * C'est-�-dire, quand on affiche les d�tails d'un programmeur d�j� existant
-     * @param data
-     * @param modify
-     */
-    public MediaView(Media data, boolean modify) {
-        this.initMediaView(false, modify);
-        this.populateMediaView(data);
     }
 
     /**
@@ -88,23 +77,6 @@ public class MediaView extends ViewPanel {
             this.add(jtf);
         }
 
-    }
-
-    /**
-     * Remplit le MediaView avec les donn�es du programmeur ProgrammeurBean data choisi
-     * @param data
-     */
-    private void populateMediaView(Media data) {
-        this.allTextFields.get("id").setText(data.getId() + "");
-        /*this.allTextFields.get("pseudo").setText(data.getPseudo() + "");
-        this.allTextFields.get("nom").setText(data.getNom() + "");
-        this.allTextFields.get("pr�nom").setText(data.getPrenom() + "");
-        this.allTextFields.get("naissance").setText(data.getAnNaissance() + "");
-        this.allTextFields.get("salaire").setText(data.getSalaire() + "");
-        this.allTextFields.get("prime").setText(data.getPrime() + "");
-        this.allTextFields.get("adresse").setText(data.getAdresse() + "");
-        this.allTextFields.get("responsable").setText(data.getResponsable() + "");
-        this.allTextFields.get("hobby").setText(data.getHobby() + "");*/
     }
 
     public HashMap<String, JTextField> getAllTextFields() {

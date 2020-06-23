@@ -6,12 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Classe abstraite héritant de JPanel et ajoutant quelques méthodes en plus
+ * Classe abstraite hï¿½ritant de JPanel et ajoutant quelques mï¿½thodes en plus
  */
 public abstract class ViewPanel extends JPanel {
 
     /**
-     * Ajout un ActionListener à un bouton
+     * Ajout un ActionListener ï¿½ un bouton
      * @param controller
      * @param button
      */
@@ -20,7 +20,7 @@ public abstract class ViewPanel extends JPanel {
     }
 
     /**
-     * Ajoute un MouseListener à une JTable
+     * Ajoute un MouseListener ï¿½ une JTable
      * @param controller
      * @param table
      */
@@ -29,7 +29,7 @@ public abstract class ViewPanel extends JPanel {
     }
 
     /**
-     * Ajoute un composant centré à un panel héritant de ViewPanel
+     * Ajoute un composant centrï¿½ ï¿½ un panel hï¿½ritant de ViewPanel
      * @param component
      */
     protected void addComponent(JComponent component) {

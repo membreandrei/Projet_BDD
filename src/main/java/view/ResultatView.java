@@ -32,7 +32,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Créé le panel pour l'affichage de tous les programmeurs
+     * Créé le panel pour l'affichage des pourcentages des temps de parole
      *
      * @param informations
      */
@@ -49,7 +49,11 @@ public class ResultatView extends ViewPanel {
         this.searchText.requestFocusInWindow();
         addListener(fm.getBasePanel().getController(), this.searchButton);
     }
-
+    /**
+     * Créé le panel pour l'affichage de la moyenne des temps de parole
+     *
+     * @param informations
+     */
     private void displayMoyenneAll(TreeMap<Integer, TempsDeParole> informations) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         this.setHeaderTableauMoyenne(informations, fm);
@@ -64,6 +68,11 @@ public class ResultatView extends ViewPanel {
         addListener(fm.getBasePanel().getController(), this.searchButton);
     }
 
+    /**
+     * Créé le panel pour l'affichage de la moyenne des temps de parole homme 2 fois supérieur à celle des femmes
+     *
+     * @param informations
+     */
     private void displayMoyenne2FoisSup(TreeMap<Integer, TempsDeParole> informations) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         this.setHeaderTableauMoyenne2FoisSup(informations, fm);
@@ -71,6 +80,11 @@ public class ResultatView extends ViewPanel {
         this.add(sp);
     }
 
+    /**
+     * Créé le panel pour l'affichage des pourcentages des temps de parole des hommes supérieur a un nombre X
+     *
+     * @param informations
+     */
     private void displayPercentHSupX(TreeMap<Integer, TempsDeParole> informations) {
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
         this.setHeaderTableauPercentHSupX(informations, fm);
@@ -86,47 +100,8 @@ public class ResultatView extends ViewPanel {
         addListener(fm.getBasePanel().getController(), this.searchButton);
     }
 
-
     /**
-     * Cr�� le panel pour l'affichage pr�cis lors d'un clic sur la liste de tous les programmeurs
-     *
-     * @param informations
-     * @param valueComboBox
-     */
-    private void displayOne(TreeMap<Integer, Media> informations, String valueComboBox) {
-        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
-
-        this.setHeaderTableauMedia(informations, fm);
-        ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(0);
-        this.add(this.setPanelRecherche(valueComboBox, false));
-        this.add(sp);
-        this.searchText.addActionListener(e -> searchButton.doClick());
-
-        this.searchText.requestFocusInWindow();
-        addListener(fm.getBasePanel().getController(), this.searchButton);
-    }
-
-
-    /**
-     * Lors d'un double clic sur un programmeur dans le tableau, ouvre une fen�tre permettant de modifier les donn�es de ce dernier
-     *
-     * @param informations
-     */
-    private void modifyProg(TreeMap<Integer, Media> informations) {
-        FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
-        this.setHeaderTableauMedia(informations, fm);
-        ((DefaultCellEditor) this.table.getDefaultEditor(Object.class)).setClickCountToStart(1);
-        this.add(this.setPanelRecherche(null, true));
-        this.add(sp);
-
-        this.searchText.addActionListener(e -> searchButton.doClick());
-
-        this.searchText.requestFocusInWindow();
-        addListener(fm.getBasePanel().getController(), this.searchButton);
-    }
-
-    /**
-     * Efface le(s) programmeur(s) s�lectionn�(s) dans le tableau
+     * Efface le(s) média(s) s�lectionn�(s) dans le tableau
      *
      * @param informations
      */
@@ -146,7 +121,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Permet tous les menus � la fois: Ajout/Modification/Suppression/Recherche
+     * Permet tous les menus � la fois: Ajout/Modification/Suppression/Recherche pour tout les médias
      *
      * @param informations
      * @param valueComboBox
@@ -169,9 +144,10 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Gère le type de panel � ajouter en fonction du bouton cliqu� du menu (dans MenuView)
+     * Gère le type de panel � ajouter en fonction du bouton cliqu� du menu (dans MenuView) pour les temps de paroles
      *
      * @param dataTDP
+     * @param type
      */
     public void modifyPanel(Integer type, TreeMap<Integer, TempsDeParole> dataTDP) {
         this.removeAll();
@@ -194,17 +170,18 @@ public class ResultatView extends ViewPanel {
 
     }
 
+    /**
+     * Gère le type de panel � ajouter en fonction du bouton cliqu� du menu (dans MenuView) pour les temps de paroles
+     *
+     * @param data
+     * @param type
+     * @param valueComboBox
+     */
     public void modifyPanel(Integer type, TreeMap<Integer, Media> data, String valueComboBox) {
         this.removeAll();
         this.revalidate();
         this.repaint();
         switch (type) {
-            case 1:
-                displayOne(data, valueComboBox);
-                break;
-            case 2:
-                modifyProg(data);
-                break;
             case 3:
                 deleteProg(data);
                 break;
@@ -215,7 +192,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Cr�� la table contenant les programmeurs
+     * Cr�� la table contenant des média / temps de parole
      *
      * @param colNames
      * @param data
@@ -253,20 +230,20 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le header du tableau contenant les programmeurs, et ajoute le MouseListener � celle-ci
+     * D�finit le header du tableau contenant les médias, et ajoute le MouseListener � celle-ci
      *
      * @param informations
      * @param fm
      */
     private void setHeaderTableauMedia(TreeMap<Integer, Media> informations, FenetreMere fm) {
-        String[] colNames = {"id_media", "Type", "INA", "Nom", "Public ?"};
+        String[] colNames = {"id_media", "Nom", "Type", "INA", "Public ?"};
         Object[][] data = new Object[informations.size()][5];
         int index = 0;
         for (Integer key : informations.keySet()) {
             data[index][0] = informations.get(key).getId();
-            data[index][1] = informations.get(key).getType();
-            data[index][2] = informations.get(key).getIdIna();
-            data[index][3] = informations.get(key).getNom();
+            data[index][1] = informations.get(key).getNom();
+            data[index][2] = informations.get(key).getType();
+            data[index][3] = informations.get(key).getIdIna();
             data[index][4] = (informations.get(key).getEstPublic() ? "Oui" : "Non");
             index++;
         }
@@ -275,7 +252,12 @@ public class ResultatView extends ViewPanel {
         this.table.addMouseListener(fm.getBasePanel().getController());
         this.setSp();
     }
-
+    /**
+     * D�finit le header du tableau contenant les temps de parole, et ajoute le MouseListener � celle-ci
+     *
+     * @param informations
+     * @param fm
+     */
     private void setHeaderTableauTempsDeParole(TreeMap<Integer, TempsDeParole> informations, FenetreMere fm) {
         String[] colNames = {"Année", "% Femmes", "% Hommes", "% Musique"};
         Object[][] data = new Object[informations.size()][4];
@@ -293,6 +275,12 @@ public class ResultatView extends ViewPanel {
         this.setSp();
     }
 
+    /**
+     * D�finit le header du tableau contenant les moyennes des temps de parole, et ajoute le MouseListener � celle-ci
+     *
+     * @param informations
+     * @param fm
+     */
     private void setHeaderTableauMoyenne(TreeMap<Integer, TempsDeParole> informations, FenetreMere fm) {
         String[] colNames = {"Nom", "Année", "Moyenne Femmes (s)", "Moyenne Hommes (s)", "Moyenne Musique (s)"};
         Object[][] data = new Object[informations.size()][5];
@@ -311,6 +299,12 @@ public class ResultatView extends ViewPanel {
         this.setSp();
     }
 
+    /**
+     * D�finit le header du tableau contenant les moyennes hommes 2 fois supérieur a celle de la femme, et ajoute le MouseListener � celle-ci
+     *
+     * @param informations
+     * @param fm
+     */
     private void setHeaderTableauMoyenne2FoisSup(TreeMap<Integer, TempsDeParole> informations, FenetreMere fm) {
         String[] colNames = {"Nom", "Moyenne Femmes (s)", "Moyenne Hommes (s)"};
         Object[][] data = new Object[informations.size()][3];
@@ -327,6 +321,12 @@ public class ResultatView extends ViewPanel {
         this.setSp();
     }
 
+    /**
+     * D�finit le header du tableau contenant les pourcentage Homme supérieur a un nombre donné, et ajoute le MouseListener � celle-ci
+     *
+     * @param informations
+     * @param fm
+     */
     private void setHeaderTableauPercentHSupX(TreeMap<Integer, TempsDeParole> informations, FenetreMere fm) {
         String[] colNames = {"Nom", "Type", "% Femmes", "% Hommes", "% Musique"};
         Object[][] data = new Object[informations.size()][5];
@@ -347,7 +347,7 @@ public class ResultatView extends ViewPanel {
 
 
     /**
-     * D�finit le style du champ de recherche des programmeurs
+     * D�finit le style du champ de recherche des média/temps de parole
      */
     private void setSearchText() {
         this.searchText = new JTextField();
@@ -397,7 +397,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le bouton de suppression d'un ou plusieurs programmeurs
+     * D�finit le bouton de suppression d'un ou plusieurs médias
      */
     private void setDeleteButton() {
         this.deleteButton = new JButton("Supprimer");
@@ -408,7 +408,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le bouton d'ajout d'un programmeur
+     * D�finit le bouton d'ajout d'un média
      */
     private void setInsertButton() {
         this.insertButton = new JButton("Ajouter");
@@ -419,7 +419,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le panel comprenant � la fois l'ajout et la suppression d'un programmeur
+     * D�finit le panel comprenant � la fois l'ajout et la suppression d'un média
      * (si ajout=true, alors seulement le bouton d'ajout sera pr�sent)
      *
      * @param ajout
@@ -440,7 +440,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le panel de recherche d'un programmeur
+     * D�finit le panel de recherche des médias
      * (en haut du tableau; contient le champ du texte d'entr�e et par quoi rechercher, ainsi que le bouton)
      *
      * @param valueComboBox
@@ -476,7 +476,13 @@ public class ResultatView extends ViewPanel {
         }
         return jp;
     }
-
+    /**
+     * D�finit le panel de recherche des temps de parole
+     * (en haut du tableau; contient le champ du texte d'entr�e et par quoi rechercher, ainsi que le bouton)
+     *
+     * @param titre
+     * @return
+     */
     private JPanel setPanelRecherche(String titre) {
         JPanel jp = new JPanel();
         jp.setBackground(Color.decode("#424242"));
@@ -526,6 +532,11 @@ public class ResultatView extends ViewPanel {
         }
     }
 
+    /**
+     * G�re la recherche pour année, � la fois la validation du contenu recherch� et le r�sultat de ladite recherche
+     *
+     *
+     */
     public void rechercheParAnnee() {
         TreeMap<Integer, TempsDeParole> data = null;
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
@@ -547,6 +558,11 @@ public class ResultatView extends ViewPanel {
         }
     }
 
+    /**
+     * G�re la recherche par média, � la fois la validation du contenu recherch� et le r�sultat de ladite recherche
+     *
+     *
+     */
     public void rechercheParMedia() {
         TreeMap<Integer, TempsDeParole> data = null;
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
@@ -562,7 +578,11 @@ public class ResultatView extends ViewPanel {
         }
         this.modifyPanel(1, data);
     }
-
+    /**
+     * G�re la recherche par un nombre compris entre 0 et 100, � la fois la validation du contenu recherch� et le r�sultat de ladite recherche
+     *
+     *
+     */
     public void recherchePourcentageMinimalH(){
         TreeMap<Integer, TempsDeParole> data = null;
         FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor(this);
@@ -600,12 +620,17 @@ public class ResultatView extends ViewPanel {
         }
     }
 
+    /**
+     * Valide l'input entr� par l'utilisateur lors de la recherche
+     *
+     * @return
+     */
     private Boolean validateInput() {
         return (StringUtils.isNumeric(this.getSearchText().getText()));
     }
 
     /**
-     * G�re la recherche par ID des programmeurs
+     * G�re la recherche par ID des médias
      *
      * @param controller
      * @return

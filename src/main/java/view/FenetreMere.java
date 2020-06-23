@@ -38,7 +38,7 @@ public class FenetreMere extends JFrame {
     }
 
     /**
-     * Construit les sous-fen�tres d�di�es � l'affichage en d�tail d'un programmeur, ou bien l'ajout d'un nouveau
+     * Construit la sous fenetre pou ajouter un média
      * @param title
      * @param view
      * @param type
@@ -66,10 +66,7 @@ public class FenetreMere extends JFrame {
 
         if(type.equals("add")) {
             this.fenetreAjout(jp, view);
-        } else if(type.equals("edit")){
-            this.fenetreEdit(jp, view);
         }
-
         jp.add(exit, BorderLayout.CENTER);
 
         this.add(jp, BorderLayout.PAGE_END);
@@ -79,24 +76,7 @@ public class FenetreMere extends JFrame {
     }
 
     /**
-     * D�finit la fen�tre d'�dition d'un programmeur existant
-     * @param jp
-     * @param view
-     */
-    private void fenetreEdit(JPanel jp, MediaView view){
-        JButton ajout = new JButton("Enregistrer");
-        ajout.setActionCommand("enregistrer");
-        StyleHelper.setStyle(ajout);
-        ajout.setMargin(new Insets(5,20,5,20));
-
-        jp.add(ajout, BorderLayout.CENTER);
-        jp.add(Box.createHorizontalStrut(20));
-
-        view.actionButtonAdd(this.getBasePanel().getController(), ajout);
-    }
-
-    /**
-     * D�finit la fen�tre d'ajout d'un programmeur inexistant
+     * D�finit la fen�tre d'ajout d'un média inexistant
      * @param jp
      * @param view
      */

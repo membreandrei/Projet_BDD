@@ -8,12 +8,12 @@ public final class Constantes {
     public final static String ALLMEDIA = "SELECT * from media";
 
     /**
-     * R�cup�rer un Médias par ID (ID �tant UNIQUE, pas besoin de LIMIT)
+     * R�cup�rer un Média par ID (ID �tant UNIQUE, pas besoin de LIMIT)
      */
     public final static String MEDIABYID = "SELECT * from media where id_media = ?";
 
     /**
-     * R�cup�rer un programmeurs par ID (ID �tant UNIQUE, pas besoin de LIMIT)
+     * R�cup�rer un Média par ID (ID �tant UNIQUE, pas besoin de LIMIT)
      */
     public final static String MOMENTBYID = "SELECT DATE_FORMAT(STR_TO_DATE(date_moment, '%d/%m/%Y'), '%Y') AS annee, " +
             "id_moment, " +
@@ -29,16 +29,6 @@ public final class Constantes {
     public final static String MEDIABYNAME = "SELECT * from media where nom like ?";
 
     /**
-     * R�cup�rer les Médias par pr�nom
-     */
-    public final static String PROGBYFIRSTNAME = "SELECT * from PROGRAMMEUR where PRENOM like ?";
-
-    /**
-     * R�cup�rer les programmeurs par ann�e de naissance
-     */
-    public final static String PROGBYYEAR = "SELECT * from PROGRAMMEUR where ANNAISSANCE LIKE ?";
-
-    /**
      * Supprimer un média � partir de son ID
      */
     public final static String DELMEDIA = "DELETE FROM media WHERE id_media = ?";
@@ -49,7 +39,7 @@ public final class Constantes {
     public final static String DELTEMPSDEPAROLE = "DELETE FROM temps_de_parole WHERE id_media = ?";
 
     /**
-     * Temps de parole/musique par moment
+     * Temps de parole/musique ou les hommes on 2 fois plus de temps que les femmes
      */
     public final static String TEMPSALLWHEREHOMME2FOISSUPFEMME = "select DISTINCT ME.nom                              as nom_media,\n" +
             "DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')                               AS annee,\n" +
@@ -68,6 +58,9 @@ public final class Constantes {
             "    where tdp3.id_media = ME.id_media)\n" +
             "    group by ME.id_media";
 
+    /**
+     * Temps de parole/musique par moment
+     */
     public final static String TEMPSPARMOMENT = "select DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')                            AS annee,\n" +
             "       TDP.id_media   AS id_media,\n" +
             "                MO.id_moment                                                as id_moment,\n" +
@@ -79,6 +72,9 @@ public final class Constantes {
             "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
             "group by annee;";
 
+    /**
+     * pourcentage de temps de parole/musique des hommes qui sont supérieur à un nombre donné ou les chaines sont des tv
+     */
     public final static String CHAINETVPOURCENTAGEHOMMESUPX = "select\n" +
             "       ME.id_media,\n" +
             "       TDP.id_moment,\n" +
@@ -125,24 +121,7 @@ public final class Constantes {
             "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
             "group by ME.nom, DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
     /**
-     * Temps de parole/musique par média
-     */
-    public final static String TEMPSPARMOMENTPARCHAINEPARTYPEFEMMESUP = "select DISTINCT ME.nom        as nom_media,\n" +
-            "                ME.type                                                    as type,\n" +
-            "                ME.id_media                                                as id_media,\n" +
-            "                MO.id_moment                                               as id_moment,\n" +
-            "                DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y') as annee,\n" +
-            "                AVG(TDP.temps_femme)                                       AS temps_femme,\n" +
-            "                AVG(TDP.temps_homme)                                       AS temps_homme,\n" +
-            "                AVG(TDP.temps_musique)                                     AS temps_musique\n" +
-            "from media AS ME\n" +
-            "         INNER JOIN temps_de_parole AS tdp on ME.id_media = tdp.id_media\n" +
-            "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
-            "group by ME.nom, DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
-
-
-    /**
-     * Temps de parole/musique par média
+     * Temps de parole/musique par moment par nom du média
      */
     public final static String TEMPSPARMOMENTPARCHAINEBYNAME = "select DISTINCT ME.nom        as nom_media,\n" +
             "                ME.id_media                                                as id_media,\n" +
@@ -156,39 +135,6 @@ public final class Constantes {
             "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
             "WHERE ME.nom LIKE ?\n" +
             "group by ME.nom, DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
-
-    /**
-     * Temps de parole/musique par moment et par année
-     */
-    public final static String TEMPSPARMOMENTPARCHAINEPARANNEE = "select DISTINCT ME.nom as nom_media,\n" +
-            "                ME.id_media                                                 as id_media,\n" +
-            "                MO.id_moment                                                as id_moment,\n" +
-            "                DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')  as annee,\n" +
-            "                AVG(TDP.temps_femme)                                        AS temps_femme,\n" +
-            "                AVG(TDP.temps_homme)                                        AS temps_homme,\n" +
-            "                AVG(TDP.temps_musique)                                      AS temps_musique\n" +
-            "from media AS ME\n" +
-            "         INNER JOIN temps_de_parole AS tdp on ME.id_media = tdp.id_media\n" +
-            "         inner join moment AS MO ON MO.id_moment = tdp.id_moment\n" +
-            "group by ME.nom, DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
-
-
-    /**
-     * Changer le salaire d'un programmeur � partir de son ID
-     */
-    public final static String EDITPROG = "" +
-            "UPDATE PROGRAMMEUR " +
-            "SET NOM=?," +
-            "    PRENOM=?," +
-            "    ADRESSE=?," +
-            "    PSEUDO=?," +
-            "    RESPONSABLE=?," +
-            "    HOBBY=?," +
-            "    ANNAISSANCE=?," +
-            "    SALAIRE=?," +
-            "    PRIME=? " +
-            "WHERE ID=?";
-
     /**
      * Cr�er un Media
      */
@@ -206,7 +152,7 @@ public final class Constantes {
     public final static String CREATETEMPSDEPAROLE = "INSERT INTO temps_de_parole(temps_femme,temps_homme,temps_musique,id_media,id_moment) VALUES(?,?,?,?,?)";
 
     /**
-     * recupérer un id media a partir de son nom
+     * recupérer le dernier id media
      */
 
     public final static String GETMAXIDMEDIA = "SELECT MAX(id_media) AS max_id FROM media";

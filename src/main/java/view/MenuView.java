@@ -28,7 +28,7 @@ public class MenuView extends ViewPanel {
         this.allButtons.add(new JButton("Importer à partir d'un csv"));
         this.allButtons.add(new JButton("Quitter le programme"));
         this.titre.setForeground(Color.white);
-        this.titre.setBorder(new CompoundBorder(this.titre.getBorder(), new EmptyBorder(0, 90, 0, 0)));
+        this.titre.setBorder(new CompoundBorder(this.titre.getBorder(), new EmptyBorder(0, 230, 0, 0)));
         addComponent(titre);
         for (JButton button : this.allButtons) {
             button.setBackground(Color.decode("#3a3a3a"));

@@ -10,7 +10,7 @@ public class Media implements Serializable {
     private String type;
     private Boolean estPublic;
 
-// Liste des m�thodes permettant de r�cup�rer les diff�rentes variables de la classe Programmeur 
+// Liste des m�thodes permettant de r�cup�rer les diff�rentes variables de la classe Média
 
     public Integer getId() {
         return id;
