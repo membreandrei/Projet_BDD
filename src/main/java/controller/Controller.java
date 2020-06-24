@@ -35,7 +35,7 @@ public class Controller implements ActionListener, MouseListener {
     private Integer typeRv = 4;
 
     /**
-     * Construit le contr�leur avec le BasePanel bp
+     * Construit le contrôleur avec le BasePanel bp
      *
      * @param bp
      */
@@ -47,7 +47,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Remplit la HashMap avec les donn�es qui sont le nom des boutons
+     * Remplit la HashMap avec les données qui sont le nom des boutons
      */
     private void fillHashMap() {
         this.identificator = new HashMap<>();
@@ -57,7 +57,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * En fonction de l'ActionEvent e re�u en param�tre, agit différemment
+     * En fonction de l'ActionEvent e reçu en paramètre, agit différemment
      * rv = 1 : Affiche simple d'un tableau des médias (non utilisé)
      * rv = 2 : Affiche avec temps de parole en pourcentage
      * rv = 3 : Suppression d'un média (à corriger)
@@ -103,7 +103,7 @@ public class Controller implements ActionListener, MouseListener {
                     JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un INA de trois caractères, et 0 ou 1 pour Public");
                 } else {
                     if (this.model.createMedia(createMedia(true)) == 0) {
-                        JOptionPane.showMessageDialog(null, "Veuillez r�essayer avec des donn�es valides");
+                        JOptionPane.showMessageDialog(null, "Veuillez réessayer avec des données valides");
                         return;
                     }
                     FenetreMere fm = (FenetreMere) SwingUtilities.getWindowAncestor((Component) e.getSource());
@@ -311,7 +311,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Cr�� un média, vide ou non en fonction du param�tre ajout
+     * Créé un média, vide ou non en fonction du paramètre ajout
      *
      * @param ajout
      * @return
@@ -351,7 +351,7 @@ public class Controller implements ActionListener, MouseListener {
     }
 
     /**
-     * Ouvre la fen�tre d'ajout d'un média
+     * Ouvre la fenêtre d'ajout d'un média
      *
      * @param type
      *

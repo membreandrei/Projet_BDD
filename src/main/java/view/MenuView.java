@@ -43,7 +43,7 @@ public class MenuView extends ViewPanel {
     }
 
     /**
-     * Ajoute un contr�leur aux boutons pr�sents
+     * Ajoute un contrôleur aux boutons présents
      *
      * @param controller
      */

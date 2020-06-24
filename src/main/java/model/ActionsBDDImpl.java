@@ -167,7 +167,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * M�thode d'ex�cution d'une requ�te pr�par�e avec modification dans la base de donn�es
+     * Méthode d'exécution d'une requête préparée avec modification dans la base de données
      *
      * @param statement
      * @return
@@ -180,7 +180,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te retournant tous les médias
+     * Exécution de la requête retournant tous les médias
      * @return
      */
     public TreeMap<Integer, Media> getMedia() {
@@ -188,7 +188,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te retournant un média grace � son id
+     * Exécution de la requête retournant un média grace à son id
      *
      * @param id
      * @return
@@ -198,7 +198,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te retournant un moment grace � son id
+     * Exécution de la requête retournant un moment grace à son id
      *
      * @param id
      * @return
@@ -208,7 +208,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te retournant un ou des médias par leur nom
+     * Exécution de la requête retournant un ou des médias par leur nom
      *
      * @param name
      * @return
@@ -252,7 +252,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te retournant la moyenne de temps de parole par média et par année
+     * Exécution de la requête retournant la moyenne de temps de parole par média et par année
      * @return
      */
     public TreeMap<Integer, TempsDeParole> getMoyenneTDP() {
@@ -260,7 +260,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te retournant le dernier id de média
+     * Exécution de la requête retournant le dernier id de média
      * @return
      */
     public int getMaxIdMedia() {
@@ -268,7 +268,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te retournant le dernier id de moment
+     * Exécution de la requête retournant le dernier id de moment
      * @return
      */
     public int getMaxIdMoment() {
@@ -294,7 +294,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te permettant de supprimer un média et temps de parole par id de média
+     * Exécution de la requête permettant de supprimer un média et temps de parole par id de média
      *
      * @param id
      */
@@ -304,7 +304,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te permettant de cr�er un nouveau média
+     * Exécution de la requête permettant de créer un nouveau média
      *
      * @param media
      * @return
@@ -314,7 +314,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te permettant de cr�er un nouveau moment
+     * Exécution de la requête permettant de créer un nouveau moment
      *
      * @param media
      * @return
@@ -324,7 +324,7 @@ public class ActionsBDDImpl {
     }
 
     /**
-     * Ex�cution de la requ�te permettant de cr�er un nouveau temps de parole
+     * Exécution de la requête permettant de créer un nouveau temps de parole
      *
      * @param media
      * @return

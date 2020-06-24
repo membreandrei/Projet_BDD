@@ -84,7 +84,7 @@ public class MediaView extends ViewPanel {
     }
 
     /**
-     * Ajoute un contr�leur au bouton d'ajout
+     * Ajoute un contrôleur au bouton d'ajout
      * @param controller
      * @param add
      */

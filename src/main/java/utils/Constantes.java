@@ -3,17 +3,17 @@ package utils;
 public final class Constantes {
 
     /**
-     * R�cup�rer tous les Médias
+     * Récupérer tous les Médias
      */
     public final static String ALLMEDIA = "SELECT * from media";
 
     /**
-     * R�cup�rer un Média par ID (ID �tant UNIQUE, pas besoin de LIMIT)
+     * Récupérer un Média par ID (ID étant UNIQUE, pas besoin de LIMIT)
      */
     public final static String MEDIABYID = "SELECT * from media where id_media = ?";
 
     /**
-     * R�cup�rer un Média par ID (ID �tant UNIQUE, pas besoin de LIMIT)
+     * Récupérer un Média par ID (ID étant UNIQUE, pas besoin de LIMIT)
      */
     public final static String MOMENTBYID = "SELECT DATE_FORMAT(STR_TO_DATE(date_moment, '%d/%m/%Y'), '%Y') AS annee, " +
             "id_moment, " +
@@ -24,17 +24,17 @@ public final class Constantes {
             "from moment where id_moment = ?";
 
     /**
-     * R�cup�rer les Médias par nom
+     * Récupérer les Médias par nom
      */
     public final static String MEDIABYNAME = "SELECT * from media where nom like ?";
 
     /**
-     * Supprimer un média � partir de son ID
+     * Supprimer un média à partir de son ID
      */
     public final static String DELMEDIA = "DELETE FROM media WHERE id_media = ?";
 
     /**
-     * Supprimer un temps_de_parole � partir de son ID
+     * Supprimer un temps_de_parole à partir de son ID
      */
     public final static String DELTEMPSDEPAROLE = "DELETE FROM temps_de_parole WHERE id_media = ?";
 
@@ -136,17 +136,17 @@ public final class Constantes {
             "WHERE ME.nom LIKE ?\n" +
             "group by ME.nom, DATE_FORMAT(STR_TO_DATE(mo.date_moment, '%d/%m/%Y'), '%Y')";
     /**
-     * Cr�er un Media
+     * Créer un Media
      */
     public final static String CREATEMEDIA = "INSERT INTO media(identifiant_ina,type,nom,est_public) VALUES(?,?,?,?)";
 
     /**
-     * Cr�er un Moment
+     * Créer un Moment
      */
     public final static String CREATEMOMENT = "INSERT INTO moment(date_moment,est_ferie,vacances,heure,jour) VALUES(?,?,?,?,?)";
 
     /**
-     * Cr�er un Temp de parole
+     * Créer un Temp de parole
      */
 
     public final static String CREATETEMPSDEPAROLE = "INSERT INTO temps_de_parole(temps_femme,temps_homme,temps_musique,id_media,id_moment) VALUES(?,?,?,?,?)";

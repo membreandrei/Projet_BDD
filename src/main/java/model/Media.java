@@ -10,7 +10,7 @@ public class Media implements Serializable {
     private String type;
     private Boolean estPublic;
 
-// Liste des m�thodes permettant de r�cup�rer les diff�rentes variables de la classe Média
+// Liste des méthodes permettant de récupérer les différentes variables de la classe Média
 
     public Integer getId() {
         return id;
@@ -53,7 +53,7 @@ public class Media implements Serializable {
     }
 
     /**
-     * �dition de l'output du toString de la classe.
+     * Édition de l'output du toString de la classe.
      *
      * @return
      */

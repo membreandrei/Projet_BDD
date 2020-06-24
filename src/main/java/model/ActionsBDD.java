@@ -18,7 +18,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Connexion � la base de donn�es
+     * Connexion à la base de données
      *
      * @return
      */
@@ -32,7 +32,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour construire dynamiquement une requete pr�par�e standard.
+     * Methode pour construire dynamiquement une requete préparée standard.
      *
      * @param conn
      * @param requete
@@ -48,7 +48,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour construire dynamiquement une requete pr�par�e prenant un int en argument
+     * Methode pour construire dynamiquement une requete préparée prenant un int en argument
      *
      * @param conn
      * @param requete
@@ -66,7 +66,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour construire dynamiquement une requete pr�par�e prenant juste une string en arg
+     * Methode pour construire dynamiquement une requete préparée prenant juste une string en arg
      */
     public PreparedStatement getPreparedStatementString(Connection conn, String requete, String name) {
         try {
@@ -79,7 +79,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour la construction d'une requ�te d'insert � partir de la structure d'un developpeur pour un média
+     * Methode pour la construction d'une requête d'insert à partir de la structure d'un developpeur pour un média
      *
      * @param conn Connexion à la base de données
      * @param requete Requête à effectuer
@@ -101,7 +101,7 @@ public class ActionsBDD {
     }
 
     /**
-     * Methode pour la construction d'une requ�te d'insert � partir de la structure d'un developpeur pour un moment
+     * Methode pour la construction d'une requête d'insert à partir de la structure d'un developpeur pour un moment
      *
      * @param conn Connexion à la base de données
      * @param requete Requête à effectuer
@@ -123,7 +123,7 @@ public class ActionsBDD {
         return this.stmt;
     }
     /**
-     * Methode pour la construction d'une requ�te d'insert � partir de la structure d'un developpeur pour un temps de parole
+     * Methode pour la construction d'une requête d'insert à partir de la structure d'un developpeur pour un temps de parole
      *
      * @param conn Connexion à la base de données
      * @param requete Requête à effectuer
@@ -146,7 +146,7 @@ public class ActionsBDD {
     }
 
     /**
-     * M�thode pour ex�cuter et r�cup�rer le r�sultat d'une requ�te renvoyant un ResultSet
+     * Méthode pour exécuter et récupérer le résultat d'une requête renvoyant un ResultSet
      *
      * @param stmt
      * @return
@@ -161,7 +161,7 @@ public class ActionsBDD {
     }
 
     /**
-     * M�thode pour ex�cuter une requ�te en r�cup�rant le nombre de ligne(s) affect�e(s) par la requ�te
+     * Méthode pour exécuter une requête en récupérant le nombre de ligne(s) affectée(s) par la requête
      *
      * @param stmt
      * @return

@@ -101,7 +101,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Efface le(s) média(s) s�lectionn�(s) dans le tableau
+     * Efface le(s) média(s) sélectionné(s) dans le tableau
      *
      * @param informations
      */
@@ -121,7 +121,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Permet tous les menus � la fois: Ajout/Modification/Suppression/Recherche pour tout les médias
+     * Permet tous les menus à la fois: Ajout/Modification/Suppression/Recherche pour tout les médias
      *
      * @param informations
      * @param valueComboBox
@@ -144,7 +144,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Gère le type de panel � ajouter en fonction du bouton cliqu� du menu (dans MenuView) pour les temps de paroles
+     * Gère le type de panel à ajouter en fonction du bouton cliqué du menu (dans MenuView) pour les temps de paroles
      *
      * @param dataTDP
      * @param type
@@ -171,7 +171,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Gère le type de panel � ajouter en fonction du bouton cliqu� du menu (dans MenuView) pour les temps de paroles
+     * Gère le type de panel à ajouter en fonction du bouton cliqué du menu (dans MenuView) pour les temps de paroles
      *
      * @param data
      * @param type
@@ -192,7 +192,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Cr�� la table contenant des média / temps de parole
+     * Créé la table contenant des média / temps de parole
      *
      * @param colNames
      * @param data
@@ -219,7 +219,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le scrollPanel li� au panel de vue
+     * Définit le scrollPanel lié au panel de vue
      */
     private void setSp() {
         this.sp = new JScrollPane(table);
@@ -230,7 +230,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le header du tableau contenant les médias, et ajoute le MouseListener � celle-ci
+     * Définit le header du tableau contenant les médias, et ajoute le MouseListener à celle-ci
      *
      * @param informations
      * @param fm
@@ -253,7 +253,7 @@ public class ResultatView extends ViewPanel {
         this.setSp();
     }
     /**
-     * D�finit le header du tableau contenant les temps de parole, et ajoute le MouseListener � celle-ci
+     * Définit le header du tableau contenant les temps de parole, et ajoute le MouseListener à celle-ci
      *
      * @param informations
      * @param fm
@@ -276,7 +276,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le header du tableau contenant les moyennes des temps de parole, et ajoute le MouseListener � celle-ci
+     * Définit le header du tableau contenant les moyennes des temps de parole, et ajoute le MouseListener à celle-ci
      *
      * @param informations
      * @param fm
@@ -300,7 +300,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le header du tableau contenant les moyennes hommes 2 fois supérieur a celle de la femme, et ajoute le MouseListener � celle-ci
+     * Définit le header du tableau contenant les moyennes hommes 2 fois supérieur a celle de la femme, et ajoute le MouseListener à celle-ci
      *
      * @param informations
      * @param fm
@@ -322,7 +322,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le header du tableau contenant les pourcentage Homme supérieur a un nombre donné, et ajoute le MouseListener � celle-ci
+     * Définit le header du tableau contenant les pourcentage Homme supérieur a un nombre donné, et ajoute le MouseListener à celle-ci
      *
      * @param informations
      * @param fm
@@ -347,7 +347,7 @@ public class ResultatView extends ViewPanel {
 
 
     /**
-     * D�finit le style du champ de recherche des média/temps de parole
+     * Définit le style du champ de recherche des média/temps de parole
      */
     private void setSearchText() {
         this.searchText = new JTextField();
@@ -359,7 +359,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * M�me chose qu'au-dessus, mais pour le bouton de lancement de la recherche
+     * Même chose qu'au-dessus, mais pour le bouton de lancement de la recherche
      *
      * @param title
      */
@@ -375,7 +375,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le choix du type de recherche (par liste d�roulante)
+     * Définit le choix du type de recherche (par liste déroulante)
      */
     private void setChoice() {
         String[] elements = new String[]{"Par ID", "Par Nom"};
@@ -397,7 +397,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le bouton de suppression d'un ou plusieurs médias
+     * Définit le bouton de suppression d'un ou plusieurs médias
      */
     private void setDeleteButton() {
         this.deleteButton = new JButton("Supprimer");
@@ -408,7 +408,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le bouton d'ajout d'un média
+     * Définit le bouton d'ajout d'un média
      */
     private void setInsertButton() {
         this.insertButton = new JButton("Ajouter");
@@ -419,8 +419,8 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le panel comprenant � la fois l'ajout et la suppression d'un média
-     * (si ajout=true, alors seulement le bouton d'ajout sera pr�sent)
+     * Définit le panel comprenant à la fois l'ajout et la suppression d'un média
+     * (si ajout=true, alors seulement le bouton d'ajout sera présent)
      *
      * @param ajout
      * @return
@@ -440,8 +440,8 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * D�finit le panel de recherche des médias
-     * (en haut du tableau; contient le champ du texte d'entr�e et par quoi rechercher, ainsi que le bouton)
+     * Définit le panel de recherche des médias
+     * (en haut du tableau; contient le champ du texte d'entrée et par quoi rechercher, ainsi que le bouton)
      *
      * @param valueComboBox
      * @param modify
@@ -477,8 +477,8 @@ public class ResultatView extends ViewPanel {
         return jp;
     }
     /**
-     * D�finit le panel de recherche des temps de parole
-     * (en haut du tableau; contient le champ du texte d'entr�e et par quoi rechercher, ainsi que le bouton)
+     * Définit le panel de recherche des temps de parole
+     * (en haut du tableau; contient le champ du texte d'entrée et par quoi rechercher, ainsi que le bouton)
      *
      * @param titre
      * @return
@@ -498,7 +498,7 @@ public class ResultatView extends ViewPanel {
 
 
     /**
-     * G�re la recherche, � la fois la validation du contenu recherch� et le r�sultat de ladite recherche
+     * Gère la recherche, à la fois la validation du contenu recherché et le résultat de ladite recherche
      *
      * @param type
      */
@@ -525,7 +525,7 @@ public class ResultatView extends ViewPanel {
             if (validateInput("Par ID")) {
                 data = rechercheId(controller);
             } else {
-                JOptionPane.showMessageDialog(null, "Veuillez r�essayer avec un nombre entier");
+                JOptionPane.showMessageDialog(null, "Veuillez réessayer avec un nombre entier");
                 data = controller.getMedia();
             }
             this.modifyPanel(type, data, null);
@@ -533,7 +533,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * G�re la recherche pour année, � la fois la validation du contenu recherch� et le r�sultat de ladite recherche
+     * Gère la recherche pour année, à la fois la validation du contenu recherché et le résultat de ladite recherche
      *
      *
      */
@@ -559,7 +559,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * G�re la recherche par média, � la fois la validation du contenu recherch� et le r�sultat de ladite recherche
+     * Gère la recherche par média, à la fois la validation du contenu recherché et le résultat de ladite recherche
      *
      *
      */
@@ -579,7 +579,7 @@ public class ResultatView extends ViewPanel {
         this.modifyPanel(1, data);
     }
     /**
-     * G�re la recherche par un nombre compris entre 0 et 100, � la fois la validation du contenu recherch� et le r�sultat de ladite recherche
+     * Gère la recherche par un nombre compris entre 0 et 100, à la fois la validation du contenu recherché et le résultat de ladite recherche
      *
      *
      */
@@ -607,13 +607,13 @@ public class ResultatView extends ViewPanel {
 
 
     /**
-     * Valide l'input entr� par l'utilisateur lors de la recherche
+     * Valide l'input entré par l'utilisateur lors de la recherche
      *
      * @param choice
      * @return
      */
     private Boolean validateInput(String choice) {
-        if (choice.equals("Par ID") || choice.equals("Par Ann�e de naissance")) {
+        if (choice.equals("Par ID") || choice.equals("Par Année de naissance")) {
             return (this.getSearchText().getText().matches("^([0-9]*\\p{L}*\\p{javaWhitespace}*)*+$|^$"));
         } else {
             return (this.getSearchText().getText().matches("^([a-zA-Z]*\\p{L}*\\p{javaWhitespace}*)*+$|^$"));
@@ -621,7 +621,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * Valide l'input entr� par l'utilisateur lors de la recherche
+     * Valide l'input entré par l'utilisateur lors de la recherche
      *
      * @return
      */
@@ -630,7 +630,7 @@ public class ResultatView extends ViewPanel {
     }
 
     /**
-     * G�re la recherche par ID des médias
+     * Gère la recherche par ID des médias
      *
      * @param controller
      * @return
@@ -643,7 +643,7 @@ public class ResultatView extends ViewPanel {
             try {
                 data = controller.getMediaById(Integer.parseInt(this.getSearchText().getText()));
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Veuillez r�essayer avec une recherche valide");
+                JOptionPane.showMessageDialog(null, "Veuillez réessayer avec une recherche valide");
                 data = controller.getMedia();
             }
         }
@@ -652,7 +652,7 @@ public class ResultatView extends ViewPanel {
 
 
     /**
-     * R�cup�re les lignes (=les médias) s�lectionn�es par l'utilisateur dans le tableau
+     * Récupère les lignes (=les médias) sélectionnées par l'utilisateur dans le tableau
      *
      * @return
      */

@@ -14,19 +14,19 @@ public class FenetreMere extends JFrame {
     private static final BasePanel basePanel = new BasePanel();
 
     /**
-     * Construit la fen�tre g�n�rale de l'application
+     * Construit la fenêtre générale de l'application
      * @param title
      * @throws HeadlessException
      */
     public FenetreMere(String title) throws HeadlessException {
 
-        //On cr�� la fen�tre m�re
+        //On créé la fenêtre mère
         super(title);
 
         //Lors d'un clic sur la croix rouge, on met fin au programme
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //On d�finit la taille de la fen�tre
+        //On Définit la taille de la fenêtre
         this.setPreferredSize(new Dimension(1300, 600));
         FenetreMere.basePanel.createListeners();
         this.setBackground(Color.decode("#303030"));
@@ -44,10 +44,10 @@ public class FenetreMere extends JFrame {
      * @param type
      */
     public FenetreMere(String title, MediaView view, String type){
-        //On cr�� la fen�tre m�re
+        //On créé la fenêtre mère
         super(title);
 
-        //On d�finit la taille de la fen�tre
+        //On Définit la taille de la fenêtre
         this.setPreferredSize(new Dimension(600, 300));
         StyleHelper.setStyle(this);
         this.setLayout(new BorderLayout());
@@ -76,7 +76,7 @@ public class FenetreMere extends JFrame {
     }
 
     /**
-     * D�finit la fen�tre d'ajout d'un média inexistant
+     * Définit la fenêtre d'ajout d'un média inexistant
      * @param jp
      * @param view
      */

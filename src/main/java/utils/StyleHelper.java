@@ -5,7 +5,7 @@ import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 
 /**
- * Cette classe est d�di�e au style g�n�ral de l'application
+ * Cette classe est dédiée au style général de l'application
  */
 public final class StyleHelper {
 
@@ -14,7 +14,7 @@ public final class StyleHelper {
     private final static Color fgColour = Color.white;
 
     /**
-     * D�finit le style des composants Swing
+     * Définit le style des composants Swing
      * @param component
      */
     public static void setStyle(JComponent component){
@@ -28,7 +28,7 @@ public final class StyleHelper {
     }
 
     /**
-     * D�finit le style g�n�ral de la JFrame en param�tre
+     * Définit le style général de la JFrame en paramètre
      * @param frame
      */
     public static void setStyle(JFrame frame){
@@ -37,7 +37,7 @@ public final class StyleHelper {
     }
 
     /**
-     * Cr�� le style g�n�ral des diff�rentes JOptionPane qui appara�ssent dans l'application
+     * Créé le style général des différentes JOptionPane qui apparaissent dans l'application
      */
     public static void setStyleJOptionPane(){
         /*UIManager.put("OptionPane.background", Color.decode("#3a3a3a"));

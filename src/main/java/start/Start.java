@@ -3,7 +3,7 @@ package start;
 import view.FenetreMere;
 
 /**
- * D�marre le programme
+ * Démarre le programme
  */
 public class Start {
     public static void main(String[] args){
