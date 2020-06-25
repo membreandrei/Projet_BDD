@@ -35,6 +35,7 @@
 </style>
 
 <html>
+<meta charset="utf-8"/>
 <div class="createurs">
     <i>Une oeuvre remarquable... réalisée par:
         <ul>
@@ -52,15 +53,16 @@
 
     <li class="ecart"><a href="doc/index.html">Lien Javadoc</a></li>
     <ul>
-        <li class="petit"><i>Java_PROJECT/doc/index.html</i></li>
+        <li class="petit"><i>Projet_BDD/doc/index.html</i></li>
     </ul>
     <li class="ecart"><a href="UML/UML.jpg">Lien Diagramme UML</a></li>
     <ul>
-        <li class="petit"><i>Java_PROJECT/UML/UML.jpg</i></li>
+        <li class="petit"><i>Projet_BDD/UML/UML.jpg</i></li>
     </ul>
     <li class="ecart"><h4>C O N F I G U R A T I O N : </h4>
         <ul>
             <li>Aller dans src/main/java/utils/Constantes.java</li>
+            <li>Espace ou il y aussi toutes les requetes</li>
             <li>Si nécessaire, modifier les champs:
                 <ul>
                     <li><i>SERVEUR</i></li>
@@ -79,46 +81,35 @@
         <br/>
         <li>Informations sur les boutons du menu:</li>
         <ul>
-            <li>Afficher tous les programmeurs:</li>
+            <li>Afficher tous les médias:</li>
             <ul>
-                <li>Un tableau contenant tous les programmeurs apparaît</li>
-                <li>Un double clic sur une des lignes du tableau donne les informations détaillées du programmeur</li>
+                <li>Un tableau contenant tous les médias</li>
+                <li>on peut suprimer un ou plusieurs média, et en ajouter un avec 2 boutons en bas</li>
             </ul>
-            <li>Afficher un programmeur:</li>
+            <li>Média avec temps de parole des hommes 2x fois supérieur à celui des femmes:</li>
             <ul>
-                <li>Un tableau contenant tous les programmeurs apparaît</li>
-                <li>Un double clic sur une des lignes du tableau donne les informations détaillées du programmeur</li>
-                <li>La page contient également une fonction de recherche par ID, Nom, Prénom, ou année de naissance</li>
+                <li>Un tableau contenant tous les médias dont les temps de parole des hommes est 2x fois supérieur à celui des femmes</li>
             </ul>
-            <li>Supprimer un programmeur:</li>
+            <li>TV avec pourcentage temps de parole homme supérieur à X:</li>
             <ul>
-                <li>Un tableau contenant tous les programmeurs apparaît</li>
-                <li>Un double clic sur une des lignes du tableau donne les informations détaillées du programmeur</li>
-                <li>La page contient également une fonction de recherche par ID</li>
-                <li>Un bouton de suppression est présent en bas de la page permettant de supprimer le(s) programmeur(s)
-                    sélectionné(s) dans le tableau
+                <li>Un tableau contenant toutes les TV qui ont un pourcentage de temps de parole homme supérieur à X (la valeur de x par défaut est 0)</li>
+                <li>on peut rentrer le nombre dans le champ il verifie que ce que l'on tape est un nombre, et qu'il est compris entre 0 et 100</li>
+            </ul>
+            <li>Pourcentage temps de parole:</li>
+            <ul>
+                <li>Un tableau contenant le pourcentage des temps de parole par année
                 </li>
-                <li>Il est possible de sélectionner des lignes du tableau avec la souris en maintenant le clic enfoncé
-                </li>
-            </ul>
-            <li>Ajouter un programmeur:</li>
-            <ul>
-                <li>Ouvre une fenêtre contenant des champs décrivants les informations nécessaires à la génèse d'un
-                    programmeur
+                <li>on peut rechercher l'année souhaité, elle verifie si un nombre entier est rentré
                 </li>
             </ul>
-            <li>Modifier le salaire:</li>
+            <li>Moyenne temps de parole par média et par année:</li>
             <ul>
-                <li>Un tableau contenant tous les programmeurs apparaît</li>
-                <li>La page contient également une fonction de recherche par ID</li>
-                <li>Un double clic sur une des lignes du tableau donne les informations détaillées du programmeur</li>
-                <li>Les champs de la fenêtre ouverte lors du double clic sont éditables et permettent de modifiers les
-                    caractéristiques du programmeur en question
-                </li>
+                <li>Un tableau contenant tous les médias avec leur temps de parole par année </li>
+                <li>La page contient également une fonction de recherche par média il faut simplement entrer le nom du média</li>
             </ul>
-            <li>Tous les menus:</li>
+            <li>Importer à partir d'un csv:</li>
             <ul>
-                <li>Regroupe toutes les fonctionnalités de tous les autres menus de l'application</li>
+                <li>permet de choisir un fichier .csv pour faire l'importation des données dans la base de donnée</li>
             </ul>
         </ul>
         <br/>
